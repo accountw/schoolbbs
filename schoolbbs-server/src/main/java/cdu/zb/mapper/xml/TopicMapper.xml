@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cdu.zb.mapper.TopicMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cdu.zb.entity.TopicEntity">
+        <id column="id" property="id" />
+        <result column="use_id" property="useId" />
+        <result column="plate_id" property="plateId" />
+        <result column="title" property="title" />
+        <result column="context" property="context" />
+        <result column="picture" property="picture" />
+        <result column="likenum" property="likenum" />
+        <result column="replynum" property="replynum" />
+        <result column="first_time" property="firstTime" />
+        <result column="last_time" property="lastTime" />
+        <result column="logic_delete_flag" property="logicDeleteFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, use_id, plate_id, title, context, picture, likenum, replynum, first_time, last_time, logic_delete_flag
+    </sql>
+
+</mapper>

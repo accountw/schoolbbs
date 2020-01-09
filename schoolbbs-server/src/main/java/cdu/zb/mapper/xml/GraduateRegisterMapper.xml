@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cdu.zb.mapper.GraduateRegisterMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cdu.zb.entity.GraduateRegisterEntity">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="name" property="name" />
+        <result column="birth" property="birth" />
+        <result column="gender" property="gender" />
+        <result column="password" property="password" />
+        <result column="emil" property="emil" />
+        <result column="report_time" property="reportTime" />
+        <result column="graduate_time" property="graduateTime" />
+        <result column="college" property="college" />
+        <result column="major" property="major" />
+        <result column="num" property="num" />
+        <result column="ask_time" property="askTime" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, name, birth, gender, password, emil, report_time, graduate_time, college, major, num, ask_time, status
+    </sql>
+
+</mapper>
