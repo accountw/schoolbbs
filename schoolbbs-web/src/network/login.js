@@ -1,12 +1,14 @@
 import { request } from "./request.js";
 
-export function login() {
+export function login(data) {
   return request({
-    url: "api/user/s"
+    url: "/user/login",
+    method: "post",
+    params: data
   });
 }
 export function loginout() {
   return request({
-    url: "api/"
+    url: "/"
   });
 }

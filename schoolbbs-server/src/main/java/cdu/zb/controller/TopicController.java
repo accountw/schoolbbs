@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-01-09
  */
 @RestController
-@RequestMapping("/topic-entity")
+@RequestMapping("/api/topic")
 public class TopicController {
 
 }

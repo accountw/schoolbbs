@@ -57,8 +57,9 @@ export default {
   },
   methods: {
     login: function() {
+      const data = { id: 21134654 };
       this.dialogFormVisible = true;
-      login();
+      login(data).then(data => console.log(data));
     }
   }
 };

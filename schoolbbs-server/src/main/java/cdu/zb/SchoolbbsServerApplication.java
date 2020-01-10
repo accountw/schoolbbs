@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.zb.mapper")
+@MapperScan("cdu.zb.mapper")
 public class SchoolbbsServerApplication {
 
     public static void main(String[] args) {
