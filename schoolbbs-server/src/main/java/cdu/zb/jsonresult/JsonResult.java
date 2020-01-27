@@ -1,5 +1,7 @@
-package cdu.zb.json;
+package cdu.zb.jsonresult;
 
+
+import cdu.zb.constants.GlobalConstants;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +13,6 @@ import java.io.Serializable;
  * @description: 返回json格式的json结果类
  */
 public class JsonResult<T> implements Serializable {
-
     private static final long serialVersionUID = -469360326755607592L;
 
     /**
@@ -39,7 +40,7 @@ public class JsonResult<T> implements Serializable {
      * 默认构造方法
      */
     public JsonResult() {
-        this("success");
+        this(GlobalConstants.SUCCESS);
     }
 
     /**

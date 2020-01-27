@@ -12,12 +12,12 @@
         <result column="reply_time" property="replyTime" />
         <result column="status" property="status" />
         <result column="storey" property="storey" />
-        <result column="logic_delete_flag2" property="logicDeleteFlag2" />
+        <result column="logic_delete_flag" property="logicDeleteFlag" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, topic_id, use_id, context, picture, reply_time, status, storey, logic_delete_flag2
+        id, topic_id, use_id, context, picture, reply_time, status, storey, logic_delete_flag
     </sql>
 
 </mapper>

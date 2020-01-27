@@ -1,9 +1,9 @@
 package cdu.zb.controller;
 
 
+import cdu.zb.jsonresult.BaseApiController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -17,6 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/school-register")
 @CrossOrigin
-public class SchoolRegisterController {
+public class SchoolRegisterController extends BaseApiController {
 
 }

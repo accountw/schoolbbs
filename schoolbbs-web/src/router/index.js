@@ -1,7 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Index from "../views/Index.vue";
-import Topic from "../components/Topic.vue";
+import Topic from "../components/topic/Topic.vue";
+import Register from "../views/Register";
 
 Vue.use(VueRouter);
 
@@ -21,11 +22,17 @@ const routes = [
         component: Topic
       }
     ]
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: Register
   }
 ];
 
 const router = new VueRouter({
-  routes
+  routes,
+  mode: "history"
 });
 
 export default router;

@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author accountw
- * @since 2020-01-09
+ * @since 2020-01-17
  */
 @TableName("reply")
 public class ReplyEntity implements Serializable {
@@ -60,7 +60,7 @@ public class ReplyEntity implements Serializable {
     /**
      * 逻辑删除
      */
-    private Integer logicDeleteFlag2;
+    private Integer logicDeleteFlag;
 
     public String getId() {
         return id;
@@ -118,12 +118,12 @@ public class ReplyEntity implements Serializable {
     public void setStorey(Integer storey) {
         this.storey = storey;
     }
-    public Integer getLogicDeleteFlag2() {
-        return logicDeleteFlag2;
+    public Integer getLogicDeleteFlag() {
+        return logicDeleteFlag;
     }
 
-    public void setLogicDeleteFlag2(Integer logicDeleteFlag2) {
-        this.logicDeleteFlag2 = logicDeleteFlag2;
+    public void setLogicDeleteFlag(Integer logicDeleteFlag) {
+        this.logicDeleteFlag = logicDeleteFlag;
     }
 
     @Override
@@ -137,7 +137,7 @@ public class ReplyEntity implements Serializable {
             ", replyTime=" + replyTime +
             ", status=" + status +
             ", storey=" + storey +
-            ", logicDeleteFlag2=" + logicDeleteFlag2 +
+            ", logicDeleteFlag=" + logicDeleteFlag +
         "}";
     }
 }

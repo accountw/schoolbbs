@@ -11,7 +11,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author accountw
- * @since 2020-01-09
+ * @since 2020-01-27
  */
 @TableName("graduate_register")
 public class GraduateRegisterEntity implements Serializable {
@@ -51,7 +51,7 @@ public class GraduateRegisterEntity implements Serializable {
     /**
      * 邮箱
      */
-    private String emil;
+    private String mail;
 
     /**
      * 入学时间
@@ -130,12 +130,12 @@ public class GraduateRegisterEntity implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    public String getEmil() {
-        return emil;
+    public String getMail() {
+        return mail;
     }
 
-    public void setEmil(String emil) {
-        this.emil = emil;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
     public LocalDate getReportTime() {
         return reportTime;
@@ -196,7 +196,7 @@ public class GraduateRegisterEntity implements Serializable {
             ", birth=" + birth +
             ", gender=" + gender +
             ", password=" + password +
-            ", emil=" + emil +
+            ", mail=" + mail +
             ", reportTime=" + reportTime +
             ", graduateTime=" + graduateTime +
             ", college=" + college +

@@ -10,7 +10,7 @@
         <result column="birth" property="birth" />
         <result column="gender" property="gender" />
         <result column="password" property="password" />
-        <result column="emil" property="emil" />
+        <result column="mail" property="mail" />
         <result column="report_time" property="reportTime" />
         <result column="graduate_time" property="graduateTime" />
         <result column="college" property="college" />
@@ -22,7 +22,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, username, name, birth, gender, password, emil, report_time, graduate_time, college, major, num, ask_time, status
+        id, username, name, birth, gender, password, mail, report_time, graduate_time, college, major, num, ask_time, status
     </sql>
 
 </mapper>

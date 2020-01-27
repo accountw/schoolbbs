@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author accountw
- * @since 2020-01-09
+ * @since 2020-01-27
  */
 @Service
 public class GraduateRegisterServiceImpl extends ServiceImpl<GraduateRegisterMapper, GraduateRegisterEntity> implements GraduateRegisterService {

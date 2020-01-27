@@ -1,7 +1,6 @@
 package cdu.zb.controller;
 
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -12,11 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author accountw
- * @since 2020-01-09
+ * @since 2020-01-17
  */
 @RestController
-@RequestMapping("/api/reply")
-@CrossOrigin
+@RequestMapping("/reply-entity")
 public class ReplyController {
 
 }

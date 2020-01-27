@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author accountw
- * @since 2020-01-09
+ * @since 2020-01-17
  */
 @TableName("plate")
 public class PlateEntity implements Serializable {
@@ -35,7 +35,7 @@ public class PlateEntity implements Serializable {
     /**
      * 逻辑删除
      */
-    private Integer logicDeleteFlag2;
+    private Integer logicDeleteFlag;
 
     public String getId() {
         return id;
@@ -58,12 +58,12 @@ public class PlateEntity implements Serializable {
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
-    public Integer getLogicDeleteFlag2() {
-        return logicDeleteFlag2;
+    public Integer getLogicDeleteFlag() {
+        return logicDeleteFlag;
     }
 
-    public void setLogicDeleteFlag2(Integer logicDeleteFlag2) {
-        this.logicDeleteFlag2 = logicDeleteFlag2;
+    public void setLogicDeleteFlag(Integer logicDeleteFlag) {
+        this.logicDeleteFlag = logicDeleteFlag;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class PlateEntity implements Serializable {
             "id=" + id +
             ", name=" + name +
             ", createTime=" + createTime +
-            ", logicDeleteFlag2=" + logicDeleteFlag2 +
+            ", logicDeleteFlag=" + logicDeleteFlag +
         "}";
     }
 }

@@ -1,9 +1,11 @@
 package cdu.zb.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.io.Serializable;
 
 /**
  * <p>
@@ -101,6 +103,7 @@ public class UserEntity implements Serializable {
     /**
      * 逻辑删除1为删除
      */
+    @TableLogic
     private Integer logicDeleteFlag;
 
     public String getId() {

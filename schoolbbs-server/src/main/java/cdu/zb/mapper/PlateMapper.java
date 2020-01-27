@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author accountw
- * @since 2020-01-09
+ * @since 2020-01-17
  */
 public interface PlateMapper extends BaseMapper<PlateEntity> {
 
