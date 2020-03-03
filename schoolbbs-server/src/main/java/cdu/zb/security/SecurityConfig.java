@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -26,12 +27,23 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     // 因为UserDetailsService的实现类实在太多啦，这里设置一下我们要注入的实现类
     @Qualifier("userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
+    @Autowired
+    private JwtFilter jwtFilter;
+    @Autowired
+    private MyAccessDeniedHandler myAccessDeniedHandler;
+
+    @Autowired
+    private  SuccessHandler successHandler;
+    @Autowired
+    private  FailHander failHander;
+    @Autowired
+    private MyAuthenticationException myAuthenticationException;
 
     /**
      * @description: 密码加密
      * @author accountw
      * @date 2020/1/16 17:29
-     * @param []
+     * @param
      * @return org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
      **/
     @Bean
@@ -48,18 +60,34 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .authorizeRequests()
-                // 测试用资源，需要验证了的用户才能访问
-                .antMatchers("/api/user/ceshi").authenticated()
-                // 其他都放行了
-                .anyRequest().permitAll()
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .formLogin()
+                .loginProcessingUrl("/api/user/login")
+                .successHandler(successHandler)
+                .failureHandler(failHander)
                 .and()
-                .addFilter(new AuthenticationFilter(authenticationManager()))
-                .addFilter(new AuthorizationFilter(authenticationManager()))
-                // 不需要session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .cors()
+                .and()
+                .csrf().disable()
+                // 基于token，所以不需要session
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
+                .antMatchers("/api/user/register/**","/api/checkcode/**",
+                        "/api/topic/getFirstTopices").permitAll()
+                // 除上面外的所有请求全部需要鉴权认证
+                .anyRequest().authenticated();
+
+        // 禁用缓存
+        httpSecurity.headers().cacheControl();
+
+        // 添加JWT filter
+        httpSecurity.addFilterBefore(jwtFilter, LogoutFilter.class)
+                // 添加权限不足 filter
+                .exceptionHandling().accessDeniedHandler(myAccessDeniedHandler)
+                //其他异常处理类
+                .authenticationEntryPoint(myAuthenticationException);
+
     }
 
     @Bean
@@ -68,8 +96,4 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
     }
-
-
-
-
 }

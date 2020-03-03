@@ -8,4 +8,9 @@ import cdu.zb.entity.TopicEntity;
  * @description: topic类的封装
  */
 public class TopicDto extends TopicEntity {
+
+
+
+
+
 }

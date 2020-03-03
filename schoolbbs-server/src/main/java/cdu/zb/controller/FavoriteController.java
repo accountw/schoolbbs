@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-01-09
  */
 @RestController
-@RequestMapping("/pi/favorite")
+@RequestMapping("/api/favorite")
 @CrossOrigin
 public class FavoriteController extends BaseApiController {
 

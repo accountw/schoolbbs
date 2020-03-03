@@ -3,6 +3,8 @@ package cdu.zb.service;
 import cdu.zb.entity.PlateEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface PlateService extends IService<PlateEntity> {
 
+    List<PlateEntity> getplate();
 }

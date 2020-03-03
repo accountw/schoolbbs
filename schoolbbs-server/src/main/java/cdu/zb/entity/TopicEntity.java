@@ -1,10 +1,8 @@
 package cdu.zb.entity;
 
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-
-import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -12,7 +10,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author accountw
- * @since 2020-01-09
+ * @since 2020-02-10
  */
 @TableName("topic")
 public class TopicEntity implements Serializable {
@@ -27,7 +25,7 @@ public class TopicEntity implements Serializable {
     /**
      * 用户_id
      */
-    private String useId;
+    private String userId;
 
     /**
      * 板块_id
@@ -72,7 +70,6 @@ public class TopicEntity implements Serializable {
     /**
      * 逻辑删除
      */
-    @TableLogic
     private Integer logicDeleteFlag;
 
     public String getId() {
@@ -82,12 +79,12 @@ public class TopicEntity implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
-    public String getUseId() {
-        return useId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUseId(String useId) {
-        this.useId = useId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
     public String getPlateId() {
         return plateId;
@@ -157,7 +154,7 @@ public class TopicEntity implements Serializable {
     public String toString() {
         return "TopicEntity{" +
             "id=" + id +
-            ", useId=" + useId +
+            ", userId=" + userId +
             ", plateId=" + plateId +
             ", title=" + title +
             ", context=" + context +

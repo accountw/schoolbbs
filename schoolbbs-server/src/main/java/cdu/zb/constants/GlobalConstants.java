@@ -40,17 +40,9 @@ public class GlobalConstants {
     public static final String NO_UNAUTHORIZED = "NO_AUTH";
 
     /**
-     * 静态资源文件访问虚拟路径配置KEY
+     * 重载token
      */
-    public static final String PROP_STATIC_RESOURCE_VIRTUALPATH = "coreland.static.virtualpath";
+    public static final String RELOAD = "RELOAD";
 
-    /**
-     * 静态资源文件访问虚拟路径配置KEY
-     */
-    public static final String PROP_SERVLET_VIRTUALPATH = "coreland.servlet.virtualpath";
-
-    /**
-     * 系统核心包appid
-     */
-    public static final String SYSTEM_CORE_APPID = "EIP.Core";
+    public  static  final  String EXPIRED="EXPIRED";
 }

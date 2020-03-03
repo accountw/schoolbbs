@@ -1,11 +1,12 @@
 package cdu.zb.security;
 
-import cdu.zb.entity.AdminEntity;
 import cdu.zb.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * @author accountw
@@ -18,25 +19,19 @@ public class MyUserDetails  implements UserDetails {
 
     private String username;
     private String password;
-    private String role;
+    private Collection<? extends GrantedAuthority> authorities;
 
-    public  MyUserDetails(UserEntity userEntity){
-        this.username=userEntity.getUsername();
-        this.password=userEntity.getPassword();
-        this.role="ROLE_USER";
+
+    public  MyUserDetails(UserEntity userEntity,String role){
+        username=userEntity.getUsername();
+        password=userEntity.getPassword();
+        authorities = Collections.singleton(new SimpleGrantedAuthority(role));
     }
-
-    public  MyUserDetails(AdminEntity adminEntity){
-        this.username=adminEntity.getUsername();
-        this.password=adminEntity.getPassword();
-        this.role="ROLE_ADMIN";
-    }
-
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
@@ -99,11 +94,4 @@ public class MyUserDetails  implements UserDetails {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 }

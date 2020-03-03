@@ -1,6 +1,7 @@
 package cdu.zb.controller;
 
 
+import cdu.zb.jsonresult.BaseApiController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-01-17
  */
 @RestController
-@RequestMapping("/reply-entity")
-public class ReplyController {
+@RequestMapping("/api/reply")
+public class ReplyController extends BaseApiController {
 
 }

@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author accountw
- * @since 2020-01-09
+ * @since 2020-02-01
  */
 @TableName("plate_admin")
 public class PlateAdminEntity implements Serializable {
@@ -25,7 +25,7 @@ public class PlateAdminEntity implements Serializable {
     /**
      * 用户_id
      */
-    private String useId;
+    private String userId;
 
     /**
      * 板块_id
@@ -49,12 +49,12 @@ public class PlateAdminEntity implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
-    public String getUseId() {
-        return useId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUseId(String useId) {
-        this.useId = useId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
     public String getPlateId() {
         return plateId;
@@ -82,7 +82,7 @@ public class PlateAdminEntity implements Serializable {
     public String toString() {
         return "PlateAdminEntity{" +
             "id=" + id +
-            ", useId=" + useId +
+            ", userId=" + userId +
             ", plateId=" + plateId +
             ", position=" + position +
             ", createTime=" + createTime +

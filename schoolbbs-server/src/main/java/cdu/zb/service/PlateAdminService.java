@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author accountw
- * @since 2020-01-09
+ * @since 2020-02-01
  */
 public interface PlateAdminService extends IService<PlateAdminEntity> {
 

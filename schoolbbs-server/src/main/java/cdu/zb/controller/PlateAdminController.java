@@ -2,7 +2,6 @@ package cdu.zb.controller;
 
 
 import cdu.zb.jsonresult.BaseApiController;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,11 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author accountw
- * @since 2020-01-09
+ * @since 2020-02-01
  */
 @RestController
-@RequestMapping("/api/plate-admin")
-@CrossOrigin
+@RequestMapping("/api/plateAdmin")
 public class PlateAdminController extends BaseApiController {
 
 }

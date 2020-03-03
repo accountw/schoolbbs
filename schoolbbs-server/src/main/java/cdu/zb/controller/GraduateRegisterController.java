@@ -1,8 +1,8 @@
 package cdu.zb.controller;
 
 
+import cdu.zb.jsonresult.BaseApiController;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-01-27
  */
 @RestController
-@RequestMapping("/graduate-register-entity")
-public class GraduateRegisterController {
+@RequestMapping("/api/graduateRegister")
+public class GraduateRegisterController extends BaseApiController {
 
 }

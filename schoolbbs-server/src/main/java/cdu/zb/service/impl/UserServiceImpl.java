@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,9 @@ import java.time.LocalDateTime;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> implements UserService {
+
+    @Autowired
+    RedisTemplate<String,Object> redisTemplate;
 
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -42,9 +46,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
      **/
     @Override
     public boolean register(UserDto userDto) {
-        userDto.setExp(0);
+        userDto.setExp(1);
         userDto.setRegisterTime(LocalDateTime.now());
-        LOG.info(bCryptPasswordEncoder.encode(userDto.getPassword()));
+        userDto.setHead("../../assets/head/head.png");
         userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         if(userMapper.insert(userDto)!=0){
             return true;

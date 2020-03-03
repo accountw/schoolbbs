@@ -12,7 +12,7 @@ export function register(data) {
 //发送验证码到邮箱
 export function sendMessage(data) {
   return request({
-    url: "/user/sendMessage",
+    url: "/checkcode/sendMessage",
     method: "post",
     data: data
   });
@@ -21,7 +21,7 @@ export function sendMessage(data) {
 //判断邮箱是否重复
 export function selectMail(data) {
   return request({
-    url: "/user/selectMail",
+    url: "/user/register/selectMail",
     method: "get",
     params: {
       mail: data
@@ -32,7 +32,7 @@ export function selectMail(data) {
 //判断用户名是否重复
 export function selectName(data) {
   return request({
-    url: "/user/selectUsername",
+    url: "/user/register/selectUsername",
     method: "get",
     params: {
       username: data
@@ -43,7 +43,7 @@ export function selectName(data) {
 //判断验证码是否正确
 export function selectCode(data) {
   return request({
-    url: "/user/selectCode",
+    url: "/checkcode/selectCode",
     method: "get",
     params: {
       userMail: data.userMail,

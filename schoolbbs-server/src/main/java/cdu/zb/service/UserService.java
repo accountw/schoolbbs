@@ -24,4 +24,5 @@ public interface UserService extends IService<UserEntity> {
      * @return void
      **/
     boolean register(UserDto userDto);
+
 }

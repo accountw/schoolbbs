@@ -4,11 +4,15 @@ export function login(data) {
   return request({
     url: "/user/login",
     method: "post",
-    data: data
+    data: data,
+    headers: {
+      "content-type": "application/x-www-form-urlencoded"
+    }
   });
 }
-export function loginout() {
+export function out() {
   return request({
-    url: "/"
+    url: "/system/loginout",
+    method: "post"
   });
 }

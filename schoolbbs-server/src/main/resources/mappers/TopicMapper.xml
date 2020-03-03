@@ -5,7 +5,7 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cdu.zb.entity.TopicEntity">
         <id column="id" property="id" />
-        <result column="use_id" property="useId" />
+        <result column="user_id" property="userId" />
         <result column="plate_id" property="plateId" />
         <result column="title" property="title" />
         <result column="context" property="context" />
@@ -19,7 +19,18 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, use_id, plate_id, title, context, picture, likenum, replynum, first_time, last_time, logic_delete_flag
+        id, user_id, plate_id, title, context, picture, likenum, replynum, first_time, last_time, logic_delete_flag
     </sql>
+
+    <select id="getFirstTopices" resultType="cdu.zb.response.TopicResponse">
+        select t.id as id,t.user_id as userId,t.plate_id as plateId,
+         t.title as title, t.context as context, t.picture as picture, t.likenum as likenum,
+         t.replynum as replynum, t.first_time as firstTime, t.last_time as lastTime,
+         t.logic_delete_flag as logic_delete_flag, u.username as username,
+         p.name as platename
+         from topic as t,user as u ,plate as p
+         where t.user_id=u.id and t.plate_id=p.id and t.logic_delete_flag=0
+         and u.logic_delete_flag=0 and p.logic_delete_flag=0
+    </select>
 
 </mapper>

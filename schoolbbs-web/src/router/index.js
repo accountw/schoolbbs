@@ -1,15 +1,16 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Index from "../views/Index.vue";
-import Topic from "../components/topic/Topic.vue";
+import Home from "../components/topic/home.vue";
 import Register from "../views/Register";
+import Plate from "../components/plate/Plate";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    redirect: "/index"
+    redirect: "/home"
   },
   {
     path: "/index",
@@ -17,9 +18,14 @@ const routes = [
     component: Index,
     children: [
       {
-        path: "/topic",
-        name: "/topic",
-        component: Topic
+        path: "/home",
+        name: "/home",
+        component: Home
+      },
+      {
+        path: "/plate",
+        name: "/plate",
+        component: Plate
       }
     ]
   },

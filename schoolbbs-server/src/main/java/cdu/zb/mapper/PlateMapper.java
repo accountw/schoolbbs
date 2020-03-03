@@ -2,6 +2,7 @@ package cdu.zb.mapper;
 
 import cdu.zb.entity.PlateEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author accountw
  * @since 2020-01-17
  */
+@Repository
 public interface PlateMapper extends BaseMapper<PlateEntity> {
 
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * </p>
  *
  * @author accountw
- * @since 2020-01-09
+ * @since 2020-02-01
  */
 @Repository
 public interface PlateAdminMapper extends BaseMapper<PlateAdminEntity> {

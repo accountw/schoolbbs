@@ -22,13 +22,9 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="confirmpd">
-        <el-input
-          type="password"
-          v-model="form.confirmpd"
-          show-password
-        ></el-input>
+        <el-input type="password" v-model="form.confirmpd"></el-input>
       </el-form-item>
-      <el-form-item label="性别">
+      <el-form-item label="性别" prop="gender">
         <el-radio-group v-model="form.gender">
           <el-radio label="0">男</el-radio>
           <el-radio label="1">女</el-radio>
@@ -86,6 +82,8 @@ export default {
             .then(response => {
               if (response.data.code === "ERROR") {
                 callback(new Error("验证码错误"));
+              } else {
+                callback();
               }
             })
             .catch(function(error) {
@@ -103,6 +101,7 @@ export default {
           const reg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
           if (!reg.test(value)) {
             callback(new Error("请输入有效的邮箱"));
+            this.confirm = false;
           } else {
             selectMail(value)
               .then(response => {
@@ -111,6 +110,7 @@ export default {
                   this.confirm = false;
                 } else {
                   this.confirm = true;
+                  callback();
                 }
               })
               .catch(function(error) {
@@ -122,16 +122,48 @@ export default {
       }
     };
     var validateUsername = (rule, value, callback) => {
-      selectName(value)
-        .then(response => {
-          if (response.data.code === "ERROR") {
-            callback(new Error("该用户名已被注册"));
-          }
-        })
-        .catch(function(error) {
-          // 请求失败处理
-          console.log(error);
-        });
+      if (value === "") {
+        callback(new Error("请输入用户名"));
+      } else {
+        const reg = /^.{1,8}$/;
+        if (!reg.test(value)) {
+          callback(new Error("用户名长度小于8"));
+        } else {
+          selectName(value)
+            .then(response => {
+              if (response.data.code === "ERROR") {
+                callback(new Error("该用户名已被注册"));
+              } else {
+                callback();
+              }
+            })
+            .catch(function(error) {
+              // 请求失败处理
+              console.log(error);
+            });
+        }
+      }
+    };
+
+    var validatepd = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else {
+        const reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+        if (!reg.test(value)) {
+          callback(new Error("密码必须包括字母和数字，长度为6-16"));
+        } else {
+          callback();
+        }
+      }
+    };
+
+    var validateGender = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("性别不能为空"));
+      } else {
+        callback();
+      }
     };
 
     return {
@@ -149,27 +181,18 @@ export default {
       },
       rules: {
         code: [{ validator: validateCode, trigger: "blur" }],
-        confirmpd: [{ validator: validatePass, trigger: "change" }],
-        username: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 1, max: 8, message: "长度小于8个字符", trigger: "blur" },
-          {
-            validator: validateUsername,
-            trigger: "change"
-          }
-        ],
-        password: [
-          { required: true, message: "密码不能为空", trigger: "change" },
-          { min: 6, max: 16, message: "密码长度6-16", trigger: "blur" }
-        ],
-        mail: [{ validator: validateMail, trigger: "change" }]
+        confirmpd: [{ validator: validatePass, trigger: "blur" }],
+        username: [{ validator: validateUsername, trigger: "blur" }],
+        gender: [{ validator: validateGender, trigger: "blur" }],
+        password: [{ validator: validatepd, trigger: "blur" }],
+        mail: [{ validator: validateMail, trigger: "blur" }]
       }
     };
   },
   methods: {
-    sumbit() {
+    sumbit(form) {
       //提交表单内容
-      this.$refs["form"].validate(valid => {
+      this.$refs[form].validate(valid => {
         if (valid) {
           const userdto = {
             username: this.form.username,
@@ -178,12 +201,32 @@ export default {
             mail: this.form.mail
           };
           register(userdto)
-            .then(response => console.log(response))
-            .catch(function(error) {
+            .then(response => {
+              if (response.data.code === "SUCCESS") {
+                this.$message({
+                  showClose: true,
+                  message: "注册成功，跳转到首页",
+                  type: "success"
+                });
+                this.$router.push("/");
+              } else {
+                this.$message({
+                  showClose: true,
+                  message: response.data.message,
+                  type: "error"
+                });
+              }
+            })
+            .catch(error => {
               // 请求失败处理
               console.log(error);
             });
         } else {
+          this.$message({
+            showClose: true,
+            message: "请认真填写注册信息",
+            type: "error"
+          });
           return false;
         }
       });
@@ -220,6 +263,12 @@ export default {
             // 请求失败处理
             console.log(error);
           });
+      } else {
+        this.$message({
+          showClose: true,
+          message: "请填写正确的邮箱",
+          type: "error"
+        });
       }
     }
   }

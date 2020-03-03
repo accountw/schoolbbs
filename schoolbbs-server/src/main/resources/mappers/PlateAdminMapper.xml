@@ -5,7 +5,7 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cdu.zb.entity.PlateAdminEntity">
         <id column="id" property="id" />
-        <result column="use_id" property="useId" />
+        <result column="user_id" property="userId" />
         <result column="plate_id" property="plateId" />
         <result column="position" property="position" />
         <result column="create_time" property="createTime" />
@@ -13,7 +13,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, use_id, plate_id, position, create_time
+        id, user_id, plate_id, position, create_time
     </sql>
 
 </mapper>
