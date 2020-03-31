@@ -9,7 +9,7 @@
       <el-menu-item index="/home"
         ><i class="el-icon-s-home"></i>首页</el-menu-item
       >
-      <el-menu-item index="/plate"
+      <el-menu-item index="/block"
         ><i class="el-icon-guide"></i>板块</el-menu-item
       >
       <el-menu-item index="/index"

@@ -1,6 +1,5 @@
 package cdu.zb.service;
 
-import cdu.zb.dto.TopicDto;
 import cdu.zb.entity.TopicEntity;
 import cdu.zb.response.TopicResponse;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -18,4 +17,8 @@ import java.util.List;
 public interface TopicService extends IService<TopicEntity> {
 
     List<TopicResponse> getFirstTopices();
+
+    List<TopicResponse> getTopicByPlateid(String plateid);
+
+    TopicEntity getTopicbyid(String id);
 }

@@ -37,6 +37,34 @@ public class PlateEntity implements Serializable {
      */
     private Integer logicDeleteFlag;
 
+
+    /**
+     * 描述
+     */
+    private String depict ;
+
+    public String getDepict() {
+        return depict ;
+    }
+
+    public void setDepict(String depict) {
+        this.depict = depict;
+    }
+
+    public String getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(String blockId) {
+        this.blockId = blockId;
+    }
+
+    /**
+     *模块id
+     */
+    private String blockId;
+
+
     public String getId() {
         return id;
     }
@@ -73,6 +101,7 @@ public class PlateEntity implements Serializable {
             ", name=" + name +
             ", createTime=" + createTime +
             ", logicDeleteFlag=" + logicDeleteFlag +
+                ",depict "+depict+
         "}";
     }
 }

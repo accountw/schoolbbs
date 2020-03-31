@@ -1,6 +1,7 @@
 package cdu.zb.service;
 
 import cdu.zb.entity.PlateEntity;
+import cdu.zb.response.PlateResponse;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -15,5 +16,9 @@ import java.util.List;
  */
 public interface PlateService extends IService<PlateEntity> {
 
-    List<PlateEntity> getplate();
+
+
+    List<PlateEntity> getplate(String blockid);
+
+    PlateResponse getPlateByid(String id);
 }

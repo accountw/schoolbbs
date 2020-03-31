@@ -4,17 +4,17 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cdu.zb.entity.TopicEntity">
-        <id column="id" property="id" />
-        <result column="user_id" property="userId" />
-        <result column="plate_id" property="plateId" />
-        <result column="title" property="title" />
-        <result column="context" property="context" />
-        <result column="picture" property="picture" />
-        <result column="likenum" property="likenum" />
-        <result column="replynum" property="replynum" />
-        <result column="first_time" property="firstTime" />
-        <result column="last_time" property="lastTime" />
-        <result column="logic_delete_flag" property="logicDeleteFlag" />
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="plate_id" property="plateId"/>
+        <result column="title" property="title"/>
+        <result column="context" property="context"/>
+        <result column="picture" property="picture"/>
+        <result column="likenum" property="likenum"/>
+        <result column="replynum" property="replynum"/>
+        <result column="first_time" property="firstTime"/>
+        <result column="last_time" property="lastTime"/>
+        <result column="logic_delete_flag" property="logicDeleteFlag"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -27,10 +27,23 @@
          t.title as title, t.context as context, t.picture as picture, t.likenum as likenum,
          t.replynum as replynum, t.first_time as firstTime, t.last_time as lastTime,
          t.logic_delete_flag as logic_delete_flag, u.username as username,
-         p.name as platename
-         from topic as t,user as u ,plate as p
+         p.name as platename,b.name as blockname
+         from topic as t,user as u ,plate as p,block as b
          where t.user_id=u.id and t.plate_id=p.id and t.logic_delete_flag=0
-         and u.logic_delete_flag=0 and p.logic_delete_flag=0
+         and u.logic_delete_flag=0 and p.logic_delete_flag=0  and b.logic_delete_flag=0
+         and b.id=p.block_id
+    </select>
+
+    <select id="getTopicByPlateid" resultType="cdu.zb.response.TopicResponse">
+        select t.id as id,t.user_id as userId,t.plate_id as plateId,
+         t.title as title, t.context as context, t.picture as picture, t.likenum as likenum,
+         t.replynum as replynum, t.first_time as firstTime, t.last_time as lastTime,
+         t.logic_delete_flag as logic_delete_flag, u.username as username,
+         p.name as platename,b.name as blockname
+         from topic as t,user as u ,plate as p,block as b
+         where t.user_id=u.id and t.plate_id=p.id and t.logic_delete_flag=0
+         and u.logic_delete_flag=0 and p.logic_delete_flag=0  and b.logic_delete_flag=0
+         and b.id=p.block_id and t.plate_id=#{plateid}
     </select>
 
 </mapper>

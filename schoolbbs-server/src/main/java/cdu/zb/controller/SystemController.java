@@ -5,6 +5,8 @@ import cdu.zb.jsonresult.BaseApiController;
 import cdu.zb.jsonresult.JsonResult;
 import cdu.zb.util.RedisUtil;
 import cdu.zb.util.TokenUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,6 +25,7 @@ import java.util.Collection;
 @CrossOrigin
 public class SystemController extends BaseApiController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SystemController.class);
     @Autowired
     private RedisUtil redisUtil;
 
@@ -32,6 +35,8 @@ public class SystemController extends BaseApiController {
      */
     @GetMapping(value = "/token/reload",name = "重新获取token")
     public JsonResult<String>  reload(){
+
+        LOG.info("获取token");
         Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
 
         String role = "";

@@ -2,6 +2,7 @@ package cdu.zb.service.impl;
 
 import cdu.zb.entity.PlateEntity;
 import cdu.zb.mapper.PlateMapper;
+import cdu.zb.response.PlateResponse;
 import cdu.zb.service.PlateService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -24,7 +25,12 @@ public class PlateServiceImpl extends ServiceImpl<PlateMapper, PlateEntity> impl
     @Autowired
     private  PlateMapper plateMapper;
     @Override
-    public List<PlateEntity> getplate() {
-        return plateMapper.selectList(new QueryWrapper<>());
+    public List<PlateEntity> getplate(String blockid) {
+        return plateMapper.selectList(new QueryWrapper<PlateEntity>().eq("block_id",blockid));
+    }
+
+    @Override
+    public PlateResponse getPlateByid(String id) {
+        return plateMapper.getPlateByid(id);
     }
 }

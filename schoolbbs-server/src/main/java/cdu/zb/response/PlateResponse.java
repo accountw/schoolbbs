@@ -8,4 +8,13 @@ import cdu.zb.entity.PlateEntity;
  * @description: plate的返回封装类
  */
 public class PlateResponse extends PlateEntity {
+    private String blockname;
+
+    public String getBlockname() {
+        return blockname;
+    }
+
+    public void setBlockname(String blockname) {
+        this.blockname = blockname;
+    }
 }

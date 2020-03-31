@@ -1,14 +1,25 @@
 <template>
-  <div class="Plate"></div>
+  <div class="Plate">
+    <ul id="ul">
+      <li v-for="plate in plates" :key="plate.id">
+        <el-link id="a" :href="'/plate/' + plate.id" target="_blank">
+          {{ plate.name }}</el-link
+        >
+        <span></span>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
 import { getplate } from "../../network/plate";
 export default {
+  props: ["block"],
   name: "Plate",
   data() {
     return {
-      plate: null
+      blockid: this.block,
+      plates: null
     };
   },
   created() {
@@ -16,10 +27,10 @@ export default {
   },
   methods: {
     get() {
-      getplate()
+      getplate(this.blockid)
         .then(res => {
           if (res.data.code === "SUCCESS") {
-            this.plate = res.data.data;
+            this.plates = res.data.data;
           }
         })
         .catch(err => {
@@ -30,4 +41,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+li {
+  display: inline;
+  list-style: none;
+  padding-right: 5px;
+}
+</style>

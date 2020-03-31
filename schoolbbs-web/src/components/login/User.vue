@@ -96,7 +96,7 @@ export default {
     format(percentage) {
       return percentage === 100 ? "满" : `exp:${this.user.exp}/${this.per}`;
     },
-    ...mapMutations(["logout"]),
+    ...mapMutations(["logout", "setid"]),
     getuser() {
       getUser(this.$store.state.username)
         .then(response => {
@@ -161,6 +161,9 @@ export default {
           } else if (this.user.exp < 1000000) {
             this.per = 1000000;
             this.level = 20;
+          }
+          if (!this.$store.state.id) {
+            this.setid(this.user.id);
           }
         })
         .catch(function(error) {

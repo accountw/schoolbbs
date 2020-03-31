@@ -1,12 +1,13 @@
 package cdu.zb.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author accountw
@@ -30,7 +31,7 @@ public class ReplyEntity implements Serializable {
     /**
      * 用户_id
      */
-    private String useId;
+    private String userId;
 
     /**
      * 内容
@@ -69,6 +70,7 @@ public class ReplyEntity implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
+
     public String getTopicId() {
         return topicId;
     }
@@ -76,13 +78,15 @@ public class ReplyEntity implements Serializable {
     public void setTopicId(String topicId) {
         this.topicId = topicId;
     }
-    public String getUseId() {
-        return useId;
+
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUseId(String useId) {
-        this.useId = useId;
+    public void setUserId(String useId) {
+        this.userId = useId;
     }
+
     public String getContext() {
         return context;
     }
@@ -90,6 +94,7 @@ public class ReplyEntity implements Serializable {
     public void setContext(String context) {
         this.context = context;
     }
+
     public String getPicture() {
         return picture;
     }
@@ -97,6 +102,7 @@ public class ReplyEntity implements Serializable {
     public void setPicture(String picture) {
         this.picture = picture;
     }
+
     public LocalDateTime getReplyTime() {
         return replyTime;
     }
@@ -104,6 +110,7 @@ public class ReplyEntity implements Serializable {
     public void setReplyTime(LocalDateTime replyTime) {
         this.replyTime = replyTime;
     }
+
     public Integer getStatus() {
         return status;
     }
@@ -111,6 +118,7 @@ public class ReplyEntity implements Serializable {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
     public Integer getStorey() {
         return storey;
     }
@@ -118,6 +126,7 @@ public class ReplyEntity implements Serializable {
     public void setStorey(Integer storey) {
         this.storey = storey;
     }
+
     public Integer getLogicDeleteFlag() {
         return logicDeleteFlag;
     }
@@ -129,15 +138,15 @@ public class ReplyEntity implements Serializable {
     @Override
     public String toString() {
         return "ReplyEntity{" +
-            "id=" + id +
-            ", topicId=" + topicId +
-            ", useId=" + useId +
-            ", context=" + context +
-            ", picture=" + picture +
-            ", replyTime=" + replyTime +
-            ", status=" + status +
-            ", storey=" + storey +
-            ", logicDeleteFlag=" + logicDeleteFlag +
-        "}";
+                "id=" + id +
+                ", topicId=" + topicId +
+                ", userId=" + userId +
+                ", context=" + context +
+                ", picture=" + picture +
+                ", replyTime=" + replyTime +
+                ", status=" + status +
+                ", storey=" + storey +
+                ", logicDeleteFlag=" + logicDeleteFlag +
+                "}";
     }
 }

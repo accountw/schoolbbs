@@ -1,8 +1,5 @@
 package cdu.zb.config;
 
-import java.util.Scanner;
-
-
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -13,6 +10,8 @@ import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+
+import java.util.Scanner;
 
 
 
@@ -55,7 +54,7 @@ public class CodeGenerator {
         GlobalConfig gc = new GlobalConfig();
         gc.setOutputDir("D:\\schoolbbs\\schoolbbs-server\\src\\main\\java");    //生成文件的输出目录
         gc.setAuthor("accountw");                    //作者
-        gc.setFileOverride(true);                //是否覆蓋已有文件 默认值：false
+        gc.setFileOverride(false);                //是否覆蓋已有文件 默认值：false
         gc.setOpen(false);                        //是否打开输出目录 默认值:true
 
 //	        gc.setSwagger2(true);					//开启 swagger2 模式 默认false

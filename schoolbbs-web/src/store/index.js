@@ -11,7 +11,8 @@ export default new Vuex.Store({
     Authorization: localStorage.getItem("Authorization")
       ? localStorage.getItem("Authorization")
       : "",
-    expire: localStorage.getItem("expire") ? localStorage.getItem("expire") : 0
+    expire: localStorage.getItem("expire") ? localStorage.getItem("expire") : 0,
+    id: localStorage.getItem("id") ? localStorage.getItem("id") : ""
   },
   mutations: {
     Login(state, data) {
@@ -27,6 +28,10 @@ export default new Vuex.Store({
       state.username = null;
       state.Authorization = "";
       state.expire = 0;
+    },
+    setid(state, id) {
+      state.id = id;
+      localStorage.setItem("id", id);
     }
   },
   actions: {},

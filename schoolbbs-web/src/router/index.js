@@ -3,7 +3,9 @@ import VueRouter from "vue-router";
 import Index from "../views/Index.vue";
 import Home from "../components/topic/home.vue";
 import Register from "../views/Register";
-import Plate from "../components/plate/Plate";
+import Block from "../components/block/Block";
+import Cplate from "../components/plate/cplate";
+import Topic from "../components/topic/Topic";
 
 Vue.use(VueRouter);
 
@@ -23,9 +25,17 @@ const routes = [
         component: Home
       },
       {
-        path: "/plate",
-        name: "/plate",
-        component: Plate
+        path: "/block",
+        name: "/block",
+        component: Block
+      },
+      {
+        path: "/plate/:plateid",
+        component: Cplate
+      },
+      {
+        path: "/topic/:topicid",
+        component: Topic
       }
     ]
   },

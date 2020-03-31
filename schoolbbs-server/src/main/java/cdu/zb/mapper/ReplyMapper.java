@@ -1,7 +1,12 @@
 package cdu.zb.mapper;
 
 import cdu.zb.entity.ReplyEntity;
+import cdu.zb.response.ReplyResponse;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
@@ -11,6 +16,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author accountw
  * @since 2020-01-17
  */
+@Repository
 public interface ReplyMapper extends BaseMapper<ReplyEntity> {
 
+    List<ReplyResponse> getReplybyTopicid(@Param("topicid") String topicid);
+
+    Integer getMaxStorey(@Param("topicId") String topicId);
 }

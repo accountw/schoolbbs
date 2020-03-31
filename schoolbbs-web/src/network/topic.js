@@ -6,3 +6,23 @@ export function getFirstTopic() {
     method: "get"
   });
 }
+
+export function getTopicByPlateid(data) {
+  return request({
+    url: "/topic/getTopicByPlateid",
+    method: "get",
+    params: {
+      plateid: data
+    }
+  });
+}
+
+export function getTopicbyid(data) {
+  return request({
+    url: "/topic/getTopicbyid",
+    method: "get",
+    params: {
+      id: data
+    }
+  });
+}

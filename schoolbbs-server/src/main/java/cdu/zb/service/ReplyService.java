@@ -1,7 +1,11 @@
 package cdu.zb.service;
 
+import cdu.zb.dto.ReplyDto;
 import cdu.zb.entity.ReplyEntity;
+import cdu.zb.response.ReplyResponse;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ReplyService extends IService<ReplyEntity> {
 
+    List<ReplyResponse> getReplybyTopicid(String topicid);
+
+    Integer saveReply(ReplyDto replyDto);
 }

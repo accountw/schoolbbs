@@ -4,20 +4,34 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cdu.zb.entity.ReplyEntity">
-        <id column="id" property="id" />
-        <result column="topic_id" property="topicId" />
-        <result column="use_id" property="useId" />
-        <result column="context" property="context" />
-        <result column="picture" property="picture" />
-        <result column="reply_time" property="replyTime" />
-        <result column="status" property="status" />
-        <result column="storey" property="storey" />
-        <result column="logic_delete_flag" property="logicDeleteFlag" />
+        <id column="id" property="id"/>
+        <result column="topic_id" property="topicId"/>
+        <result column="user_id" property="userId"/>
+        <result column="context" property="context"/>
+        <result column="picture" property="picture"/>
+        <result column="reply_time" property="replyTime"/>
+        <result column="status" property="status"/>
+        <result column="storey" property="storey"/>
+        <result column="logic_delete_flag" property="logicDeleteFlag"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, topic_id, use_id, context, picture, reply_time, status, storey, logic_delete_flag
+        id, topic_id, user_id, context, picture, reply_time, status, storey, logic_delete_flag
     </sql>
 
+    <select id="getReplybyTopicid" resultType="cdu.zb.response.ReplyResponse">
+       select r.id as id,r.topic_id as topicId,r.user_id as userId,
+       r.context as context ,r.picture as picture,r.reply_time as replyTime,
+       r.status as status ,r.storey as storey,u.username as username,
+       u.exp as exp,u.head as head
+       from user as u,reply as r
+       where u.id=r.user_id and r.topic_id=#{topicid}
+       and r.logic_delete_flag=0 and u.logic_delete_flag=0
+       order  by r.storey
+    </select>
+
+    <select id="getMaxStorey" resultType="Integer">
+        select max(storey) from reply where topic_id=#{topicId}
+    </select>
 </mapper>

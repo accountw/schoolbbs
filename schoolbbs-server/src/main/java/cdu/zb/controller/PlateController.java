@@ -5,6 +5,7 @@ import cdu.zb.constants.GlobalConstants;
 import cdu.zb.entity.PlateEntity;
 import cdu.zb.jsonresult.BaseApiController;
 import cdu.zb.jsonresult.JsonResult;
+import cdu.zb.response.PlateResponse;
 import cdu.zb.service.PlateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,12 @@ public class PlateController extends BaseApiController {
      * @return cdu.zb.jsonresult.JsonResult<cdu.zb.response.PlateResponse>
      **/
     @GetMapping(value = "/getplate",name = "获取板块")
-    public JsonResult<List<PlateEntity>> getplate(){
-        return jr(GlobalConstants.SUCCESS,"获取成功",plateService.getplate());
+    public JsonResult<List<PlateEntity>> getplate(String blockid){
+        return jr(GlobalConstants.SUCCESS,"获取成功",plateService.getplate(blockid));
+    }
+
+    @GetMapping(value="/getPlateByid",name="获取板块")
+    public JsonResult<PlateResponse> getPlateByid(String id){
+        return jr(GlobalConstants.SUCCESS,"获取成功", plateService.getPlateByid(id));
     }
 }

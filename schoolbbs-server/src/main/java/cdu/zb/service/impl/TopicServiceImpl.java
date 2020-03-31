@@ -27,4 +27,14 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, TopicEntity> impl
     public List<TopicResponse> getFirstTopices() {
         return topicMapper.getFirstTopices();
     }
+
+    @Override
+    public List<TopicResponse> getTopicByPlateid(String plateid) {
+        return topicMapper.getTopicByPlateid(plateid);
+    }
+
+    @Override
+    public TopicEntity getTopicbyid(String id) {
+        return topicMapper.selectById(id);
+    }
 }

@@ -10,6 +10,15 @@ import cdu.zb.entity.TopicEntity;
 public class TopicResponse extends TopicEntity {
     private String username;
     private String platename;
+    private String blockname;
+
+    public String getBlockname() {
+        return blockname;
+    }
+
+    public void setBlockname(String blockname) {
+        this.blockname = blockname;
+    }
 
     public String getUsername() {
         return username;

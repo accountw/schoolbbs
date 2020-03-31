@@ -1,7 +1,9 @@
 package cdu.zb.mapper;
 
 import cdu.zb.entity.PlateEntity;
+import cdu.zb.response.PlateResponse;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,4 +17,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PlateMapper extends BaseMapper<PlateEntity> {
 
+    PlateResponse getPlateByid(@Param("id") String id);
 }
