@@ -9,7 +9,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -26,8 +28,13 @@ public class ReplyServiceImpl extends ServiceImpl<ReplyMapper, ReplyEntity> impl
     @Autowired
     private ReplyMapper replyMapper;
     @Override
-    public List<ReplyResponse> getReplybyTopicid(String topicid) {
-        return replyMapper.getReplybyTopicid(topicid);
+    public List<ReplyResponse> getReplybyTopicid(String topicid) throws UnsupportedEncodingException {
+        Base64.Decoder decoder = Base64.getDecoder();
+        List<ReplyResponse> list=replyMapper.getReplybyTopicid(topicid);
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setContext(new String(decoder.decode(list.get(i).getContext()),"UTF-8"));
+        }
+        return list;
     }
 
     @Override
@@ -35,7 +42,7 @@ public class ReplyServiceImpl extends ServiceImpl<ReplyMapper, ReplyEntity> impl
         replyDto.setReplyTime(LocalDateTime.now());
         Integer storey=replyMapper.getMaxStorey(replyDto.getTopicId());
         if(storey==null){
-            storey=0;
+            storey=1;
         }else {
             storey=storey+1;
         }

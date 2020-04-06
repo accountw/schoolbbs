@@ -1,8 +1,10 @@
 package cdu.zb.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -60,11 +62,13 @@ public class TopicEntity implements Serializable {
     /**
      * 发帖时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private LocalDateTime firstTime;
 
     /**
      * 最后回复时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private LocalDateTime lastTime;
 
     /**

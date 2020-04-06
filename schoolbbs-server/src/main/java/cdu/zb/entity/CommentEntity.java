@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author accountw
- * @since 2020-01-09
+ * @since 2020-03-31
  */
 @TableName("comment")
 public class CommentEntity implements Serializable {
@@ -56,6 +56,8 @@ public class CommentEntity implements Serializable {
      * 逻辑删除
      */
     private Integer logicDeleteFlag;
+
+    private String context;
 
     public String getId() {
         return id;
@@ -113,6 +115,13 @@ public class CommentEntity implements Serializable {
     public void setLogicDeleteFlag(Integer logicDeleteFlag) {
         this.logicDeleteFlag = logicDeleteFlag;
     }
+    public String getContext() {
+        return context;
+    }
+
+    public void setContext(String context) {
+        this.context = context;
+    }
 
     @Override
     public String toString() {
@@ -125,6 +134,7 @@ public class CommentEntity implements Serializable {
             ", status=" + status +
             ", userStatus=" + userStatus +
             ", logicDeleteFlag=" + logicDeleteFlag +
+            ", context=" + context +
         "}";
     }
 }

@@ -12,6 +12,16 @@ public class ReplyResponse extends ReplyEntity {
      private Integer exp;
      private String head;
 
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    private Integer count;
+
     public String getUsername() {
         return username;
     }

@@ -9,7 +9,7 @@
         <User v-else></User>
         <navbar></navbar>
       </el-aside>
-      <el-container>
+      <el-container id="container">
         <el-header>
           <Search></Search>
         </el-header>
@@ -34,6 +34,7 @@ export default {
     Login,
     User
   },
+
   computed: {
     username() {
       return this.$store.state.username;
@@ -42,7 +43,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .index {
   width: 80%;
   margin: 0 auto;
@@ -52,10 +53,15 @@ main.el-main {
 }
 .title {
   background-color: white;
-  margin-right: 1px;
   text-align: center;
   font-size: 30px;
   height: 75px;
   line-height: 75px;
+}
+.el-aside {
+  position: fixed;
+}
+#container {
+  margin: 0 0 0 18%;
 }
 </style>

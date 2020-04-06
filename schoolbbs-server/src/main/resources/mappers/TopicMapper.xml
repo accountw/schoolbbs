@@ -44,6 +44,7 @@
          where t.user_id=u.id and t.plate_id=p.id and t.logic_delete_flag=0
          and u.logic_delete_flag=0 and p.logic_delete_flag=0  and b.logic_delete_flag=0
          and b.id=p.block_id and t.plate_id=#{plateid}
+         order by t.last_time desc limit #{index},20
     </select>
 
 </mapper>

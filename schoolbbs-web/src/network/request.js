@@ -75,7 +75,6 @@ export function request(config) {
           new Date().getTime()
         ) {
           if (!window.isRefreshing) {
-            console.log("dsad");
             window.isRefreshing = true;
             let refresh = new Promise(resolve => {
               tokenrefresh(config, resolve);
@@ -93,7 +92,6 @@ export function request(config) {
             return retry;
           }
         } else {
-          console.log("123");
           Message({
             showClose: true,
             message: "用户登录信息过时",

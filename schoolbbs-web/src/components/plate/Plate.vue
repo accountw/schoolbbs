@@ -2,7 +2,12 @@
   <div class="Plate">
     <ul id="ul">
       <li v-for="plate in plates" :key="plate.id">
-        <el-link id="a" :href="'/plate/' + plate.id" target="_blank">
+        <el-link
+          id="a"
+          :href="'/plate/' + plate.id+'/1'"
+          target="_blank"
+          style="font-size: 18px"
+        >
           {{ plate.name }}</el-link
         >
         <span></span>
@@ -46,5 +51,9 @@ li {
   display: inline;
   list-style: none;
   padding-right: 5px;
+}
+#ul {
+  list-style: none;
+  padding-inline-start: 0;
 }
 </style>

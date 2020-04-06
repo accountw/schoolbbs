@@ -54,4 +54,8 @@ export default {
 .box-card {
   margin-bottom: 5px;
 }
+#ul {
+  list-style: none;
+  padding-inline-start: 0;
+}
 </style>

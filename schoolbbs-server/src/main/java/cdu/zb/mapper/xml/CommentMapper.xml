@@ -12,20 +12,12 @@
         <result column="status" property="status" />
         <result column="user_status" property="userStatus" />
         <result column="logic_delete_flag" property="logicDeleteFlag" />
+        <result column="context" property="context" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, reply_id, user_id, reply_user_id, reply_time, status, user_status, logic_delete_flag
+        id, reply_id, user_id, reply_user_id, reply_time, status, user_status, logic_delete_flag, context
     </sql>
-
-    <select id="getCommentByreplyid" resultType="cdu.zb.response.CommentResponse">
-        select c.id as id,c.reply_id as replyId,c.user_id as userId,c.reply_user_id as replyUserId,
-        c.reply_time as replyTime,c.status as status,c.user_status as userStatus,c.context as context,
-        c.logic_delete_flag as logic_delete_flag ,(select username from user where id=userId) as username,
-        (select username from user where id=replyUserId) as replyUsername,u.head as head
-        from comment as c,user as u
-        where c.reply_id=#{replyid} and c.logic_delete_flag=0 and u.id=c.user_id
-    </select>
 
 </mapper>

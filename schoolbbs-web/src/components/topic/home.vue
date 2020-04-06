@@ -1,12 +1,19 @@
 <template>
   <div class="topic">
-
     <div>
       <ul id="ul">
         <li v-for="topic in topices" :key="topic.id">
           <el-card class="box-card" shadow="never">
             <div class="text item">
-              <div id="title">{{ topic.title }}</div>
+              <div id="title">
+                <el-link
+                  :href="'/topic/' + topic.id"
+                  target="_blank"
+                  style="font-size: 20px"
+                  :underline="false"
+                  >{{ topic.title }}</el-link
+                >
+              </div>
               <div id="context">{{ topic.context }}</div>
               <div id="user">
                 <i class="el-icon-user-solid"></i>{{ topic.username }}
@@ -47,21 +54,15 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .topic {
   margin: 0 auto;
   margin-top: 0%;
 }
-#ul {
-  list-style: none;
-}
+
 ul#ul {
   padding-inline-start: 0;
-}
-#title {
-  font-family: "Microsoft YaHei";
-  font-size: 20px;
-  font-weight: bold;
+  list-style: none;
 }
 #context {
   font-size: 16px;

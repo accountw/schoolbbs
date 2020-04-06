@@ -36,4 +36,7 @@ export default {
 .navbar {
   width: 100%;
 }
+.el-menu {
+  border: 0 !important;
+}
 </style>

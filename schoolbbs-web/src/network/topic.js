@@ -7,12 +7,13 @@ export function getFirstTopic() {
   });
 }
 
-export function getTopicByPlateid(data) {
+export function getTopicByPlateid(plateid, index) {
   return request({
     url: "/topic/getTopicByPlateid",
     method: "get",
     params: {
-      plateid: data
+      plateid: plateid,
+      index: index
     }
   });
 }
@@ -24,5 +25,13 @@ export function getTopicbyid(data) {
     params: {
       id: data
     }
+  });
+}
+
+export function saveTopic(data) {
+  return request({
+    url: "/topic/saveTopic",
+    method: "post",
+    data: data
   });
 }

@@ -5,6 +5,7 @@ import cdu.zb.entity.ReplyEntity;
 import cdu.zb.response.ReplyResponse;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public interface ReplyService extends IService<ReplyEntity> {
 
-    List<ReplyResponse> getReplybyTopicid(String topicid);
+    List<ReplyResponse> getReplybyTopicid(String topicid) throws UnsupportedEncodingException;
 
     Integer saveReply(ReplyDto replyDto);
 }

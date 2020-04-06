@@ -54,7 +54,7 @@ public class CodeGenerator {
         GlobalConfig gc = new GlobalConfig();
         gc.setOutputDir("D:\\schoolbbs\\schoolbbs-server\\src\\main\\java");    //生成文件的输出目录
         gc.setAuthor("accountw");                    //作者
-        gc.setFileOverride(false);                //是否覆蓋已有文件 默认值：false
+        gc.setFileOverride(true);                //是否覆蓋已有文件 默认值：false
         gc.setOpen(false);                        //是否打开输出目录 默认值:true
 
 //	        gc.setSwagger2(true);					//开启 swagger2 模式 默认false

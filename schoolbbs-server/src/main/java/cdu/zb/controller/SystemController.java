@@ -55,7 +55,7 @@ public class SystemController extends BaseApiController {
      * @description: 注销
      * @author accountw
      * @date 2020/3/1 17:59
-     * @param []
+     * @param
      * @return cdu.zb.jsonresult.JsonResult<java.lang.String>
      **/
     @PostMapping(value = "/loginout" ,name = "注销")
@@ -64,5 +64,7 @@ public class SystemController extends BaseApiController {
         redisUtil.del(authentication.getName());
         return jr(GlobalConstants.SUCCESS,"注销成功");
     }
+
+
 
 }

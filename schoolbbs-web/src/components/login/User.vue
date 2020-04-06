@@ -202,7 +202,7 @@ export default {
   background-color: aliceblue;
 }
 .main {
-  width: 85%;
+  width: 170px;
   text-align: center;
   margin: 0 auto;
 }

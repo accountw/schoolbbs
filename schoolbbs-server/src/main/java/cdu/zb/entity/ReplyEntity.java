@@ -1,9 +1,10 @@
 package cdu.zb.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -46,6 +47,7 @@ public class ReplyEntity implements Serializable {
     /**
      * 回复时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private LocalDateTime replyTime;
 
     /**
@@ -62,6 +64,16 @@ public class ReplyEntity implements Serializable {
      * 逻辑删除
      */
     private Integer logicDeleteFlag;
+
+    private Integer likenum;
+
+    public Integer getLikenum() {
+        return likenum;
+    }
+
+    public void setLikenum(Integer likenum) {
+        this.likenum = likenum;
+    }
 
     public String getId() {
         return id;

@@ -6,6 +6,8 @@ import Register from "../views/Register";
 import Block from "../components/block/Block";
 import Cplate from "../components/plate/cplate";
 import Topic from "../components/topic/Topic";
+import Message from "element-ui/packages/message/src/main";
+import store from "../store/index";
 
 Vue.use(VueRouter);
 
@@ -30,7 +32,7 @@ const routes = [
         component: Block
       },
       {
-        path: "/plate/:plateid",
+        path: "/plate/:plateid/:index",
         component: Cplate
       },
       {
@@ -50,5 +52,20 @@ const router = new VueRouter({
   routes,
   mode: "history"
 });
-
+router.beforeEach((to, from, next) => {
+  if (to.path == "/home") {
+    next();
+  } else {
+    if (!store.state.Authorization) {
+      Message({
+        showClose: true,
+        message: "请先登录",
+        type: "error"
+      });
+      next("/");
+    } else {
+      next();
+    }
+  }
+});
 export default router;
