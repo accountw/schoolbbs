@@ -8,6 +8,7 @@ import cdu.zb.jsonresult.BaseApiController;
 import cdu.zb.jsonresult.JsonResult;
 import cdu.zb.response.TopicResponse;
 import cdu.zb.service.TopicService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,12 +55,17 @@ public class TopicController extends BaseApiController {
     }
 
     @GetMapping(value = "/getTopicbyid",name = "通过id得到帖子内容")
-    public JsonResult<TopicEntity> getTopicbyid(String id) throws UnsupportedEncodingException {
+    public JsonResult<TopicResponse> getTopicbyid(String id) throws UnsupportedEncodingException {
         return jr(GlobalConstants.SUCCESS,"获取成功",topicService.getTopicbyid(id));
     }
 
     @PostMapping(value = "/saveTopic",name="保存帖子")
     public JsonResult<Integer> saveTopic(@RequestBody TopicDto topicDto) throws UnsupportedEncodingException {
         return  jr(GlobalConstants.SUCCESS,"发表成功",topicService.saveTopic(topicDto));
+    }
+
+    @GetMapping(value = "/getTopicCount",name="获取总条数")
+    public JsonResult<Integer> getTopicCount(String plateid){
+        return jr(GlobalConstants.SUCCESS,"获取成功",topicService.count(new QueryWrapper<TopicEntity>().eq("plate_id",plateid)));
     }
 }

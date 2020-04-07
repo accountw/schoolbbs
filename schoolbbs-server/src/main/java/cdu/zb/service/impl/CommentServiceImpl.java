@@ -28,9 +28,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, CommentEntity
     private  CommentMapper commentMapper;
 
     @Override
-    public List<CommentResponse> getCommentByreplyid(String replyid) throws UnsupportedEncodingException {
+    public List<CommentResponse> getCommentByreplyid(String replyid,Integer index) throws UnsupportedEncodingException {
         Base64.Decoder decoder = Base64.getDecoder();
-        List<CommentResponse> list=commentMapper.getCommentByreplyid(replyid);
+        index=index*10-10;
+        List<CommentResponse> list=commentMapper.getCommentByreplyid(replyid,index);
         for (int i = 0; i < list.size(); i++) {
             list.get(i).setContext(new String(decoder.decode(list.get(i).getContext()),"UTF-8"));
         }

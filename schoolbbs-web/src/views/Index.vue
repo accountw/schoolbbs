@@ -14,7 +14,7 @@
           <Search></Search>
         </el-header>
         <el-main>
-          <router-view></router-view>
+          <router-view :key="key"></router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -38,6 +38,9 @@ export default {
   computed: {
     username() {
       return this.$store.state.username;
+    },
+    key() {
+      return this.$route.path;
     }
   }
 };

@@ -10,9 +10,13 @@
           </div></el-aside
         >
         <el-container>
-          <el-header></el-header>
-          <el-main
-            ><div>{{ reply.context }}</div>
+          <el-header>
+            <div class="storey" style="color: lightslategray;font-size: 15px">
+              {{ reply.storey }}楼
+            </div>
+          </el-header>
+          <el-main>
+            <div>{{ reply.context }}</div>
             <div>
               <Picture
                 v-if="reply.picture"
@@ -20,9 +24,10 @@
               ></Picture>
             </div>
             <div class="tail">
-              <div class="storey">{{ reply.storey }}楼</div>
-              <div class="time">{{ reply.replyTime }}</div>
-              <div>
+              <div class="time" style="color: lightslategray">
+                发表于{{ reply.replyTime }}
+              </div>
+              <div v-if="reply.storey != 1">
                 <el-link
                   type="primary"
                   style="float: right"
@@ -183,5 +188,7 @@ export default {
 }
 .el-header {
   height: 20px !important;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 </style>

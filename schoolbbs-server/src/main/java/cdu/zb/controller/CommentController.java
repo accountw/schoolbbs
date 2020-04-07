@@ -33,8 +33,8 @@ public class CommentController extends BaseApiController {
     private CommentService commentService;
 
     @GetMapping(value = "/getCommentByreplyid" ,name = "根据评论id得到回复")
-    public JsonResult<List<CommentResponse>> getCommentByreplyid(String replyid) throws UnsupportedEncodingException {
-        return jr(GlobalConstants.SUCCESS,"获得成功",commentService.getCommentByreplyid(replyid));
+    public JsonResult<List<CommentResponse>> getCommentByreplyid(String replyid,Integer index) throws UnsupportedEncodingException {
+        return jr(GlobalConstants.SUCCESS,"获得成功",commentService.getCommentByreplyid(replyid,index));
     }
 
     @PostMapping(value="/saveComment",name="保存回复")
@@ -49,5 +49,6 @@ public class CommentController extends BaseApiController {
     public JsonResult<Integer> getCommentCount(String replyid){
         return jr(GlobalConstants.SUCCESS,"查询成功",commentService.count(new QueryWrapper<CommentEntity>().eq("reply_id",replyid)));
     }
+
 
 }

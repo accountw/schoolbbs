@@ -65,7 +65,17 @@ public class ReplyEntity implements Serializable {
      */
     private Integer logicDeleteFlag;
 
+    public Integer getMaster() {
+        return master;
+    }
+
+    public void setMaster(Integer master) {
+        this.master = master;
+    }
+
     private Integer likenum;
+
+    private Integer master;
 
     public Integer getLikenum() {
         return likenum;

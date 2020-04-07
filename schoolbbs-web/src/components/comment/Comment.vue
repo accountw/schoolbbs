@@ -31,6 +31,16 @@
           </el-main>
         </el-container>
       </div>
+      <el-pagination
+        small
+        layout="prev, pager, next"
+        :total="count"
+        hide-on-single-page
+        @current-change="handleCurrentChange"
+        @prev-click="prevclick"
+        @next-click="nextclick"
+      >
+      </el-pagination>
       <div>
         <div>
           回复 <span v-if="replyname">{{ replyname }}</span> :
@@ -47,6 +57,7 @@
 <script>
 import { getCommentByreplyid } from "../../network/comment";
 import { saveComment } from "../../network/comment";
+import { getCommentCount } from "../../network/comment";
 
 export default {
   name: "Comment",
@@ -56,15 +67,18 @@ export default {
       comments: [],
       textarea: "",
       replyname: "",
-      replyUserId: ""
+      replyUserId: "",
+      count: null,
+      index: 1
     };
   },
   created() {
     this.getcomment();
+    this.getcount();
   },
   methods: {
     getcomment() {
-      getCommentByreplyid(this.replyid)
+      getCommentByreplyid(this.replyid, this.index)
         .then(res => {
           if (res.data.code === "SUCCESS") {
             this.comments = res.data.data;
@@ -102,6 +116,29 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    getcount() {
+      getCommentCount(this.replyid)
+        .then(res => {
+          if (res.data.code === "SUCCESS") {
+            this.count = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    nextclick() {
+      this.index = this.index + 1;
+      this.getcomment();
+    },
+    prevclick() {
+      this.index = this.index - 1;
+      this.getcomment();
+    },
+    handleCurrentChange(val) {
+      this.index = val;
+      this.getcomment();
     }
   }
 };

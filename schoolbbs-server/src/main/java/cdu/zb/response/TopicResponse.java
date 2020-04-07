@@ -11,6 +11,36 @@ public class TopicResponse extends TopicEntity {
     private String username;
     private String platename;
     private String blockname;
+    private String depict;
+
+    public Integer getExp() {
+        return exp;
+    }
+
+    public void setExp(Integer exp) {
+        this.exp = exp;
+    }
+
+    public String getHead() {
+        return head;
+    }
+
+    public void setHead(String head) {
+        this.head = head;
+    }
+
+    private Integer exp;
+    private String head;
+
+    public String getDepict() {
+        return depict;
+    }
+
+    public void setDepict(String depict) {
+        this.depict = depict;
+    }
+
+
 
     public String getBlockname() {
         return blockname;

@@ -44,7 +44,18 @@
          where t.user_id=u.id and t.plate_id=p.id and t.logic_delete_flag=0
          and u.logic_delete_flag=0 and p.logic_delete_flag=0  and b.logic_delete_flag=0
          and b.id=p.block_id and t.plate_id=#{plateid}
-         order by t.last_time desc limit #{index},20
+         order by t.last_time desc limit #{index},15
+    </select>
+
+    <select id="getTopicbyid" resultType="cdu.zb.response.TopicResponse">
+        select t.id as id,t.user_id as userId,t.plate_id as plateId,
+         t.title as title, t.context as context, t.picture as picture, t.likenum as likenum,
+         t.replynum as replynum, t.first_time as firstTime, t.last_time as lastTime,
+         t.logic_delete_flag as logic_delete_flag,
+         p.name as platename,p.depict as depict,u.head as head,u.exp as exp,u.username as username
+         from topic as t,plate as p,user as u
+         where  t.plate_id=p.id and t.logic_delete_flag=0
+         and  p.logic_delete_flag=0  and t.id=#{id} and u.id=t.user_id and u.logic_delete_flag=0
     </select>
 
 </mapper>

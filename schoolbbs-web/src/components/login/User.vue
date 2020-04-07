@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     format(percentage) {
-      return percentage === 100 ? "满" : `exp:${this.user.exp}/${this.per}`;
+      return percentage === 100 ? "满" : `EXP:${this.user.exp}/${this.per}`;
     },
     ...mapMutations(["logout", "setid"]),
     getuser() {

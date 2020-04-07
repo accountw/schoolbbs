@@ -1,11 +1,10 @@
 <template>
   <div class="Cplate">
     <el-card class="box-card">
-      <div>{{ this.plate.name }}</div>
-      <div>{{ this.plate.depict }}</div>
+      <Platenav v-bind:plateid="this.plateid"></Platenav>
       <ul id="ul">
         <li v-for="topic in topices" :key="topic.id">
-          <el-card class="box-card" shadow="hover">
+          <el-card class="box-card" shadow="never">
             <div class="text item">
               <div id="title">
                 <el-link
@@ -29,11 +28,25 @@
                   >{{ topic.username }}</el-link
                 >
               </div>
-              <div style="font-size: 12px">{{topic.lastTime}}</div>
+              <div style="font-size: 12px">发表于{{ topic.lastTime }}</div>
             </div>
           </el-card>
         </li>
       </ul>
+      <div class="block">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :total="count"
+          :page-size="15"
+          :current-page="this.index"
+          @current-change="handleCurrentChange"
+          @prev-click="prevclick"
+          @next-click="nextclick"
+          hide-on-single-page
+        >
+        </el-pagination>
+      </div>
       <el-card shadow="never">
         <el-input
           type="textarea"
@@ -79,28 +92,30 @@
 
 <script>
 import { getTopicByPlateid } from "../../network/topic";
-import { getPlateByid } from "../../network/plate";
 import { saveTopic } from "../../network/topic";
+import { getTopicCount } from "../../network/topic";
 import Picture from "./Picture";
+import Platenav from "./Platenav";
 
 export default {
   components: {
-    Picture
+    Picture,
+    Platenav
   },
   name: "cplate",
   data() {
     return {
       plateid: this.$route.params.plateid,
       topices: [],
-      plate: [],
-      index: this.$route.params.index,
+      index: parseInt(this.$route.params.index),
       textarea: "",
       dialogImageUrl: "",
       dialogVisible: false,
       one: "",
       two: "",
       three: "",
-      title: ""
+      title: "",
+      count: null
     };
   },
   computed: {
@@ -137,7 +152,7 @@ export default {
   },
   created() {
     this.gettopic();
-    this.getplate();
+    this.getcount();
   },
   methods: {
     gettopic() {
@@ -145,17 +160,6 @@ export default {
         .then(res => {
           if (res.data.code === "SUCCESS") {
             this.topices = res.data.data;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    getplate() {
-      getPlateByid(this.plateid)
-        .then(res => {
-          if (res.data.code === "SUCCESS") {
-            this.plate = res.data.data;
           }
         })
         .catch(err => {
@@ -214,6 +218,30 @@ export default {
           });
       }
     },
+    nextclick() {
+      this.$router.push({
+        path: "/plate/" + this.plateid + "/" + (this.index + 1)
+      });
+    },
+    prevclick() {
+      this.$router.push({
+        path: "/plate/" + this.plateid + "/" + (this.index - 1)
+      });
+    },
+    handleCurrentChange(val) {
+      this.$router.push({ path: "/plate/" + this.plateid + "/" + val });
+    },
+    getcount() {
+      getTopicCount(this.plateid)
+        .then(res => {
+          if (res.data.code === "SUCCESS") {
+            this.count = parseInt(res.data.data);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 };
 </script>

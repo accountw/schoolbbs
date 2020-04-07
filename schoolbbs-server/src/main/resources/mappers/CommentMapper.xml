@@ -26,6 +26,7 @@
         (select username from user where id=replyUserId) as replyUsername,u.head as head
         from comment as c,user as u
         where c.reply_id=#{replyid} and c.logic_delete_flag=0 and u.id=c.user_id
+        order by c.reply_time limit #{index},10
     </select>
 
 </mapper>

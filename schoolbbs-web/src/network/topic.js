@@ -35,3 +35,12 @@ export function saveTopic(data) {
     data: data
   });
 }
+export function getTopicCount(data) {
+  return request({
+    url: "/topic/getTopicCount",
+    method: "get",
+    params: {
+      plateid: data
+    }
+  });
+}

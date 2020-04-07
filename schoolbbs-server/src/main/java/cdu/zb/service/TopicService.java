@@ -22,7 +22,7 @@ public interface TopicService extends IService<TopicEntity> {
 
     List<TopicResponse> getTopicByPlateid(String plateid,Integer index) throws UnsupportedEncodingException;
 
-    TopicEntity getTopicbyid(String id) throws UnsupportedEncodingException;
+    TopicResponse getTopicbyid(String id) throws UnsupportedEncodingException;
 
     Integer saveTopic(TopicDto topicDto) throws UnsupportedEncodingException;
 }

@@ -2,6 +2,7 @@ package cdu.zb.service.impl;
 
 import cdu.zb.dto.TopicDto;
 import cdu.zb.entity.TopicEntity;
+import cdu.zb.mapper.PlateMapper;
 import cdu.zb.mapper.TopicMapper;
 import cdu.zb.response.TopicResponse;
 import cdu.zb.service.TopicService;
@@ -27,6 +28,9 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, TopicEntity> impl
 
     @Autowired
     private  TopicMapper topicMapper;
+    @Autowired
+    private PlateMapper plateMapper;
+
     @Override
     public List<TopicResponse> getFirstTopices() throws UnsupportedEncodingException {
         Base64.Decoder decoder = Base64.getDecoder();
@@ -41,7 +45,7 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, TopicEntity> impl
     @Override
     public List<TopicResponse> getTopicByPlateid(String plateid,Integer index) throws UnsupportedEncodingException {
         Base64.Decoder decoder = Base64.getDecoder();
-        index=index*20-20;
+        index=index*15-15;
         List<TopicResponse> list=topicMapper.getTopicByPlateid(plateid,index);
         for (int i = 0; i < list.size(); i++) {
             list.get(i).setContext(new String(decoder.decode(list.get(i).getContext()),"UTF-8"));
@@ -51,12 +55,12 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, TopicEntity> impl
     }
 
     @Override
-    public TopicEntity getTopicbyid(String id) throws UnsupportedEncodingException {
+    public TopicResponse getTopicbyid(String id) throws UnsupportedEncodingException {
         Base64.Decoder decoder = Base64.getDecoder();
-        TopicEntity topicEntity=topicMapper.selectById(id);
-        topicEntity.setContext(new String(decoder.decode(topicEntity.getContext()),"UTF-8"));
-        topicEntity.setTitle(new String(decoder.decode(topicEntity.getTitle()),"UTF-8"));
-        return topicEntity;
+       TopicResponse topicResponse=topicMapper.getTopicbyid(id);
+        topicResponse.setContext(new String(decoder.decode(topicResponse.getContext()),"UTF-8"));
+        topicResponse.setTitle(new String(decoder.decode(topicResponse.getTitle()),"UTF-8"));
+        return topicResponse;
     }
 
     @Override

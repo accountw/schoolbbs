@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface CommentService extends IService<CommentEntity> {
 
-    List<CommentResponse> getCommentByreplyid(String replyid) throws UnsupportedEncodingException;
+    List<CommentResponse> getCommentByreplyid(String replyid,Integer index) throws UnsupportedEncodingException;
 
     Integer saveComment(CommentDto commentDto);
 }

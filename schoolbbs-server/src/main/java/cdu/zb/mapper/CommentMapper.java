@@ -19,5 +19,5 @@ import java.util.List;
 @Repository
 public interface CommentMapper extends BaseMapper<CommentEntity> {
 
-    List<CommentResponse> getCommentByreplyid(@Param("replyid") String replyid);
+    List<CommentResponse> getCommentByreplyid(@Param("replyid") String replyid,@Param("index") Integer index);
 }

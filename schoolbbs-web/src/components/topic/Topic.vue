@@ -1,8 +1,9 @@
 <template>
   <div class="Topic">
     <el-card class="box-card">
-      <div>{{ topic.title }}</div>
-      <div>{{ topic.context }}</div>
+      <Platenav v-bind:plateid="plateid" v-if="plateid"></Platenav>
+      <div style="font-size: 20px;margin: 5px">{{ topic.title }}</div>
+      <Reply v-bind:reply="first"></Reply>
       <ul id="ul">
         <li v-for="reply in replies" :key="reply.id">
           <Reply v-bind:reply="reply"></Reply>
@@ -47,18 +48,21 @@
 import { getReplybyTopicid } from "../../network/reply";
 import { getTopicbyid } from "../../network/topic";
 import { saveReply } from "../../network/reply";
+import Platenav from "../plate/Platenav";
 
 import Reply from "../reply/Reply";
 export default {
   name: "Topic",
   components: {
-    Reply
+    Reply,
+    Platenav
   },
   data() {
     return {
       replies: [],
       topicid: this.$route.params.topicid,
       topic: [],
+      plateid: "",
       textarea: "",
       dialogImageUrl: "",
       dialogVisible: false,
@@ -67,7 +71,8 @@ export default {
       three: "",
       four: "",
       five: "",
-      six: ""
+      six: "",
+      first: []
     };
   },
   computed: {
@@ -147,6 +152,16 @@ export default {
         .then(res => {
           if (res.data.code === "SUCCESS") {
             this.topic = res.data.data;
+            this.plateid = res.data.data.plateId;
+            this.first = {
+              head: res.data.data.head,
+              username: res.data.data.username,
+              exp: res.data.data.exp,
+              storey: 1,
+              context: res.data.data.context,
+              picture: res.data.data.picture,
+              replyTime: res.data.data.firstTime
+            };
           }
         })
         .catch(err => {

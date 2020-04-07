@@ -3,6 +3,7 @@ package cdu.zb.service.impl;
 import cdu.zb.dto.ReplyDto;
 import cdu.zb.entity.ReplyEntity;
 import cdu.zb.mapper.ReplyMapper;
+import cdu.zb.mapper.TopicMapper;
 import cdu.zb.response.ReplyResponse;
 import cdu.zb.service.ReplyService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -27,6 +28,8 @@ public class ReplyServiceImpl extends ServiceImpl<ReplyMapper, ReplyEntity> impl
 
     @Autowired
     private ReplyMapper replyMapper;
+    @Autowired
+    private TopicMapper topicMapper;
     @Override
     public List<ReplyResponse> getReplybyTopicid(String topicid) throws UnsupportedEncodingException {
         Base64.Decoder decoder = Base64.getDecoder();
@@ -41,8 +44,13 @@ public class ReplyServiceImpl extends ServiceImpl<ReplyMapper, ReplyEntity> impl
     public Integer saveReply(ReplyDto replyDto) {
         replyDto.setReplyTime(LocalDateTime.now());
         Integer storey=replyMapper.getMaxStorey(replyDto.getTopicId());
+        if(topicMapper.selectById(replyDto.getTopicId()).getUserId()==replyDto.getUserId()){
+            replyDto.setMaster(1);
+        }else{
+            replyDto.setMaster(0);
+        }
         if(storey==null){
-            storey=1;
+            storey=2;
         }else {
             storey=storey+1;
         }

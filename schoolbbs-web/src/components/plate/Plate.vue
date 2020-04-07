@@ -4,7 +4,7 @@
       <li v-for="plate in plates" :key="plate.id">
         <el-link
           id="a"
-          :href="'/plate/' + plate.id+'/1'"
+          :href="'/plate/' + plate.id + '/1'"
           target="_blank"
           style="font-size: 18px"
         >
