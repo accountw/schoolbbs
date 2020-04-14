@@ -8,6 +8,9 @@ import Cplate from "../components/plate/cplate";
 import Topic from "../components/topic/Topic";
 import Message from "element-ui/packages/message/src/main";
 import store from "../store/index";
+import UserIndex from "../components/user/UserIndex";
+import Usersetting from "../components/user/Usersetting";
+import Manager from "../views/Manager";
 
 Vue.use(VueRouter);
 
@@ -36,8 +39,16 @@ const routes = [
         component: Cplate
       },
       {
-        path: "/topic/:topicid",
+        path: "/topic/:topicid/:index",
         component: Topic
+      },
+      {
+        path: "/user/:userid",
+        component: UserIndex
+      },
+      {
+        path: "/userset/:userid",
+        component: Usersetting
       }
     ]
   },
@@ -45,6 +56,11 @@ const routes = [
     path: "/register",
     name: "register",
     component: Register
+  },
+  {
+    path: "/manager",
+    name: "/manager",
+    component: Manager
   }
 ];
 
@@ -53,7 +69,7 @@ const router = new VueRouter({
   mode: "history"
 });
 router.beforeEach((to, from, next) => {
-  if (to.path == "/home") {
+  if (to.path == "/home" || to.path == "/register" || to.path == "/manager") {
     next();
   } else {
     if (!store.state.Authorization) {

@@ -55,6 +55,7 @@ public class SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         JSONObject o=new JSONObject();
         o.put("code", GlobalConstants.SUCCESS);
         o.put("message",TokenUtil.TOKEN_PREFIX + token);
+        o.put("role",role);
         response.getWriter().write(o.toString());
     }
 }

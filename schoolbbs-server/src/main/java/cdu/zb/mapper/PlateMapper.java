@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -18,4 +20,6 @@ import org.springframework.stereotype.Repository;
 public interface PlateMapper extends BaseMapper<PlateEntity> {
 
     PlateResponse getPlateByid(@Param("id") String id);
+
+    List<PlateResponse> getlist();
 }

@@ -9,6 +9,15 @@ import cdu.zb.entity.PlateEntity;
  */
 public class PlateResponse extends PlateEntity {
     private String blockname;
+    private Integer tcount;
+
+    public Integer getTcount() {
+        return tcount;
+    }
+
+    public void setTcount(Integer tcount) {
+        this.tcount = tcount;
+    }
 
     public String getBlockname() {
         return blockname;

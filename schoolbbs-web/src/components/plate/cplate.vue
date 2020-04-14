@@ -8,12 +8,15 @@
             <div class="text item">
               <div id="title">
                 <el-link
-                  :href="'/topic/' + topic.id"
+                  :href="'/topic/' + topic.id + '/1'"
                   target="_blank"
                   style="font-size: 20px"
                   :underline="false"
                   >{{ topic.title }}</el-link
                 >
+                <i class="el-icon-chat-round" style="float: right">{{
+                  topic.count
+                }}</i>
               </div>
               <div id="context">{{ topic.context }}</div>
               <div>
@@ -23,12 +26,24 @@
                 ></Picture>
               </div>
               <div id="user">
-                <el-link style="font-size: 12px"
+                <el-link
+                  style="font-size: 12px;float: left;margin-right: 10px"
+                  :href="/user/ + topic.userId"
+                  :underline="false"
                   ><i class="el-icon-user-solid"></i
                   >{{ topic.username }}</el-link
                 >
               </div>
-              <div style="font-size: 12px">发表于{{ topic.lastTime }}</div>
+              <div style="font-size: 12px;">
+                <i class="el-icon-position"></i>{{ topic.lastTime }}
+                <el-link
+                  style="float: right"
+                  :underline="false"
+                  v-if="isadmin"
+                  @click="deleteTopic(topic.id)"
+                  >删除</el-link
+                >
+              </div>
             </div>
           </el-card>
         </li>
@@ -91,11 +106,12 @@
 </template>
 
 <script>
-import { getTopicByPlateid } from "../../network/topic";
+import { deleteTopicbyadmin, getTopicByPlateid } from "../../network/topic";
 import { saveTopic } from "../../network/topic";
 import { getTopicCount } from "../../network/topic";
 import Picture from "./Picture";
 import Platenav from "./Platenav";
+import { isAdmin } from "../../network/plateadmin";
 
 export default {
   components: {
@@ -115,7 +131,8 @@ export default {
       two: "",
       three: "",
       title: "",
-      count: null
+      count: null,
+      isadmin: false
     };
   },
   computed: {
@@ -153,6 +170,13 @@ export default {
   created() {
     this.gettopic();
     this.getcount();
+    if (this.$store.state.role == "ROLE_MANAGER") {
+      isAdmin(this.plateid).then(res => {
+        if (res.data.code === "SUCCESS") {
+          this.isadmin = true;
+        }
+      });
+    }
   },
   methods: {
     gettopic() {
@@ -240,6 +264,41 @@ export default {
         })
         .catch(err => {
           console.log(err);
+        });
+    },
+    deleteTopic(topicid) {
+      this.$confirm("确认删除该回复?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          deleteTopicbyadmin(topicid)
+            .then(res => {
+              if (res.data.code === "SUCCESS") {
+                this.$message({
+                  type: "success",
+                  message: "删除成功!"
+                });
+                this.gettopic();
+                this.getcount();
+              }
+              if (res.data.code === "ERROR") {
+                this.$message({
+                  type: "error",
+                  message: "删除失败!"
+                });
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
         });
     }
   }

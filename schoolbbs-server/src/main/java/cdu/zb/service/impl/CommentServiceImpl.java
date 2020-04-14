@@ -2,7 +2,10 @@ package cdu.zb.service.impl;
 
 import cdu.zb.dto.CommentDto;
 import cdu.zb.entity.CommentEntity;
+import cdu.zb.entity.TopicEntity;
 import cdu.zb.mapper.CommentMapper;
+import cdu.zb.mapper.ReplyMapper;
+import cdu.zb.mapper.TopicMapper;
 import cdu.zb.response.CommentResponse;
 import cdu.zb.service.CommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -26,6 +29,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, CommentEntity
 
     @Autowired
     private  CommentMapper commentMapper;
+    @Autowired
+    private TopicMapper topicMapper;
+
+    @Autowired
+    private  ReplyMapper replyMapper;
 
     @Override
     public List<CommentResponse> getCommentByreplyid(String replyid,Integer index) throws UnsupportedEncodingException {
@@ -40,6 +48,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, CommentEntity
 
     @Override
     public Integer saveComment(CommentDto commentDto) {
+        TopicEntity topicEntity=topicMapper.getTopicbyid(replyMapper.selectById(commentDto.getReplyId()).getTopicId());
+        topicEntity.setLastTime(commentDto.getReplyTime());
+        topicEntity.setCount(topicEntity.getCount()+1);
+        topicMapper.updateById(topicEntity);
         return commentMapper.insert(commentDto);
     }
 

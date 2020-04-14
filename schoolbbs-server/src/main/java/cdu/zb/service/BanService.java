@@ -1,7 +1,11 @@
 package cdu.zb.service;
 
+import cdu.zb.dto.BanDto;
 import cdu.zb.entity.BanEntity;
+import cdu.zb.response.BanResponse;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface BanService extends IService<BanEntity> {
 
+    List<BanResponse> getBanList(Integer index);
+
+    Integer addBan(BanDto banDto);
 }

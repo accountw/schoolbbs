@@ -33,4 +33,9 @@ public class PlateServiceImpl extends ServiceImpl<PlateMapper, PlateEntity> impl
     public PlateResponse getPlateByid(String id) {
         return plateMapper.getPlateByid(id);
     }
+
+    @Override
+    public List<PlateResponse> getlist() {
+        return plateMapper.getlist();
+    }
 }

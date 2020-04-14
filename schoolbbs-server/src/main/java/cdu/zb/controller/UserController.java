@@ -9,12 +9,21 @@ import cdu.zb.jsonresult.BaseApiController;
 import cdu.zb.jsonresult.JsonResult;
 import cdu.zb.service.CheckCodeService;
 import cdu.zb.service.UserService;
+import cdu.zb.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 
 
 /**
@@ -126,14 +135,77 @@ public class UserController extends BaseApiController {
      * @param [username]
      * @return cdu.zb.jsonresult.JsonResult<cdu.zb.entity.UserEntity>
      **/
+    @JsonIgnoreProperties({"password","mail"})
     @GetMapping(value="/getUser",name = "得到用户信息")
-    public  JsonResult<UserEntity> getUser(String username){
-        return jr("获取成功",userService.getOne(new QueryWrapper<UserEntity>().eq("username",username)));
+    public  JsonResult<UserEntity> getUser(String username) throws UnsupportedEncodingException {
+        Base64.Decoder decoder = Base64.getDecoder();
+        UserEntity userEntity=userService.getOne(new QueryWrapper<UserEntity>().eq("username",username));
+       if(userEntity.getSign()!=null){
+           userEntity.setSign(new String(decoder.decode(userEntity.getSign()),"UTF-8"));
+       }
+        return jr("获取成功",userEntity);
     }
 
+
+
+    @GetMapping(value="/getUserByid",name = "得到用户信息")
+    public  JsonResult<UserEntity> getUserByid(String id) throws UnsupportedEncodingException {
+        Base64.Decoder decoder = Base64.getDecoder();
+        UserEntity userEntity=userService.getOne(new QueryWrapper<UserEntity>().eq("id",id));
+        if(userEntity.getSign()!=null){
+            userEntity.setSign(new String(decoder.decode(userEntity.getSign()),"UTF-8"));
+        }
+        return jr("获取成功",userEntity);
+    }
 
     @GetMapping(value ="/ceshi",name = "测试")
     public  JsonResult<String> ceshi(){
         return  jr(GlobalConstants.SUCCESS,"成功");
     }
+
+    @PostMapping(value = "/saveHead")
+    public JsonResult<String> saveHead(MultipartFile file){
+// 文件保存路径
+        String id= IdUtil.createID();
+        String fileName = file.getOriginalFilename();
+        String[] name=fileName.split("\\.");
+        String a=name[name.length-1];
+        String path="D:\\schoolbbs\\schoolbbs-web\\public\\head\\";
+        String filePath = path + id+"."+a;
+        if (!file.isEmpty()) {
+            try {
+
+                // 转存文件
+                file.transferTo(new File(filePath));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return  jr(GlobalConstants.SUCCESS,"保存成功",id+"."+a);
+    }
+
+    @PostMapping(value = "/updateUser",name = "更新")
+    public  JsonResult<Integer> updateUser(@RequestBody UserDto userDto) throws UnsupportedEncodingException {
+        Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+        if(authentication.getPrincipal().equals(userDto.getUsername())) {
+            return jr(GlobalConstants.SUCCESS, "更新成功", userService.updateUser(userDto));
+        }else {
+            return jr(GlobalConstants.ERROR, "更新失败");
+        }
+    }
+
+    @GetMapping(value = "/changepd",name="更新密码")
+    public JsonResult<Integer> changepd(String newpassword,String oldpassword){
+        Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+        String username=authentication.getName();
+        UserEntity userEntity=userService.getOne(new QueryWrapper<UserEntity>().eq("username",username));
+        if(bCryptPasswordEncoder.matches(oldpassword,userEntity.getPassword())){
+            userEntity.setPassword(bCryptPasswordEncoder.encode(newpassword));
+            userService.updateById(userEntity);
+            checkCodeService.remove(new QueryWrapper<CheckCodeEntity>().eq("user_mail",userEntity.getMail()));
+            return jr(GlobalConstants.SUCCESS,"更新成功");
+        }
+        return jr(GlobalConstants.ERROR,"更新失败");
+    }
+
 }

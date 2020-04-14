@@ -4,11 +4,27 @@
       <Platenav v-bind:plateid="plateid" v-if="plateid"></Platenav>
       <div style="font-size: 20px;margin: 5px">{{ topic.title }}</div>
       <Reply v-bind:reply="first"></Reply>
-      <ul id="ul">
+      <ul id="ul" style="margin: 0">
         <li v-for="reply in replies" :key="reply.id">
-          <Reply v-bind:reply="reply"></Reply>
+          <Reply
+            v-bind:reply="reply"
+            @delete="update"
+            v-bind:userid="topic.userId"
+          ></Reply>
         </li>
       </ul>
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="topic.count"
+        :page-size="15"
+        :current-page="this.index"
+        @current-change="handleCurrentChange"
+        @prev-click="prevclick"
+        @next-click="nextclick"
+        hide-on-single-page
+      >
+      </el-pagination>
       <el-card shadow="never">
         <el-upload
           class="upload-demo"
@@ -72,7 +88,8 @@ export default {
       four: "",
       five: "",
       six: "",
-      first: []
+      first: [],
+      index: parseInt(this.$route.params.index)
     };
   },
   computed: {
@@ -137,7 +154,7 @@ export default {
   },
   methods: {
     getReply() {
-      getReplybyTopicid(this.topicid)
+      getReplybyTopicid(this.topicid, this.index)
         .then(res => {
           if (res.data.code === "SUCCESS") {
             this.replies = res.data.data;
@@ -239,6 +256,23 @@ export default {
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
+    },
+    nextclick() {
+      this.$router.push({
+        path: "/topic/" + this.topicid + "/" + (this.index + 1)
+      });
+    },
+    prevclick() {
+      this.$router.push({
+        path: "/topic/" + this.topicid + "/" + (this.index - 1)
+      });
+    },
+    handleCurrentChange(val) {
+      this.$router.push({ path: "/topic/" + this.topicid + "/" + "/" + val });
+    },
+    update() {
+      this.getReply();
+      this.gettopic();
     }
   }
 };

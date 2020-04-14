@@ -19,12 +19,14 @@ public class MyUserDetails  implements UserDetails {
 
     private String username;
     private String password;
+    private String id;
     private Collection<? extends GrantedAuthority> authorities;
 
 
     public  MyUserDetails(UserEntity userEntity,String role){
         username=userEntity.getUsername();
         password=userEntity.getPassword();
+        id=userEntity.getId();
         authorities = Collections.singleton(new SimpleGrantedAuthority(role));
     }
 
@@ -69,7 +71,14 @@ public class MyUserDetails  implements UserDetails {
         return true;
     }
 
-    
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     /*
      * @description: 账号凭证是否未过期
      * @author accountw

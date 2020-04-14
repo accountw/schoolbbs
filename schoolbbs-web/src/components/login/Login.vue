@@ -80,7 +80,8 @@ export default {
                 });
                 const data = {
                   Authorization: response.data.message,
-                  username: this.form.name
+                  username: this.form.name,
+                  role: response.data.role
                 };
                 this.Login(data);
               }

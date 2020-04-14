@@ -4,6 +4,8 @@ import cdu.zb.dto.UserDto;
 import cdu.zb.entity.UserEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * <p>
  *  服务类
@@ -25,4 +27,11 @@ public interface UserService extends IService<UserEntity> {
      **/
     boolean register(UserDto userDto);
 
+    Integer updateUser(UserDto userDto) throws UnsupportedEncodingException;
+
+    Integer addExp(String id,Integer exp);
+    Integer deleteExp(String id,Integer exp);
+
+    Integer addcount(String id);
+    Integer deletecount(String id);
 }

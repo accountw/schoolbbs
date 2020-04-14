@@ -3,9 +3,21 @@
     <div style="font-size: 28px">{{ this.plate.name }}</div>
     <div>
       <span style="color: gray">帖子:</span>
-      <span style="color: crimson">555&nbsp;&nbsp;</span>
+      <span style="color: crimson">{{ count }}&nbsp;&nbsp;</span>
       <span style="color: gray">收藏:</span>
-      <span style="color: crimson">666</span>
+      <span style="color: crimson">{{this.plate.tcount}}</span>
+    </div>
+    <div>
+      <span style="color: gray"> 版主:</span
+      ><span v-for="admin in admins" :key="admin.id">
+        <el-link
+          style="margin-left: 10px"
+          :href="/user/ + admin.userId"
+          :underline="false"
+          type="danger"
+          >{{ admin.username }}</el-link
+        ></span
+      >
     </div>
     <div style="color: gray">{{ this.plate.depict }}</div>
   </div>
@@ -13,17 +25,23 @@
 
 <script>
 import { getPlateByid } from "../../network/plate";
+import { getTopicCount } from "../../network/topic";
+import { getPlateAdmin } from "../../network/plateadmin";
 
 export default {
   props: ["plateid"],
   name: "Platenav",
   data() {
     return {
-      plate: []
+      plate: [],
+      count: 0,
+      admins: []
     };
   },
   created() {
     this.getplate();
+    this.getcount();
+    this.getadmin();
   },
   methods: {
     getplate() {
@@ -36,6 +54,20 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    getcount() {
+      getTopicCount(this.plateid).then(res => {
+        if (res.data.code === "SUCCESS") {
+          this.count = res.data.data;
+        }
+      });
+    },
+    getadmin() {
+      getPlateAdmin(this.plateid).then(res => {
+        if (res.data.code === "SUCCESS") {
+          this.admins = res.data.data;
+        }
+      });
     }
   }
 };

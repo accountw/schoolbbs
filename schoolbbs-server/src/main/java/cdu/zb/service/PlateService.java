@@ -21,4 +21,6 @@ public interface PlateService extends IService<PlateEntity> {
     List<PlateEntity> getplate(String blockid);
 
     PlateResponse getPlateByid(String id);
+
+    List<PlateResponse> getlist();
 }

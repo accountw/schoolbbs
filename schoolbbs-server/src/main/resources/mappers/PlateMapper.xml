@@ -14,10 +14,19 @@
     <sql id="Base_Column_List">
         id, name, create_time, logic_delete_flag
     </sql>
+
     <select id="getPlateByid" resultType="cdu.zb.response.PlateResponse">
-        select p.id as id,p.name as name,b.name as blockname,p.depict  as depict
+        select p.id as id,p.name as name,b.name as blockname,p.depict  as depict,
+        (select count(*) from collect where collect.plate_id=p.id and collect.logic_delete_flag=0) as Tcount
         from plate as p,block as b
-        where p.id=#{id} and p.block_id=b.id and b.logic_delete_flag=0 and b.logic_delete_flag=0
+        where p.id=#{id} and p.block_id=b.id and p.logic_delete_flag=0 and b.logic_delete_flag=0
+    </select>
+
+    <select id="getlist" resultType="cdu.zb.response.PlateResponse">
+         select p.id as id,p.name as name,b.name as blockname,p.depict  as depict
+        from plate as p,block as b
+        where  p.block_id=b.id and p.logic_delete_flag=0 and b.logic_delete_flag=0
+        order by b.name
     </select>
 
 </mapper>

@@ -36,7 +36,6 @@ public class SystemController extends BaseApiController {
     @GetMapping(value = "/token/reload",name = "重新获取token")
     public JsonResult<String>  reload(){
 
-        LOG.info("获取token");
         Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
 
         String role = "";

@@ -1,8 +1,10 @@
 package cdu.zb.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -40,6 +42,7 @@ public class FavoriteEntity implements Serializable {
     /**
      * 点赞时间
      */
+    @TableLogic
     private LocalDateTime likeTime;
 
     public String getId() {

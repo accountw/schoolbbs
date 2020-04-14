@@ -30,7 +30,7 @@
        from user as u,reply as r
        where u.id=r.user_id and r.topic_id=#{topicid}
        and r.logic_delete_flag=0 and u.logic_delete_flag=0
-       order  by r.storey
+       order  by r.storey limit #{index},15
     </select>
 
     <select id="getMaxStorey" resultType="Integer">

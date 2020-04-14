@@ -12,7 +12,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.util.Base64;
 
 
 /**
@@ -48,11 +50,46 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     public boolean register(UserDto userDto) {
         userDto.setExp(1);
         userDto.setRegisterTime(LocalDateTime.now());
-        userDto.setHead("../../assets/head/head.png");
+        userDto.setHead("/head/head.png");
         userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         if(userMapper.insert(userDto)!=0){
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Integer updateUser(UserDto userDto) throws UnsupportedEncodingException {
+        Base64.Encoder encoder = Base64.getEncoder();
+        userDto.setSign(encoder.encodeToString(userDto.getSign().getBytes("UTF-8")));
+        return  userMapper.updateById(userDto);
+    }
+
+    @Override
+    public Integer addExp(String id, Integer exp) {
+        UserEntity userEntity=userMapper.selectById(id);
+        userEntity.setExp(userEntity.getExp()+exp);
+        return userMapper.updateById(userEntity);
+    }
+
+    @Override
+    public Integer deleteExp(String id, Integer exp) {
+        UserEntity userEntity=userMapper.selectById(id);
+        userEntity.setExp(userEntity.getExp()-exp);
+        return userMapper.updateById(userEntity);
+    }
+
+    @Override
+    public Integer addcount(String id) {
+        UserEntity userEntity=userMapper.selectById(id);
+        userEntity.setCount(userEntity.getCount()+1);
+        return userMapper.updateById(userEntity);
+    }
+
+    @Override
+    public Integer deletecount(String id) {
+        UserEntity userEntity=userMapper.selectById(id);
+        userEntity.setCount(userEntity.getCount()-1);
+        return userMapper.updateById(userEntity);
     }
 }

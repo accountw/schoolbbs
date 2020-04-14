@@ -1,8 +1,11 @@
 package cdu.zb.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -30,11 +33,16 @@ public class PlateEntity implements Serializable {
     /**
      * 创建时间
      */
+
+    @JsonIgnore
     private LocalDateTime createTime;
 
     /**
      * 逻辑删除
      */
+
+    @JsonIgnore
+    @TableLogic
     private Integer logicDeleteFlag;
 
 

@@ -4,8 +4,16 @@
       <el-container>
         <el-aside width="150px">
           <div class="head">
-            <img :src="reply.head" id="image" />
-            <div>{{ reply.username }}</div>
+            <el-link :href="/user/ + reply.userId" :underline="false">
+              <img :src="reply.head" id="image" />
+            </el-link>
+
+            <div>
+              <el-link :href="/user/ + reply.userId" :underline="false"
+                >{{ reply.username }}
+              </el-link>
+            </div>
+
             <div>会员等级:{{ getlevel(reply.exp) }}级</div>
           </div></el-aside
         >
@@ -16,7 +24,7 @@
             </div>
           </el-header>
           <el-main>
-            <div>{{ reply.context }}</div>
+            <div style="white-space: pre-wrap">{{ reply.context }}</div>
             <div>
               <Picture
                 v-if="reply.picture"
@@ -28,6 +36,13 @@
                 发表于{{ reply.replyTime }}
               </div>
               <div v-if="reply.storey != 1">
+                <el-link
+                  :underline="false"
+                  style="font-size:12px "
+                  v-if="power"
+                  @click="update"
+                  >删除</el-link
+                >
                 <el-link
                   type="primary"
                   style="float: right"
@@ -63,10 +78,11 @@
 <script>
 import Picture from "./Picture";
 import Comment from "../comment/Comment";
+import { deleteReply } from "../../network/reply";
 
 export default {
   name: "Reply",
-  props: ["reply"],
+  props: ["reply", "userid"],
   data() {
     return {
       put: false
@@ -76,6 +92,14 @@ export default {
   components: {
     Picture,
     Comment
+  },
+  computed: {
+    power() {
+      return (
+        this.reply.userId == this.$store.state.id ||
+        this.$store.state.id == this.userid
+      );
+    }
   },
   methods: {
     getlevel(exp) {
@@ -129,6 +153,40 @@ export default {
       } else {
         this.put = false;
       }
+    },
+    update() {
+      this.$confirm("确认删除该回复?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          deleteReply(this.reply.id)
+            .then(res => {
+              if (res.data.code === "SUCCESS") {
+                this.$message({
+                  type: "success",
+                  message: "删除成功!"
+                });
+                this.$emit("delete");
+              }
+              if (res.data.code === "ERROR") {
+                this.$message({
+                  type: "error",
+                  message: "删除失败!"
+                });
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     }
   }
 };

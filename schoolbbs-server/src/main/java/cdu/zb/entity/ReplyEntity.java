@@ -1,7 +1,9 @@
 package cdu.zb.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -53,6 +55,8 @@ public class ReplyEntity implements Serializable {
     /**
      * 贴主查看状态
      */
+
+    @JsonIgnore
     private Integer status;
 
     /**
@@ -63,6 +67,9 @@ public class ReplyEntity implements Serializable {
     /**
      * 逻辑删除
      */
+
+    @JsonIgnore
+    @TableLogic
     private Integer logicDeleteFlag;
 
     public Integer getMaster() {

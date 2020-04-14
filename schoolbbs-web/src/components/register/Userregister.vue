@@ -149,7 +149,7 @@ export default {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        const reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+        const reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{1,16}$/;
         if (!reg.test(value)) {
           callback(new Error("密码必须包括字母和数字，长度为6-16"));
         } else {

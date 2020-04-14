@@ -24,4 +24,8 @@ public interface TopicMapper extends BaseMapper<TopicEntity> {
     List<TopicResponse> getTopicByPlateid(@Param("plateid") String plateid,@Param("index")Integer index);
 
     TopicResponse getTopicbyid(String id);
+
+    List<TopicResponse> getTopicFlow(@Param("index")Integer index);
+
+    List<TopicResponse> getTopicByUserid(@Param("index")Integer index, @Param("userId")String userId);
 }

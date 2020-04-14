@@ -1,6 +1,6 @@
 <template>
   <div class="Block">
-    <ul id="ul">
+    <ul id="ul" style="margin-top: 0;">
       <li v-for="block in blocks" :key="block.id">
         <el-card class="box-card">
           <div slot="header" class="clearfix">

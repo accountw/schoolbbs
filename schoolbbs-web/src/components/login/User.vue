@@ -1,11 +1,17 @@
 <template>
   <div class="User">
     <div class="main">
-      <div class="head">
-        <img :src="user.head" id="image" />
-      </div>
+      <el-link :href="/user/ + user.id" :underline="false">
+        <div class="head">
+          <img :src="user.head" id="image" />
+        </div>
+      </el-link>
       <div>
-        <div style="display: inline">{{ user.username }}</div>
+        <div style="display: inline">
+          <el-link :href="/user/ + user.id" :underline="false">{{
+            user.username
+          }}</el-link>
+        </div>
         <div style="display: inline" @click="Loginout()">
           <el-link type="primary"> [注销]</el-link>
         </div>
@@ -181,6 +187,7 @@ export default {
               type: "success"
             });
             this.logout();
+            this.$router.push("/");
           }
         })
         .catch(err => {

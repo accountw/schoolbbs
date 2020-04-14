@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface ReplyService extends IService<ReplyEntity> {
 
-    List<ReplyResponse> getReplybyTopicid(String topicid) throws UnsupportedEncodingException;
+    List<ReplyResponse> getReplybyTopicid(String topicid,Integer index) throws UnsupportedEncodingException;
 
     Integer saveReply(ReplyDto replyDto);
 }

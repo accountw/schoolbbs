@@ -1,8 +1,12 @@
 package cdu.zb.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -27,10 +31,7 @@ public class BanEntity implements Serializable {
      */
     private String uid;
 
-    /**
-     * 状态 0表示被封,1表示解封
-     */
-    private Integer status;
+
 
     /**
      * 处理人
@@ -40,17 +41,31 @@ public class BanEntity implements Serializable {
     /**
      * 处理时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private LocalDateTime dealTime;
 
     /**
      * 解封时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private LocalDateTime freeTime;
 
     /**
      * 封禁原因
      */
-    private String reson;
+    private String reason;
+
+    @JsonIgnore
+    @TableLogic
+    private Integer logicDeleteFlag;
+
+    public Integer getLogicDeleteFlag() {
+        return logicDeleteFlag;
+    }
+
+    public void setLogicDeleteFlag(Integer logicDeleteFlag) {
+        this.logicDeleteFlag = logicDeleteFlag;
+    }
 
     public String getId() {
         return id;
@@ -66,13 +81,7 @@ public class BanEntity implements Serializable {
     public void setUid(String uid) {
         this.uid = uid;
     }
-    public Integer getStatus() {
-        return status;
-    }
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
     public String getDealer() {
         return dealer;
     }
@@ -94,12 +103,12 @@ public class BanEntity implements Serializable {
     public void setFreeTime(LocalDateTime freeTime) {
         this.freeTime = freeTime;
     }
-    public String getReson() {
-        return reson;
+    public String getReason() {
+        return reason;
     }
 
-    public void setReson(String reson) {
-        this.reson = reson;
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     @Override
@@ -107,11 +116,10 @@ public class BanEntity implements Serializable {
         return "BanEntity{" +
             "id=" + id +
             ", uid=" + uid +
-            ", status=" + status +
             ", dealer=" + dealer +
             ", dealTime=" + dealTime +
             ", freeTime=" + freeTime +
-            ", reson=" + reson +
+            ", reason=" + reason +
         "}";
     }
 }

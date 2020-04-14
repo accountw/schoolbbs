@@ -10,14 +10,20 @@
           <el-main style="padding: 0">
             <div>
               <span
-                ><el-link type="primary" :underline="false">{{
-                  comment.username
-                }}</el-link> </span
+                ><el-link
+                  type="primary"
+                  :underline="false"
+                  :href="/user/ + comment.userId"
+                  >{{ comment.username }}</el-link
+                > </span
               ><span v-if="comment.replyUsername">
                 回复
-                <el-link type="primary" :underline="false">{{
-                  comment.replyUsername
-                }}</el-link> </span
+                <el-link
+                  type="primary"
+                  :underline="false"
+                  :href="/user/ + comment.userId"
+                  >{{ comment.replyUsername }}</el-link
+                > </span
               >:<span>{{ comment.context }}</span>
             </div>
             <div style="float: right;font-size: 10px">

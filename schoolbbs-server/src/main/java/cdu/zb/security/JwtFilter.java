@@ -1,5 +1,6 @@
 package cdu.zb.security;
 
+import cdu.zb.mapper.BanMapper;
 import cdu.zb.util.RedisUtil;
 import cdu.zb.util.TokenUtil;
 import org.slf4j.Logger;
@@ -30,6 +31,9 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private BanMapper banMapper;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
@@ -43,13 +47,12 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = tokenHeader.replace(TokenUtil.TOKEN_PREFIX, "");
         String username=TokenUtil.getUsername(token);
         if(redisUtil.get(username).equals(token)){
-                LOG.info(username);
                 SecurityContextHolder.getContext().setAuthentication(getAuthentication(tokenHeader));
                 chain.doFilter(request, response);
         }else{
+            response.setStatus(401);
             return;
         }
-        return;
     }
 
     // 这里从token中获取用户信息并新建一个token

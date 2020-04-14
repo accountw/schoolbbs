@@ -1,8 +1,8 @@
 import { request } from "./request.js";
 
-export function getFirstTopic() {
+export function getFirstCount() {
   return request({
-    url: "/topic/getFirstTopices",
+    url: "/topic/getFirstCount",
     method: "get"
   });
 }
@@ -41,6 +41,46 @@ export function getTopicCount(data) {
     method: "get",
     params: {
       plateid: data
+    }
+  });
+}
+export function getTopicFlow(index) {
+  return request({
+    url: "/topic/getTopicFlow",
+    method: "get",
+    params: {
+      index: index
+    }
+  });
+}
+
+export function getTopicByUserid(index, userid) {
+  return request({
+    url: "/topic/getTopicByUserid",
+    method: "get",
+    params: {
+      index: index,
+      userId: userid
+    }
+  });
+}
+
+export function deleteTopic(topicid) {
+  return request({
+    url: "topic/deleteTopic",
+    method: "get",
+    params: {
+      topicid: topicid
+    }
+  });
+}
+
+export function deleteTopicbyadmin(topicid) {
+  return request({
+    url: "topic/deleteTopicbyadmin",
+    method: "get",
+    params: {
+      topicid: topicid
     }
   });
 }

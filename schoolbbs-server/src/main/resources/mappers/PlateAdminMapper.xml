@@ -16,4 +16,24 @@
         id, user_id, plate_id, position, create_time
     </sql>
 
+    <select id="getPlateAdmin" resultType="cdu.zb.response.PlateAdminResponse">
+        select p.id as id,p.user_id as userId,p.plate_id as plateId, u.username as username
+        from plate_admin as p,user as u
+        where p.user_id=u.id and u.logic_delete_flag=0 and p.plate_id=#{plateId}
+    </select>
+
+    <select id="listAdmin" resultType="cdu.zb.response.PlateAdminResponse">
+        select p.id as id,p.user_id as userId,p.plate_id as plateId, u.username as username,
+        plate.name as name
+        from plate_admin as p,user as u,plate as plate
+        where p.user_id=u.id and u.logic_delete_flag=0 and p.plate_id=plate.id
+        and plate.logic_delete_flag=0 limit #{index},15
+    </select>
+
+    <select id="getcount" resultType="Integer">
+        select count(*)
+        from plate_admin as p,user as u,plate as plate
+        where p.user_id=u.id and u.logic_delete_flag=0 and p.plate_id=plate.id
+        and plate.logic_delete_flag=0
+    </select>
 </mapper>

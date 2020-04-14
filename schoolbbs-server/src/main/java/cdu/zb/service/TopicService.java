@@ -25,4 +25,10 @@ public interface TopicService extends IService<TopicEntity> {
     TopicResponse getTopicbyid(String id) throws UnsupportedEncodingException;
 
     Integer saveTopic(TopicDto topicDto) throws UnsupportedEncodingException;
+
+    List<TopicResponse> getTopicFlow( Integer index) throws UnsupportedEncodingException;
+
+    List<TopicResponse> getTopicByUserid(Integer index, String userId) throws UnsupportedEncodingException;
+    Integer addcount(String id);
+    Integer deletecount(String id);
 }

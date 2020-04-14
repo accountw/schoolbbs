@@ -74,8 +74,15 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers("/api/user/register/**","/api/checkcode/**",
-                        "/api/topic/getFirstTopices").permitAll()
+                        "/api/topic/getTopicFlow","/api/topic/getFirstCount").permitAll()
+                .antMatchers("/api/topic/deleteTopicbyadmin","api/ban/addBan")
+                .hasRole("MANAGER")
                 // 除上面外的所有请求全部需要鉴权认证
+                .antMatchers("/api/ban/getBanList","/api/ban/getcount","/api/ban/deleteBan",
+                        "/api/plateAdmin/deleteAdmin","/api/plateAdmin/addAdmin","/api/plateAdmin/getcount","/api/plateAdmin/listAdmin",
+                        "/api/plate/getlist","/api/plateAdmin/setadmin", "/api/plate/addplate","/api/plate/updateplate",
+                        "/api/plate/deleteplate")
+                .hasRole("ADMIN")
                 .anyRequest().authenticated();
 
         // 禁用缓存

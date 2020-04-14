@@ -2,6 +2,8 @@ package cdu.zb.entity;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -58,16 +60,21 @@ public class UserEntity implements Serializable {
     /**
      * 电话
      */
+
+    @JsonIgnore
     private String tel;
 
     /**
      * 邮箱
      */
+
     private String mail;
 
     /**
      * 注册日期
      */
+
+    @JsonIgnore
     private LocalDateTime registerTime;
 
     /**
@@ -78,33 +85,55 @@ public class UserEntity implements Serializable {
     /**
      * 年级
      */
+
+    @JsonIgnore
     private String grade;
 
     /**
      * 学院
      */
+
+    @JsonIgnore
     private String college;
 
     /**
      * 专业
      */
+
+    @JsonIgnore
     private String major;
 
     /**
      * 班号
      */
+
+    @JsonIgnore
     private Integer no;
 
     /**
      * 注册表
      */
+
+    @JsonIgnore
     private String registerId;
 
     /**
      * 逻辑删除1为删除
      */
+
+    @JsonIgnore
     @TableLogic
     private Integer logicDeleteFlag;
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    private Integer count;
 
     public String getId() {
         return id;
@@ -120,10 +149,12 @@ public class UserEntity implements Serializable {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
-
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }
@@ -162,10 +193,11 @@ public class UserEntity implements Serializable {
     public void setTel(String tel) {
         this.tel = tel;
     }
+    @JsonIgnore
     public String getMail() {
         return mail;
     }
-
+    @JsonProperty
     public void setMail(String mail) {
         this.mail = mail;
     }

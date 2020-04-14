@@ -19,7 +19,7 @@ import java.util.List;
 @Repository
 public interface ReplyMapper extends BaseMapper<ReplyEntity> {
 
-    List<ReplyResponse> getReplybyTopicid(@Param("topicid") String topicid);
+    List<ReplyResponse> getReplybyTopicid(@Param("topicid")String topicid,@Param("index")Integer index );
 
     Integer getMaxStorey(@Param("topicId") String topicId);
 }

@@ -1,8 +1,11 @@
 package cdu.zb.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
+import jdk.nashorn.internal.ir.annotations.Ignore;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -40,6 +43,8 @@ public class CheckCodeEntity implements Serializable {
     /**
      * 逻辑删除1为删除
      */
+    @Ignore
+    @TableLogic
     private Integer logicDeleteFlag;
 
     public String getId() {

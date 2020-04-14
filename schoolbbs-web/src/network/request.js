@@ -118,7 +118,15 @@ export function request(config) {
   //响应拦截
   instance.interceptors.response.use(
     res => {
-      return res;
+      if (res.data.code === "NO_AUTH") {
+        Message({
+          showClose: true,
+          message: "账号于" + res.data.message + "解封",
+          type: "error"
+        });
+      } else {
+        return res;
+      }
     },
     err => {
       // eslint-disable-next-line no-console

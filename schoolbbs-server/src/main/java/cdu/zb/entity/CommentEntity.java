@@ -1,8 +1,12 @@
 package cdu.zb.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jdk.nashorn.internal.ir.annotations.Ignore;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -45,16 +49,23 @@ public class CommentEntity implements Serializable {
     /**
      * 贴主查看状态
      */
+
+    @JsonIgnore
     private Integer status;
 
     /**
      * 被回复人查看
      */
+
+    @JsonIgnore
     private Integer userStatus;
 
     /**
      * 逻辑删除
      */
+    @TableLogic
+    @Ignore
+    @JsonIgnore
     private Integer logicDeleteFlag;
 
     private String context;

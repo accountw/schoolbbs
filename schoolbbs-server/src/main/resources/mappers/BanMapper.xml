@@ -15,7 +15,15 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, uid, status, dealer, deal_time, free_time, reson
+        id, uid,  dealer, deal_time, free_time, reson
     </sql>
+
+    <select id="getBanList" resultType="cdu.zb.response.BanResponse">
+        select  b.id as id,b.uid as uid,b.dealer as dealer,
+        b.deal_time as dealTime,b.free_time as freeTime,b.reason as reason ,
+        u.username as username,user.username as dealUsername
+        from ban as b,user as u,user as user
+        where b.uid=u.id and b.dealer=user.id  and  b.logic_delete_flag=0 limit #{index},15
+    </select>
 
 </mapper>

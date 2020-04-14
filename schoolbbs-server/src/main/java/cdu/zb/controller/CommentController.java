@@ -3,13 +3,19 @@ package cdu.zb.controller;
 
 import cdu.zb.constants.GlobalConstants;
 import cdu.zb.dto.CommentDto;
+import cdu.zb.entity.BanEntity;
 import cdu.zb.entity.CommentEntity;
+import cdu.zb.entity.UserEntity;
 import cdu.zb.jsonresult.BaseApiController;
 import cdu.zb.jsonresult.JsonResult;
 import cdu.zb.response.CommentResponse;
+import cdu.zb.service.BanService;
 import cdu.zb.service.CommentService;
+import cdu.zb.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
@@ -31,6 +37,11 @@ public class CommentController extends BaseApiController {
 
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private BanService banService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping(value = "/getCommentByreplyid" ,name = "根据评论id得到回复")
     public JsonResult<List<CommentResponse>> getCommentByreplyid(String replyid,Integer index) throws UnsupportedEncodingException {
@@ -39,6 +50,13 @@ public class CommentController extends BaseApiController {
 
     @PostMapping(value="/saveComment",name="保存回复")
     public JsonResult<Integer> saveComment(@RequestBody CommentDto commentDto) throws UnsupportedEncodingException {
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String username=authentication.getName();
+        UserEntity userEntity=userService.getOne(new QueryWrapper<UserEntity>().eq("username",username));
+        BanEntity banEntity=banService.getOne(new QueryWrapper<BanEntity>().eq("uid",userEntity.getId()));
+        if(banEntity!=null){
+            return  jr(GlobalConstants.NO_UNAUTHORIZED,banEntity.getFreeTime().toString());
+        }
         commentDto.setReplyTime(LocalDateTime.now());
         Base64.Encoder encoder = Base64.getEncoder();
         commentDto.setContext(encoder.encodeToString(commentDto.getContext().getBytes("UTF-8")));

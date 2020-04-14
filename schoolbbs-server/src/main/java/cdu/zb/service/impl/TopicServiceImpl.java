@@ -2,8 +2,9 @@ package cdu.zb.service.impl;
 
 import cdu.zb.dto.TopicDto;
 import cdu.zb.entity.TopicEntity;
-import cdu.zb.mapper.PlateMapper;
+import cdu.zb.entity.UserEntity;
 import cdu.zb.mapper.TopicMapper;
+import cdu.zb.mapper.UserMapper;
 import cdu.zb.response.TopicResponse;
 import cdu.zb.service.TopicService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -29,8 +30,7 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, TopicEntity> impl
     @Autowired
     private  TopicMapper topicMapper;
     @Autowired
-    private PlateMapper plateMapper;
-
+    private UserMapper userMapper;
     @Override
     public List<TopicResponse> getFirstTopices() throws UnsupportedEncodingException {
         Base64.Decoder decoder = Base64.getDecoder();
@@ -68,8 +68,51 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, TopicEntity> impl
         topicDto.setFirstTime(LocalDateTime.now());
         topicDto.setLastTime(LocalDateTime.now());
         Base64.Encoder encoder = Base64.getEncoder();
+        UserEntity userEntity=userMapper.selectById(topicDto.getUserId());
+        userEntity.setCount(userEntity.getCount()+1);
+        userEntity.setExp(userEntity.getExp()+3);
+        userMapper.updateById(userEntity);
         topicDto.setContext(encoder.encodeToString(topicDto.getContext().getBytes("UTF-8")));
         topicDto.setTitle(encoder.encodeToString(topicDto.getTitle().getBytes("UTF-8")));
         return topicMapper.insert(topicDto);
+    }
+
+    @Override
+    public List<TopicResponse> getTopicFlow(Integer index) throws UnsupportedEncodingException {
+        Base64.Decoder decoder = Base64.getDecoder();
+        index=index*15-15;
+        List<TopicResponse> list=topicMapper.getTopicFlow(index);
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setContext(new String(decoder.decode(list.get(i).getContext()),"UTF-8"));
+            list.get(i).setTitle(new String(decoder.decode(list.get(i).getTitle()),"UTF-8"));
+        }
+        return list;
+    }
+
+    @Override
+    public List<TopicResponse> getTopicByUserid(Integer index, String userId) throws UnsupportedEncodingException {
+        Base64.Decoder decoder = Base64.getDecoder();
+        index=index*15-15;
+        List<TopicResponse> list=topicMapper.getTopicByUserid(index,userId);
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setContext(new String(decoder.decode(list.get(i).getContext()),"UTF-8"));
+            list.get(i).setTitle(new String(decoder.decode(list.get(i).getTitle()),"UTF-8"));
+        }
+        return list;
+    }
+
+    @Override
+    public Integer addcount(String id) {
+        TopicEntity topicEntity=topicMapper.getTopicbyid(id);
+        topicEntity.setCount(topicEntity.getCount()+1);
+        return topicMapper.updateById(topicEntity);
+
+    }
+
+    @Override
+    public Integer deletecount(String id) {
+        TopicEntity topicEntity=topicMapper.getTopicbyid(id);
+        topicEntity.setCount(topicEntity.getCount()-1);
+        return topicMapper.updateById(topicEntity);
     }
 }
