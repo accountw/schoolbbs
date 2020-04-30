@@ -2,9 +2,11 @@ package cdu.zb.service;
 
 import cdu.zb.dto.UserDto;
 import cdu.zb.entity.UserEntity;
+import cdu.zb.response.UserResponse;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 /**
  * <p>
@@ -34,4 +36,8 @@ public interface UserService extends IService<UserEntity> {
 
     Integer addcount(String id);
     Integer deletecount(String id);
+
+    List<UserResponse> getFocusList(String userId);
+
+    List<UserResponse> getFansList(String userId);
 }

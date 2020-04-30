@@ -11,6 +11,16 @@ export function getReplybyTopicid(topicid, index) {
   });
 }
 
+export function getcount(topicid) {
+  return request({
+    url: "/reply/getcount",
+    method: "get",
+    params: {
+      topicid: topicid
+    }
+  });
+}
+
 export function saveReply(data) {
   return request({
     url: "/reply/saveReply",

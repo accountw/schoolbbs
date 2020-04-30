@@ -1,6 +1,5 @@
 package cdu.zb.entity;
 
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
@@ -37,12 +36,11 @@ public class FavoriteEntity implements Serializable {
     /**
      * 用户_id
      */
-    private String useId;
+    private String userId;
 
     /**
      * 点赞时间
      */
-    @TableLogic
     private LocalDateTime likeTime;
 
     public String getId() {
@@ -66,12 +64,12 @@ public class FavoriteEntity implements Serializable {
     public void setTopicId(String topicId) {
         this.topicId = topicId;
     }
-    public String getUseId() {
-        return useId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUseId(String useId) {
-        this.useId = useId;
+    public void setUserId(String useId) {
+        this.userId = useId;
     }
     public LocalDateTime getLikeTime() {
         return likeTime;
@@ -87,7 +85,7 @@ public class FavoriteEntity implements Serializable {
             "id=" + id +
             ", replyId=" + replyId +
             ", topicId=" + topicId +
-            ", useId=" + useId +
+            ", userId=" + userId +
             ", likeTime=" + likeTime +
         "}";
     }

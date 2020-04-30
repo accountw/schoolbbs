@@ -8,6 +8,7 @@ import cdu.zb.entity.UserEntity;
 import cdu.zb.jsonresult.BaseApiController;
 import cdu.zb.jsonresult.JsonResult;
 import cdu.zb.response.PlateAdminResponse;
+import cdu.zb.security.MyUserDetails;
 import cdu.zb.service.PlateAdminService;
 import cdu.zb.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -48,7 +49,8 @@ public class PlateAdminController extends BaseApiController {
     @GetMapping(value = "/isAdmin",name="查询是否是版主")
     public  JsonResult<Integer> isAdmin(String plateid){
         Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-        String username=authentication.getName();
+        MyUserDetails user= (MyUserDetails) authentication.getPrincipal();
+        String username=user.getUsername();
         UserEntity userEntity=userService.getOne(new QueryWrapper<UserEntity>().eq("username",username));
         PlateAdminEntity plateAdminEntity=plateAdminService.getOne(new QueryWrapper<PlateAdminEntity>().eq("plate_id",plateid));
         if(plateAdminEntity==null){

@@ -25,7 +25,7 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         //登陆状态下，权限不足执行该方法
         LOG.info("权限不足：" + accessDeniedException.getMessage());
-        response.setStatus(403);
+        response.setStatus(401);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         JSONObject o=new JSONObject();

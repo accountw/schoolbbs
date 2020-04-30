@@ -26,6 +26,21 @@
                   @click="dialogVisible = true"
                   >封禁该用户</el-link
                 >
+                &nbsp;
+                <el-link
+                  type="danger"
+                  :underline="false"
+                  v-if="isfocus && !self"
+                  @click="focus"
+                  >关注</el-link
+                >
+                <el-link
+                  type="danger"
+                  :underline="false"
+                  v-if="!isfocus && !self"
+                  @click="removefocus"
+                  >取消关注</el-link
+                >
                 <el-dialog
                   title="封禁"
                   :visible.sync="dialogVisible"
@@ -59,10 +74,20 @@
                 </el-dialog>
               </div>
 
-              <br />
+              <i
+                class="el-icon-male"
+                style="color: blue"
+                v-if="user.gender == 0"
+              ></i>
+              <i
+                class="el-icon-female"
+                style="color: deeppink"
+                v-if="user.gender == 1"
+              ></i>
               <div style="font-size: 13px">{{ user.sign }}</div>
               <div>
-                <span>帖子:{{ user.count }} </span> <span>粉丝:5465</span>
+                <span>帖子:{{ user.count }} </span>
+                <span>粉丝:{{ this.count }}</span>
               </div></el-main
             >
           </el-container>
@@ -77,20 +102,58 @@
                   @update="getuser"
                 ></UserTopic
               ></el-tab-pane>
-              <el-tab-pane label="收藏板块" name="second">配置管理</el-tab-pane>
-              <el-tab-pane label="圈子" name="third">配置管理</el-tab-pane>
-            </el-tabs>
-          </template></el-main
-        >
+              <el-tab-pane label="圈子" name="second">配置管理</el-tab-pane>
+              <el-tab-pane label="关注/粉丝" name="third"
+                ><div>
+                  <div style="color: hotpink">关注:</div>
+                  <span v-for="user in user1" :key="user.id">
+                    <el-tooltip
+                      class="item"
+                      effect="light"
+                      :content="user.username"
+                      placement="bottom-start"
+                      :enterable="false"
+                    >
+                      <el-link :underline="false" :href="/user/ + user.id">
+                        <img
+                          :src="user.head"
+                          style="width: 80px;height: 80px;border: 2px solid #dcdfe6;margin-right: 4px"
+                        />
+                      </el-link> </el-tooltip
+                  ></span>
+                </div>
+                <el-divider></el-divider>
+                <div>
+                  <div style="color: hotpink">粉丝:</div>
+                  <span v-for="user in user2" :key="user.id">
+                    <el-tooltip
+                      class="item"
+                      effect="light"
+                      :content="user.username"
+                      placement="bottom-start"
+                      :enterable="false"
+                    >
+                      <el-link :underline="false" :href="/user/ + user.id">
+                        <img
+                          :src="user.head"
+                          style="width: 80px;height: 80px;border: 2px solid #dcdfe6;margin-right: 4px"
+                        />
+                      </el-link>
+                    </el-tooltip>
+                  </span></div
+              ></el-tab-pane>
+            </el-tabs> </template
+        ></el-main>
       </el-container>
     </el-card>
   </div>
 </template>
 
 <script>
-import { getUserByid } from "../../network/User";
+import { getFansList, getFocusList, getUserByid } from "../../network/User";
 import UserTopic from "./UserTopic";
 import { addBan } from "../../network/ban";
+import { addFocus, deleteFocus, getcount, isFocus } from "../../network/focus";
 
 export default {
   components: {
@@ -104,15 +167,27 @@ export default {
       activeName: "first",
       dialogVisible: false,
       reason: "有不当的发言",
-      date: 1
+      date: 1,
+      count: 0,
+      f: true,
+      user1: [],
+      user2: []
     };
   },
   created() {
     this.getuser();
+    this.getnum();
+    this.isfocu();
   },
   computed: {
     self() {
       if (localStorage.getItem("id") == this.userid) {
+        return true;
+      }
+      return false;
+    },
+    isfocus() {
+      if (this.f) {
         return true;
       }
       return false;
@@ -127,6 +202,15 @@ export default {
       return false;
     }
   },
+  watch: {
+    activeName: function(val) {
+      //监听切换状态-计划单
+      if (val === "third") {
+        this.getfanslist();
+        this.getfouslist();
+      }
+    }
+  },
   methods: {
     getuser() {
       getUserByid(this.userid)
@@ -138,6 +222,16 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    isfocu() {
+      isFocus(localStorage.getItem("id"), this.userid).then(res => {
+        if (res.data.code === "SUCCESS") {
+          this.f = false;
+        }
+        if (res.data.code === "ERROR") {
+          this.f = true;
+        }
+      });
     },
     ban() {
       const bandto = {
@@ -159,6 +253,59 @@ export default {
             message: "该用户已被封禁",
             type: "error"
           });
+        }
+      });
+    },
+    getnum() {
+      getcount(this.userid).then(res => {
+        if (res.data.code === "SUCCESS") {
+          this.count = res.data.data;
+        }
+      });
+    },
+    focus() {
+      const focusDto = {
+        userId: this.$store.state.id,
+        focusUserId: this.userid
+      };
+      addFocus(focusDto).then(res => {
+        if (res.data.code === "SUCCESS") {
+          this.getnum();
+          this.isfocu();
+        }
+        if (res.data.code === "ERROR") {
+          this.$message({
+            message: "已关注该用户",
+            type: "info"
+          });
+          this.getnum();
+          this.isfocu();
+        }
+      });
+    },
+    removefocus() {
+      deleteFocus(localStorage.getItem("id"), this.userid).then(res => {
+        if (res.data.code === "SUCCESS") {
+          this.$message({
+            message: "已取关该用户",
+            type: "success"
+          });
+          this.getnum();
+          this.isfocu();
+        }
+      });
+    },
+    getfouslist() {
+      getFocusList(this.userid).then(res => {
+        if (res.data.code === "SUCCESS") {
+          this.user1 = res.data.data;
+        }
+      });
+    },
+    getfanslist() {
+      getFansList(this.userid).then(res => {
+        if (res.data.code === "SUCCESS") {
+          this.user2 = res.data.data;
         }
       });
     }

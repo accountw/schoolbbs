@@ -13,18 +13,41 @@
                 >{{ reply.username }}
               </el-link>
             </div>
-
+            <div style="font-size: 13px;color: deeppink">{{ reply.sign }}</div>
             <div>会员等级:{{ getlevel(reply.exp) }}级</div>
           </div></el-aside
         >
         <el-container>
           <el-header>
-            <div class="storey" style="color: lightslategray;font-size: 15px">
+            <div
+              class="storey"
+              style="color: lightslategray;font-size: 15px;float: left;width: 60px"
+            >
               {{ reply.storey }}楼
+            </div>
+
+            <div style="font-size: 19px" v-if="reply.storey != 1">
+              <img
+                src="../../assets/点赞-空.png"
+                style="width:18px;height: 18px"
+                @click="add(reply.id)"
+                v-if="islike"
+              />
+              <img
+                src="../../assets/点赞.png"
+                style="width:18px;height: 18px"
+                @click="remove(reply.id)"
+                v-if="!islike"
+              />
+              {{ reply.likenum }}
             </div>
           </el-header>
           <el-main>
-            <div style="white-space: pre-wrap">{{ reply.context }}</div>
+            <div
+              style="white-space: pre-wrap; word-break:break-all;overflow:hidden"
+            >
+              {{ reply.context }}
+            </div>
             <div>
               <Picture
                 v-if="reply.picture"
@@ -79,13 +102,19 @@
 import Picture from "./Picture";
 import Comment from "../comment/Comment";
 import { deleteReply } from "../../network/reply";
+import {
+  addFavorite,
+  deleteReplyFavorite,
+  isReplyFavorite
+} from "../../network/favorite";
 
 export default {
   name: "Reply",
   props: ["reply", "userid"],
   data() {
     return {
-      put: false
+      put: false,
+      islike: true
     };
   },
 
@@ -100,6 +129,9 @@ export default {
         this.$store.state.id == this.userid
       );
     }
+  },
+  created() {
+    this.isfavorite();
   },
   methods: {
     getlevel(exp) {
@@ -187,6 +219,41 @@ export default {
             message: "已取消删除"
           });
         });
+    },
+    add(id) {
+      const favoriteDto = {
+        userId: this.$store.state.id,
+        replyId: id
+      };
+      addFavorite(favoriteDto).then(res => {
+        if (res.data.code === "SUCCESS") {
+          this.isfavorite();
+          this.$emit("delete");
+          this.$message.success("点赞成功");
+        }
+        if (res.data.code === "ERROR") {
+          this.$message.info("已经点赞");
+        }
+      });
+    },
+    remove(id) {
+      deleteReplyFavorite(this.$store.state.id, id).then(res => {
+        if (res.data.code === "SUCCESS") {
+          this.isfavorite();
+          this.$emit("delete");
+          this.$message.success("取消点赞");
+        }
+      });
+    },
+    isfavorite() {
+      isReplyFavorite(this.$store.state.id, this.reply.id).then(res => {
+        if (res.data.code === "SUCCESS") {
+          this.islike = false;
+        }
+        if (res.data.code === "ERROR") {
+          this.islike = true;
+        }
+      });
     }
   }
 };

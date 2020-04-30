@@ -3,6 +3,7 @@ package cdu.zb.service.impl;
 import cdu.zb.dto.UserDto;
 import cdu.zb.entity.UserEntity;
 import cdu.zb.mapper.UserMapper;
+import cdu.zb.response.UserResponse;
 import cdu.zb.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.List;
 
 
 /**
@@ -91,5 +93,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         UserEntity userEntity=userMapper.selectById(id);
         userEntity.setCount(userEntity.getCount()-1);
         return userMapper.updateById(userEntity);
+    }
+
+    @Override
+    public List<UserResponse> getFocusList(String userId) {
+        List<UserResponse> list=userMapper.getFocusList(userId);
+       return  list;
+    }
+
+    @Override
+    public List<UserResponse> getFansList(String userId) {
+        List<UserResponse> list=userMapper.getFansList(userId);
+        return  list;
     }
 }

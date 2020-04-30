@@ -12,15 +12,15 @@
       <el-menu-item index="/block"
         ><i class="el-icon-guide"></i>板块</el-menu-item
       >
-      <el-menu-item index="/index"
+      <el-menu-item index="/collect"
         ><i class="el-icon-folder-opened"></i>我的收藏</el-menu-item
       >
-      <el-menu-item index="/index"
-        ><i class="el-icon-user"></i>关注/粉丝</el-menu-item
-      >
-      <el-menu-item index="/index"
-        ><i class="el-icon-chat-dot-round"></i>消息</el-menu-item
-      >
+            <el-menu-item index="/message"
+              ><i class="el-icon-user"></i>消息</el-menu-item
+            >
+      <!--      <el-menu-item index="/index"-->
+      <!--        ><i class="el-icon-chat-dot-round"></i>圈子</el-menu-item-->
+      <!--      >-->
     </el-menu>
   </div>
 </template>

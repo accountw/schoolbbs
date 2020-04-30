@@ -24,7 +24,10 @@
                   :href="/user/ + comment.userId"
                   >{{ comment.replyUsername }}</el-link
                 > </span
-              >:<span>{{ comment.context }}</span>
+              >:<span
+                style="white-space: pre-wrap; word-break:break-all;overflow:hidden"
+                >{{ comment.context }}</span
+              >
             </div>
             <div style="float: right;font-size: 10px">
               {{ comment.replyTime }}
@@ -52,7 +55,11 @@
           回复 <span v-if="replyname">{{ replyname }}</span> :
         </div>
         <div>
-          <el-input v-model="textarea" type="textarea"></el-input>
+          <el-input
+            v-model="textarea"
+            maxlength="50"
+            type="textarea"
+          ></el-input>
         </div>
         <el-button type="primary" size="mini" @click="sumbit">发表</el-button>
       </div>

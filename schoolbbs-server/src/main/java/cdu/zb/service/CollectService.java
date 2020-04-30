@@ -1,7 +1,10 @@
 package cdu.zb.service;
 
 import cdu.zb.entity.CollectEntity;
+import cdu.zb.response.CollectResponse;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface CollectService extends IService<CollectEntity> {
 
+    List<CollectResponse> getCollectPlate(String userId);
 }

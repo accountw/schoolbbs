@@ -51,3 +51,51 @@ export function selectCode(data) {
     }
   });
 }
+
+export function studentregister(data) {
+  return request({
+    url: "/schoolregister/save",
+    method: "post",
+    data: data
+  });
+}
+
+export function getGraduateRegister(index) {
+  return request({
+    url: "/graduateRegister/getRegister",
+    method: "get",
+    params: {
+      index: index
+    }
+  });
+}
+export function dealGraduateRegister(id, status) {
+  return request({
+    url: "/graduateRegister/deal",
+    method: "get",
+    params: {
+      id: id,
+      status: status
+    }
+  });
+}
+export function getSchoolRegister(index) {
+  return request({
+    url: "/schoolregister/getRegister",
+    method: "get",
+    params: {
+      index: index
+    }
+  });
+}
+
+export function dealSchoolRegister(id, status) {
+  return request({
+    url: "/schoolregister/deal",
+    method: "get",
+    params: {
+      id: id,
+      status: status
+    }
+  });
+}

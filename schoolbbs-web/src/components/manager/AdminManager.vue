@@ -1,6 +1,6 @@
 <template>
   <div class="AdminManager">
-    <el-tabs :tab-position="tabPosition" style="height: 200px;">
+    <el-tabs :tab-position="tabPosition" >
       <el-tab-pane label="版主管理">
         <el-table :data="plateAdmin" style="width: 540px">
           <el-table-column prop="username" label="用户名" width="180">

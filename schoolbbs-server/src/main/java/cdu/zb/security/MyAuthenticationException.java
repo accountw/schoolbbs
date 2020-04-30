@@ -26,7 +26,7 @@ public class MyAuthenticationException implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         LOG.info("AuthenticationEntryPoint检测到异常:"+authException);
         if(authException.equals("org.springframework.security.authentication.InsufficientAuthenticationException: Full authentication is required to access this resource")){
-            response.setStatus(401);
+            response.setStatus(403);
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");
             JSONObject o=new JSONObject();

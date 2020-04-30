@@ -5,13 +5,12 @@ import cdu.zb.constants.GlobalConstants;
 import cdu.zb.dto.CommentDto;
 import cdu.zb.entity.BanEntity;
 import cdu.zb.entity.CommentEntity;
-import cdu.zb.entity.UserEntity;
+import cdu.zb.entity.ReplyEntity;
 import cdu.zb.jsonresult.BaseApiController;
 import cdu.zb.jsonresult.JsonResult;
 import cdu.zb.response.CommentResponse;
-import cdu.zb.service.BanService;
-import cdu.zb.service.CommentService;
-import cdu.zb.service.UserService;
+import cdu.zb.security.MyUserDetails;
+import cdu.zb.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -41,6 +40,15 @@ public class CommentController extends BaseApiController {
     private BanService banService;
 
     @Autowired
+    private ReplyService replyService;
+
+    @Autowired
+    private  TopicService topicService;
+
+    @Autowired
+    private MessageService messageService;
+
+    @Autowired
     private UserService userService;
 
     @GetMapping(value = "/getCommentByreplyid" ,name = "根据评论id得到回复")
@@ -51,16 +59,29 @@ public class CommentController extends BaseApiController {
     @PostMapping(value="/saveComment",name="保存回复")
     public JsonResult<Integer> saveComment(@RequestBody CommentDto commentDto) throws UnsupportedEncodingException {
         Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-        String username=authentication.getName();
-        UserEntity userEntity=userService.getOne(new QueryWrapper<UserEntity>().eq("username",username));
-        BanEntity banEntity=banService.getOne(new QueryWrapper<BanEntity>().eq("uid",userEntity.getId()));
+        MyUserDetails myUserDetails= (MyUserDetails) authentication.getPrincipal();
+        BanEntity banEntity=banService.getOne(new QueryWrapper<BanEntity>().eq("uid",myUserDetails.getId()));
         if(banEntity!=null){
             return  jr(GlobalConstants.NO_UNAUTHORIZED,banEntity.getFreeTime().toString());
         }
         commentDto.setReplyTime(LocalDateTime.now());
         Base64.Encoder encoder = Base64.getEncoder();
         commentDto.setContext(encoder.encodeToString(commentDto.getContext().getBytes("UTF-8")));
-        return jr(GlobalConstants.SUCCESS,"保存成功",commentService.saveComment(commentDto));
+        ReplyEntity replyEntity=replyService.getById(commentDto.getReplyId());
+        if(commentService.saveComment(commentDto)!=0){
+            if(commentDto.getReplyUserId()!=null){
+                messageService.commentTouser(commentDto.getUserId(),commentDto.getReplyId(),commentDto.getReplyUserId(),
+                        commentDto.getContext(),replyEntity.getUserId(),
+                   topicService.getById(replyEntity.getTopicId()).getUserId() ,commentDto.getId()    );
+            }
+           else{
+                messageService.comment(commentDto.getUserId(),commentDto.getReplyId(),
+                        commentDto.getContext(),replyEntity.getUserId(),
+                        topicService.getById(replyEntity.getTopicId()).getUserId(),commentDto.getId() );
+            }
+        }
+
+        return jr(GlobalConstants.SUCCESS,"保存成功");
     }
 
     @GetMapping(value = "/getCommentCount",name="查询回复数")

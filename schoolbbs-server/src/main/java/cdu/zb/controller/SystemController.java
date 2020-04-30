@@ -3,6 +3,7 @@ package cdu.zb.controller;
 import cdu.zb.constants.GlobalConstants;
 import cdu.zb.jsonresult.BaseApiController;
 import cdu.zb.jsonresult.JsonResult;
+import cdu.zb.security.MyUserDetails;
 import cdu.zb.util.RedisUtil;
 import cdu.zb.util.TokenUtil;
 import org.slf4j.Logger;
@@ -37,15 +38,16 @@ public class SystemController extends BaseApiController {
     public JsonResult<String>  reload(){
 
         Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
-
+        MyUserDetails userDetails= (MyUserDetails) authentication.getPrincipal();
         String role = "";
         // 因为在JwtUser中存了权限信息，可以直接获取，由于只有一个角色就这么干了
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority authority : authorities){
             role = authority.getAuthority();
         }
+        LOG.debug(authentication.getName());
         // 根据用户名，角色创建token
-        String token = TokenUtil.createToken(authentication.getName(), role, false);
+        String token = TokenUtil.createToken(authentication.getName(),role, userDetails.getId(),false);
         redisUtil.set(authentication.getName(),token);
         return jr(GlobalConstants.RELOAD,TokenUtil.TOKEN_PREFIX+token);
     }

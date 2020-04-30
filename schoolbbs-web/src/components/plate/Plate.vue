@@ -6,6 +6,7 @@
           id="a"
           :href="'/plate/' + plate.id + '/1'"
           target="_blank"
+          :underline="false"
           style="font-size: 18px"
         >
           {{ plate.name }}</el-link

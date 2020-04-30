@@ -18,13 +18,18 @@
                   target="_blank"
                   style="font-size: 20px"
                   :underline="false"
-                  >{{ topic.title }}</el-link
+                  >{{ titlelimit(topic.title) }}</el-link
                 >
                 <i class="el-icon-chat-round" style="float: right">{{
                   topic.count
                 }}</i>
               </div>
-              <div id="context">{{ topic.context }}</div>
+              <div
+                id="context"
+                style="white-space: pre-wrap; word-break:break-all;overflow:hidden"
+              >
+                {{ contextlimit(topic.context) }}
+              </div>
               <div>
                 <Picture
                   v-if="topic.picture"
@@ -39,8 +44,15 @@
                   ><i class="el-icon-user-solid"></i>{{ topic.username }}
                 </el-link>
               </div>
-              <div style="font-size: 12px;">
+              <div style="font-size: 12px;float: left">
                 <i class="el-icon-position"></i>{{ topic.lastTime }}
+              </div>
+              <div style="font-size: 14px;float: right">
+                <img
+                  src="../../assets/点赞-空.png"
+                  style="width:12px;height: 12px"
+                />
+                {{ topic.likenum }}
               </div>
             </div>
           </el-card>
@@ -117,6 +129,20 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    titlelimit(text) {
+      if (text.length > 30) {
+        var newText = text.substring(0, 27) + "...";
+        return newText;
+      }
+      return text;
+    },
+    contextlimit(text) {
+      if (text.length > 100) {
+        var newText = text.substring(0, 97) + "...";
+        return newText;
+      }
+      return text;
     }
   }
 };

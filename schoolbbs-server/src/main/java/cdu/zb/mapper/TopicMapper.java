@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -28,4 +29,8 @@ public interface TopicMapper extends BaseMapper<TopicEntity> {
     List<TopicResponse> getTopicFlow(@Param("index")Integer index);
 
     List<TopicResponse> getTopicByUserid(@Param("index")Integer index, @Param("userId")String userId);
+
+    List<TopicResponse> getTop(@Param("localDateTime") LocalDateTime localDateTime);
+
+    List<TopicResponse> getCollectTopic(@Param("userId")String userId, @Param("index")Integer index);
 }

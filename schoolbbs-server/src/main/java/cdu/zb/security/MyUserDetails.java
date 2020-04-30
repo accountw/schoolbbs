@@ -30,6 +30,12 @@ public class MyUserDetails  implements UserDetails {
         authorities = Collections.singleton(new SimpleGrantedAuthority(role));
     }
 
+    public  MyUserDetails(String Username,String Id,String role){
+        username=Username;
+        id=Id;
+        authorities = Collections.singleton(new SimpleGrantedAuthority(role));
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

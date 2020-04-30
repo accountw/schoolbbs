@@ -12,13 +12,18 @@
                   target="_blank"
                   style="font-size: 20px"
                   :underline="false"
-                  >{{ topic.title }}</el-link
+                  >{{ titlelimit(topic.title) }}</el-link
                 >
                 <i class="el-icon-chat-round" style="float: right">{{
                   topic.count
                 }}</i>
               </div>
-              <div id="context">{{ topic.context }}</div>
+              <div
+                id="context"
+                style="white-space: pre-wrap; word-break:break-all;overflow:hidden"
+              >
+                {{ contextlimit(topic.context) }}
+              </div>
               <div>
                 <Picture
                   v-if="topic.picture"
@@ -36,6 +41,13 @@
               </div>
               <div style="font-size: 12px;">
                 <i class="el-icon-position"></i>{{ topic.lastTime }}
+                <div style="font-size: 14px;float: right">
+                  <img
+                    src="../../assets/点赞-空.png"
+                    style="width:12px;height: 12px"
+                  />
+                  {{ topic.likenum }}
+                </div>
                 <el-link
                   style="float: right"
                   :underline="false"
@@ -77,13 +89,14 @@
           action="http://localhost:8081/api/reply/savePicture"
           :headers="header"
           :on-success="upload"
-          :limit="6"
+          :limit="3"
           :on-exceed="handleExceed"
           :show-file-list="true"
           :multiple="false"
           list-type="picture"
           :on-preview="handlePictureCardPreview"
           :on-remove="handleRemove"
+          :before-upload="beforeAvatarUpload"
         >
           <i class="el-icon-picture-outline"></i>
         </el-upload>
@@ -192,7 +205,7 @@ export default {
     },
     handleExceed(files, fileList) {
       this.$message.warning(
-        `当前限制选择 6 个文件，本次选择了 ${
+        `当前限制选择 3 个文件，本次选择了 ${
           files.length
         } 个文件，共选择了 ${files.length + fileList.length} 个文件`
       );
@@ -267,7 +280,7 @@ export default {
         });
     },
     deleteTopic(topicid) {
-      this.$confirm("确认删除该回复?", "提示", {
+      this.$confirm("确认删除该贴?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
@@ -300,6 +313,32 @@ export default {
             message: "已取消删除"
           });
         });
+    },
+    titlelimit(text) {
+      if (text.length > 30) {
+        var newText = text.substring(0, 27) + "...";
+        return newText;
+      }
+      return text;
+    },
+    contextlimit(text) {
+      if (text.length > 100) {
+        var newText = text.substring(0, 97) + "...";
+        return newText;
+      }
+      return text;
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 5;
+
+      if (!isJPG) {
+        this.$message.error("上传图片只能是 JPG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传图片大小不能超过 5MB!");
+      }
+      return isJPG && isLt2M;
     }
   }
 };

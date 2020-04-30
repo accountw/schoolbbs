@@ -53,3 +53,23 @@ export function changepd(data) {
     }
   });
 }
+
+export function getFocusList(userId) {
+  return request({
+    url: "/user/getFocusList",
+    method: "get",
+    params: {
+      userId: userId
+    }
+  });
+}
+
+export function getFansList(userId) {
+  return request({
+    url: "/user/getFansList",
+    method: "get",
+    params: {
+      userId: userId
+    }
+  });
+}

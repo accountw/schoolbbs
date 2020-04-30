@@ -5,18 +5,26 @@
     </div>
     <el-tabs v-model="activeName" stretch>
       <el-tab-pane label="注册" name="first"><Userregister /></el-tab-pane>
-      <el-tab-pane label="在校学生注册" name="second">配置管理</el-tab-pane>
-      <el-tab-pane label="毕业校友注册" name="third">角色管理</el-tab-pane>
+      <el-tab-pane label="在校学生注册" name="second">
+        <StudentRegister></StudentRegister
+      ></el-tab-pane>
+      <el-tab-pane label="毕业校友注册" name="third"
+        ><GraduateRegister></GraduateRegister
+      ></el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
 import Userregister from "../register/Userregister";
+import StudentRegister from "../register/StudentRegister";
+import GraduateRegister from "../register/GraduateRegister";
 export default {
   name: "Registernavbar",
   components: {
-    Userregister
+    Userregister,
+    StudentRegister,
+    GraduateRegister
   },
   data() {
     return {

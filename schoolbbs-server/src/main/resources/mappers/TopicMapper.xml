@@ -39,7 +39,7 @@
          t.title as title, t.context as context, t.picture as picture, t.likenum as likenum,
          t.replynum as replynum, t.first_time as firstTime, t.last_time as lastTime,
          t.logic_delete_flag as logic_delete_flag, u.username as username,
-         p.name as platename,b.name as blockname ,t.count as count
+         p.name as platename,b.name as blockname ,t.count as count,t.likenum as likenum
          from topic as t,user as u ,plate as p,block as b
          where t.user_id=u.id and t.plate_id=p.id and t.logic_delete_flag=0
          and u.logic_delete_flag=0 and p.logic_delete_flag=0  and b.logic_delete_flag=0
@@ -52,7 +52,8 @@
          t.title as title, t.context as context, t.picture as picture, t.likenum as likenum,
          t.replynum as replynum, t.first_time as firstTime, t.last_time as lastTime,
          t.logic_delete_flag as logic_delete_flag,t.count as count,
-         p.name as platename,p.depict as depict,u.head as head,u.exp as exp,u.username as username
+         p.name as platename,p.depict as depict,u.head as head,u.exp as exp,u.username as username,u.sign as sign,
+         t.likenum as likenum
          from topic as t,plate as p,user as u
          where  t.plate_id=p.id and t.logic_delete_flag=0
          and  p.logic_delete_flag=0  and t.id=#{id} and u.id=t.user_id and u.logic_delete_flag=0
@@ -63,7 +64,8 @@
          t.title as title, t.context as context, t.picture as picture, t.likenum as likenum,
          t.replynum as replynum, t.first_time as firstTime, t.last_time as lastTime,
          t.logic_delete_flag as logic_delete_flag, u.username as username,
-         p.name as platename,b.name as blockname ,t.count as count
+         p.name as platename,b.name as blockname ,t.count as count,
+         t.likenum as likenum
          from topic as t,user as u ,plate as p,block as b
          where t.user_id=u.id and t.plate_id=p.id and t.logic_delete_flag=0
          and u.logic_delete_flag=0 and p.logic_delete_flag=0  and b.logic_delete_flag=0
@@ -76,11 +78,39 @@
          t.title as title, t.context as context, t.picture as picture, t.likenum as likenum,
          t.replynum as replynum, t.first_time as firstTime, t.last_time as lastTime,
          t.logic_delete_flag as logic_delete_flag, u.username as username,
-         p.name as platename,b.name as blockname ,t.count as count
+         p.name as platename,b.name as blockname ,t.count as count,
+         t.likenum as likenum
          from topic as t,user as u ,plate as p,block as b
          where t.user_id=u.id and t.plate_id=p.id and t.logic_delete_flag=0
          and u.logic_delete_flag=0 and p.logic_delete_flag=0  and b.logic_delete_flag=0
          and b.id=p.block_id and t.user_id=#{userId}
+         order by t.first_time  desc limit #{index},15
+    </select>
+
+    <select id="getTop" resultType="cdu.zb.response.TopicResponse">
+        select t.id as id,t.user_id as userId,t.plate_id as plateId,
+         t.title as title, t.context as context, t.picture as picture, t.likenum as likenum,
+         t.replynum as replynum, t.first_time as firstTime, t.last_time as lastTime,
+         t.logic_delete_flag as logic_delete_flag, u.username as username,
+         p.name as platename,b.name as blockname ,t.count as count,
+         t.likenum as likenum
+         from topic as t,user as u ,plate as p,block as b
+         where t.user_id=u.id and t.plate_id=p.id and t.logic_delete_flag=0
+         and u.logic_delete_flag=0 and p.logic_delete_flag=0  and b.logic_delete_flag=0
+         and b.id=p.block_id and t.first_time&gt;#{localDateTime}
+    </select>
+
+    <select id="getCollectTopic"  resultType="cdu.zb.response.TopicResponse">
+        select t.id as id,t.user_id as userId,t.plate_id as plateId,
+         t.title as title, t.context as context, t.picture as picture, t.likenum as likenum,
+         t.replynum as replynum, t.first_time as firstTime, t.last_time as lastTime,
+         t.logic_delete_flag as logic_delete_flag, u.username as username,
+         p.name as platename,b.name as blockname ,t.count as count,
+         t.likenum as likenum
+         from topic as t,user as u ,plate as p,block as b,collect as c
+         where t.user_id=u.id and t.plate_id=p.id and t.logic_delete_flag=0
+         and u.logic_delete_flag=0 and p.logic_delete_flag=0  and b.logic_delete_flag=0
+         and b.id=p.block_id and c.user_id=#{userId} and c.topic_id=t.id and c.logic_delete_flag=0
          order by t.first_time  desc limit #{index},15
     </select>
 

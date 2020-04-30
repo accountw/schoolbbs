@@ -10,7 +10,28 @@ import cdu.zb.entity.ReplyEntity;
 public class ReplyResponse extends ReplyEntity {
      private String username;
      private Integer exp;
-     private String head;
+     private Integer likenum;
+
+    @Override
+    public Integer getLikenum() {
+        return likenum;
+    }
+
+    @Override
+    public void setLikenum(Integer likenum) {
+        this.likenum = likenum;
+    }
+
+    public String getSign() {
+        return sign;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
+    }
+
+    private String head;
+     private  String sign;
 
     public Integer getCount() {
         return count;
@@ -45,4 +66,6 @@ public class ReplyResponse extends ReplyEntity {
     public void setHead(String head) {
         this.head = head;
     }
+
+
 }

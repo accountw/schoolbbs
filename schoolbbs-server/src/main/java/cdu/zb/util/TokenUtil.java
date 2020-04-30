@@ -19,6 +19,8 @@ public class TokenUtil {
 
     // 添加角色的key
     private static final String ROLE_CLAIMS = "rol";
+    private static final String ROLE_ID = "id";
+
 
     private static final String SECRET = "zhangbao";
     private static final String ISS = "ACCOUNTW";
@@ -31,7 +33,23 @@ public class TokenUtil {
 
     // 创建token
     // 修改一下创建token的方法
-    public static String createToken(String username, String role, boolean isRememberMe) {
+    public static String createToken(String username, String role,String id,boolean isRememberMe) {
+        long expiration = isRememberMe ? EXPIRATION_REMEMBER : EXPIRATION;
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(ROLE_CLAIMS, role);
+        map.put(ROLE_ID, id);
+        return Jwts.builder()
+                .signWith(SignatureAlgorithm.HS512, SECRET)
+                // 这里要早set一点，放到后面会覆盖别的字段
+                .setClaims(map)
+                .setIssuer(ISS)
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
+                .compact();
+    }
+
+    public static String createToken(String username, String role,boolean isRememberMe) {
         long expiration = isRememberMe ? EXPIRATION_REMEMBER : EXPIRATION;
         HashMap<String, Object> map = new HashMap<>();
         map.put(ROLE_CLAIMS, role);
@@ -59,6 +77,9 @@ public class TokenUtil {
 
     public static String getAuthorization(String token){
         return (String) getTokenBody(token).get(ROLE_CLAIMS);
+    }
+    public static String getId(String token){
+        return (String) getTokenBody(token).get(ROLE_ID);
     }
     private static Claims getTokenBody(String token){
         return Jwts.parser()

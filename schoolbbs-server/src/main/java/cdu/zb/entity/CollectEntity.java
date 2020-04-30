@@ -1,6 +1,9 @@
 package cdu.zb.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
@@ -27,6 +30,8 @@ public class CollectEntity implements Serializable {
 
     private LocalDateTime collectTime;
 
+    @JsonIgnore
+    @TableLogic
     private Integer logicDeleteFlag;
 
     public String getId() {

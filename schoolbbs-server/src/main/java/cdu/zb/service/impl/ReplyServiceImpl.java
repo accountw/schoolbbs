@@ -1,14 +1,17 @@
 package cdu.zb.service.impl;
 
 import cdu.zb.dto.ReplyDto;
+import cdu.zb.entity.MessageEntity;
 import cdu.zb.entity.ReplyEntity;
 import cdu.zb.entity.TopicEntity;
 import cdu.zb.entity.UserEntity;
+import cdu.zb.mapper.MessageMapper;
 import cdu.zb.mapper.ReplyMapper;
 import cdu.zb.mapper.TopicMapper;
 import cdu.zb.mapper.UserMapper;
 import cdu.zb.response.ReplyResponse;
 import cdu.zb.service.ReplyService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +38,8 @@ public class ReplyServiceImpl extends ServiceImpl<ReplyMapper, ReplyEntity> impl
     private TopicMapper topicMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private MessageMapper messageMapper;
     @Override
     public List<ReplyResponse> getReplybyTopicid(String topicid,Integer index) throws UnsupportedEncodingException {
         Base64.Decoder decoder = Base64.getDecoder();
@@ -42,6 +47,7 @@ public class ReplyServiceImpl extends ServiceImpl<ReplyMapper, ReplyEntity> impl
         List<ReplyResponse> list=replyMapper.getReplybyTopicid(topicid,index);
         for (int i = 0; i < list.size(); i++) {
             list.get(i).setContext(new String(decoder.decode(list.get(i).getContext()),"UTF-8"));
+            list.get(i).setSign(new String(decoder.decode(list.get(i).getSign()),"UTF-8"));
         }
         return list;
     }
@@ -72,5 +78,14 @@ public class ReplyServiceImpl extends ServiceImpl<ReplyMapper, ReplyEntity> impl
            return 1;
        }
         return  0;
+    }
+
+    @Override
+    public void removeReplies(String topicId) {
+        List<ReplyEntity> list=replyMapper.selectList(new QueryWrapper<ReplyEntity>().eq("topic_id",topicId));
+        for(ReplyEntity replyEntity:list){
+            messageMapper.delete(new QueryWrapper<MessageEntity>().eq("reply_id",replyEntity.getId()));
+        }
+        replyMapper.delete(new QueryWrapper<ReplyEntity>().eq("topic_id",topicId));
     }
 }

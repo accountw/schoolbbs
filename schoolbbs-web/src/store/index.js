@@ -13,7 +13,9 @@ export default new Vuex.Store({
       : "",
     expire: localStorage.getItem("expire") ? localStorage.getItem("expire") : 0,
     id: localStorage.getItem("id") ? localStorage.getItem("id") : "",
-    role: localStorage.getItem("role") ? localStorage.getItem("role") : ""
+    role: localStorage.getItem("role") ? localStorage.getItem("role") : "",
+    isRefreshing: "1",
+    refreshSubscribers: []
   },
   mutations: {
     Login(state, data) {
@@ -36,6 +38,9 @@ export default new Vuex.Store({
     setid(state, id) {
       state.id = id;
       localStorage.setItem("id", id);
+    },
+    refreshSubscribersPush(state, a) {
+      state.refreshSubscribers.push(a);
     }
   },
   actions: {},

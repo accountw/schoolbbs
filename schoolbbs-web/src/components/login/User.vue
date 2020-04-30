@@ -8,14 +8,18 @@
       </el-link>
       <div>
         <div style="display: inline">
-          <el-link :href="/user/ + user.id" :underline="false">{{
-            user.username
-          }}</el-link>
+          <el-link
+            :href="/user/ + user.id"
+            :underline="false"
+            style="color: darkslategrey"
+            >{{ user.username }}</el-link
+          >
         </div>
         <div style="display: inline" @click="Loginout()">
-          <el-link type="primary"> [注销]</el-link>
+          <el-link type="primary" :underline="false"> [注销]</el-link>
         </div>
       </div>
+      <div style="font-size: 13px;color: deeppink">{{ user.sign }}</div>
       <div>会员等级:{{ this.level }}级</div>
 
       <div>
@@ -100,7 +104,7 @@ export default {
   },
   methods: {
     format(percentage) {
-      return percentage === 100 ? "满" : `EXP:${this.user.exp}/${this.per}`;
+      return percentage === 100 ? "满" : `${this.user.exp}/${this.per}`;
     },
     ...mapMutations(["logout", "setid"]),
     getuser() {
@@ -212,6 +216,7 @@ export default {
   width: 170px;
   text-align: center;
   margin: 0 auto;
+  padding-bottom: 20px;
 }
 .head {
   height: 140px;

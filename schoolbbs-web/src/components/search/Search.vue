@@ -1,7 +1,6 @@
 <template>
   <div class="Search">
-
-    <div id="input" >
+    <div id="input">
       <el-input
         placeholder="请输入内容"
         prefix-icon="el-icon-search"
@@ -11,7 +10,9 @@
       </el-input>
     </div>
     <div id="button">
-      <el-button type="primary" icon="el-icon-search"  size="lager"  >搜索</el-button>
+      <el-button type="primary" icon="el-icon-search" size="lager"
+        >搜索</el-button
+      >
     </div>
   </div>
 </template>
@@ -28,12 +29,11 @@ export default {
 </script>
 
 <style scoped>
-
 #input {
   width: 300px;
   float: left;
 }
-  #button{
-    float: left;
-  }
+#button {
+  float: left;
+}
 </style>

@@ -84,3 +84,10 @@ export function deleteTopicbyadmin(topicid) {
     }
   });
 }
+
+export function getTop() {
+  return request({
+    url: "topic/getTop",
+    method: "get"
+  });
+}

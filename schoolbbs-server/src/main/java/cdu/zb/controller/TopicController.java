@@ -3,15 +3,12 @@ package cdu.zb.controller;
 
 import cdu.zb.constants.GlobalConstants;
 import cdu.zb.dto.TopicDto;
-import cdu.zb.entity.BanEntity;
-import cdu.zb.entity.TopicEntity;
-import cdu.zb.entity.UserEntity;
+import cdu.zb.entity.*;
 import cdu.zb.jsonresult.BaseApiController;
 import cdu.zb.jsonresult.JsonResult;
 import cdu.zb.response.TopicResponse;
-import cdu.zb.service.BanService;
-import cdu.zb.service.TopicService;
-import cdu.zb.service.UserService;
+import cdu.zb.security.MyUserDetails;
+import cdu.zb.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -41,6 +38,12 @@ public class TopicController extends BaseApiController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MessageService messageService;
+
+    @Autowired
+    private ReplyService replyService;
 
     /*
      * @description: 得到首页帖子
@@ -74,9 +77,8 @@ public class TopicController extends BaseApiController {
     @PostMapping(value = "/saveTopic",name="保存帖子")
     public JsonResult<Integer> saveTopic(@RequestBody TopicDto topicDto) throws UnsupportedEncodingException {
         Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-        String username=authentication.getName();
-        UserEntity userEntity=userService.getOne(new QueryWrapper<UserEntity>().eq("username",username));
-        BanEntity banEntity=banService.getOne(new QueryWrapper<BanEntity>().eq("uid",userEntity.getId()));
+        MyUserDetails myUserDetails= (MyUserDetails) authentication.getPrincipal();
+        BanEntity banEntity=banService.getOne(new QueryWrapper<BanEntity>().eq("uid",myUserDetails.getId()));
         if(banEntity!=null){
             return  jr(GlobalConstants.NO_UNAUTHORIZED,banEntity.getFreeTime().toString());
         }
@@ -111,6 +113,8 @@ public class TopicController extends BaseApiController {
             userEntity.setCount(userEntity.getCount()-1);
             userEntity.setExp(userEntity.getExp()-3);
             userService.updateById(userEntity);
+            messageService.remove(new QueryWrapper<MessageEntity>().eq("topic_id",topicid));
+            replyService.remove(new QueryWrapper<ReplyEntity>().eq("topic_id",topicid));
             return jr(GlobalConstants.SUCCESS,"删除成功");
         }
         return jr(GlobalConstants.ERROR,"删除失败");
@@ -122,10 +126,15 @@ public class TopicController extends BaseApiController {
         if(topicService.removeById(topicid)){
            userService.deleteExp(topicEntity.getUserId(),3);
            userService.deletecount(topicEntity.getUserId());
+            messageService.remove(new QueryWrapper<MessageEntity>().eq("topic_id",topicid));
+            replyService.removeReplies(topicid);
             return jr(GlobalConstants.SUCCESS,"删除成功");
         }
         return jr(GlobalConstants.ERROR,"删除失败");
     }
-
+  @GetMapping(value = "getTop",name = "获取今日前10")
+    public  JsonResult<List<TopicResponse>>  getTop() throws UnsupportedEncodingException {
+        return jr(GlobalConstants.SUCCESS,"获取成功",topicService.getTop());
+  }
 
 }

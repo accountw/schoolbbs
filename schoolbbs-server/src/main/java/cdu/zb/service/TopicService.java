@@ -31,4 +31,8 @@ public interface TopicService extends IService<TopicEntity> {
     List<TopicResponse> getTopicByUserid(Integer index, String userId) throws UnsupportedEncodingException;
     Integer addcount(String id);
     Integer deletecount(String id);
+
+    List<TopicResponse> getTop() throws UnsupportedEncodingException;
+
+    List<TopicResponse> getCollectTopic(String userId, Integer index) throws UnsupportedEncodingException;
 }

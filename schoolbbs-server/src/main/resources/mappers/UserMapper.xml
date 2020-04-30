@@ -28,4 +28,16 @@
         id, username, password, gender, birth, sign, exp, tel, mail, register_time, head, grade, college, major, no, register_id, logic_delete_flag
     </sql>
 
+    <select id="getFocusList" resultType="cdu.zb.response.UserResponse">
+        select u.id as id,u.username as username,u.head as head
+        from user as u,focus as f
+        where u.id=f.focus_user_id and  f.user_id=#{userId}
+    </select>
+
+    <select id="getFansList" resultType="cdu.zb.response.UserResponse">
+        select u.id as id,u.username as username,u.head as head
+        from user as u,focus as f
+        where u.id=f.user_id and  f.focus_user_id=#{userId}
+    </select>
+
 </mapper>

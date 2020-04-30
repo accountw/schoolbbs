@@ -1,5 +1,5 @@
 <template>
-  <div class="Manager">
+  <div class="Manager" >
     <div v-if="this.$store.state.role != 'ROLE_ADMIN'">
       <el-form :model="form" :rules="rules" ref="form">
         <el-form-item prop="name">
@@ -20,8 +20,8 @@
         <el-button type="primary" @click="login('form')">管理员登录</el-button>
       </el-form>
     </div>
-    <div v-if="this.$store.state.role == 'ROLE_ADMIN'">
-      <el-tabs style="height: 200px;">
+    <div v-if="this.$store.state.role == 'ROLE_ADMIN'" >
+      <el-tabs style="height: 200px;" type="card">
         <el-tab-pane label="用户管理"><UserManager></UserManager></el-tab-pane>
         <el-tab-pane label="版主管理"
           ><AdminManager></AdminManager

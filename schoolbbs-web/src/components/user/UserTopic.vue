@@ -41,6 +41,13 @@
               </div>
               <div style="font-size: 12px;">
                 <i class="el-icon-position"></i>{{ topic.lastTime }}
+                <div style="font-size: 14px;float: right">
+                  <img
+                    src="../../assets/点赞-空.png"
+                    style="width:12px;height: 12px"
+                  />
+                  {{ topic.likenum }}
+                </div>
                 <el-link
                   type="primary"
                   @click="open(topic.id)"

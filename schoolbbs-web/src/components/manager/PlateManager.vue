@@ -1,6 +1,6 @@
 <template>
   <div class="PlateManager">
-    <el-tabs :tab-position="tabPosition" style="height: 200px;">
+    <el-tabs :tab-position="tabPosition" >
       <el-tab-pane label="版块管理">
         <el-table :data="plate" style="width: auto;">
           <el-table-column prop="blockname" label="模块名" width="180">

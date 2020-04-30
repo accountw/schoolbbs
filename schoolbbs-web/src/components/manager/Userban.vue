@@ -23,6 +23,7 @@
       small
       layout="prev, pager, next"
       :total="count"
+      page-size="15"
       hide-on-single-page
       @current-change="handleCurrentChange"
       @prev-click="prevclick"
@@ -57,7 +58,7 @@ export default {
       });
     },
     getnum() {
-      getcount(this.index).then(res => {
+      getcount().then(res => {
         if (res.data.code === "SUCCESS") {
           this.count = res.data.data;
         }

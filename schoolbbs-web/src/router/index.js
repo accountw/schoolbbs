@@ -6,12 +6,13 @@ import Register from "../views/Register";
 import Block from "../components/block/Block";
 import Cplate from "../components/plate/cplate";
 import Topic from "../components/topic/Topic";
-import Message from "element-ui/packages/message/src/main";
 import store from "../store/index";
 import UserIndex from "../components/user/UserIndex";
 import Usersetting from "../components/user/Usersetting";
 import Manager from "../views/Manager";
-
+import Collect from "../components/collect/Collect";
+import Messages from "../components/message/Messages";
+import Message from "element-ui/packages/message/src/main";
 Vue.use(VueRouter);
 
 const routes = [
@@ -49,6 +50,14 @@ const routes = [
       {
         path: "/userset/:userid",
         component: Usersetting
+      },
+      {
+        path: "/collect",
+        component: Collect
+      },
+      {
+        path: "/message",
+        component: Messages
       }
     ]
   },
@@ -78,7 +87,7 @@ router.beforeEach((to, from, next) => {
         message: "请先登录",
         type: "error"
       });
-      next("/");
+      next("/home");
     } else {
       next();
     }

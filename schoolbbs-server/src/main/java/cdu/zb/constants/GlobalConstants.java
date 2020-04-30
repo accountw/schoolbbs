@@ -45,4 +45,5 @@ public class GlobalConstants {
     public static final String RELOAD = "RELOAD";
 
     public  static  final  String EXPIRED="EXPIRED";
+    public  static  final  String COLLECTED="COLLECTED";
 }

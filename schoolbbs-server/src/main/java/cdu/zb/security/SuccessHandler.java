@@ -45,7 +45,7 @@ public class SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         }
 
         // 根据用户名，角色创建token
-        String token = TokenUtil.createToken(User.getUsername(), role, false);
+        String token = TokenUtil.createToken(User.getUsername(), role, User.getId(),false);
         redisUtil.set(User.getUsername(),token);
         // 返回创建成功的token
         // 但是这里创建的token只是单纯的token

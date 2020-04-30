@@ -17,4 +17,11 @@
         id, user_id, topic_id, plate_id, collect_time, logic_delete_flag
     </sql>
 
+    <select id="getCollectPlate" resultType="cdu.zb.response.CollectResponse">
+        select c.id as id,c.plate_id as plateId,p.name as platename
+        from collect as c,plate as p
+        where c.plate_id=p.id and c.user_id=#{userId} and c.logic_delete_flag=0
+        and p.logic_delete_flag=0
+    </select>
+
 </mapper>

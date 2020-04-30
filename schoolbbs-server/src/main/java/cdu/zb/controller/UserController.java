@@ -7,6 +7,7 @@ import cdu.zb.entity.CheckCodeEntity;
 import cdu.zb.entity.UserEntity;
 import cdu.zb.jsonresult.BaseApiController;
 import cdu.zb.jsonresult.JsonResult;
+import cdu.zb.response.UserResponse;
 import cdu.zb.service.CheckCodeService;
 import cdu.zb.service.UserService;
 import cdu.zb.util.IdUtil;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
+import java.util.List;
 
 
 /**
@@ -206,6 +208,16 @@ public class UserController extends BaseApiController {
             return jr(GlobalConstants.SUCCESS,"更新成功");
         }
         return jr(GlobalConstants.ERROR,"更新失败");
+    }
+
+    @GetMapping(value = "/getFocusList",name = "获取关注列表")
+    public JsonResult<List<UserResponse>>  getFocusList(String userId){
+        return jr(GlobalConstants.SUCCESS,"获取成功",userService.getFocusList(userId));
+    }
+
+    @GetMapping(value = "/getFansList",name = "获取粉丝列表")
+    public JsonResult<List<UserResponse>>  getFansList(String userId){
+        return jr(GlobalConstants.SUCCESS,"获取成功",userService.getFansList(userId));
     }
 
 }
