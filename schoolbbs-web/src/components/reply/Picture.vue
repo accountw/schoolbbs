@@ -20,7 +20,7 @@ export default {
   props: ["picture"],
   data() {
     return {
-      v: "contain"
+      v: "cover"
     };
   },
   computed: {

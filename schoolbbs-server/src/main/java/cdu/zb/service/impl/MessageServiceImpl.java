@@ -104,6 +104,11 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, MessageEntity
            }
             if(list.get(i).getrContext()!=null){
                 list.get(i).setrContext(new String(decoder.decode(list.get(i).getrContext()),"UTF-8"));
+                if(list.get(i).getrContext().equals("")) {
+                    if (list.get(i).getEvent() == 1) {
+                        list.get(i).setrContext("[图片]");
+                    }
+                }
             }
             if(list.get(i).gettTitle()!=null){
                 list.get(i).settTitle(new String(decoder.decode(list.get(i).gettTitle()),"UTF-8"));

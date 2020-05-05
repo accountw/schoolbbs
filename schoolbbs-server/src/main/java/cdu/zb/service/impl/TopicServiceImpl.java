@@ -198,4 +198,41 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, TopicEntity> impl
         }
         return list;
     }
+
+    @Override
+    public List<TopicResponse> getTopTopicByPlateid(String plateid) throws UnsupportedEncodingException {
+        Base64.Decoder decoder = Base64.getDecoder();
+        List<TopicResponse> list=topicMapper.getTopTopicByPlateid(plateid);
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setContext(new String(decoder.decode(list.get(i).getContext()),"UTF-8"));
+            list.get(i).setTitle(new String(decoder.decode(list.get(i).getTitle()),"UTF-8"));
+        }
+        return list;
+    }
+
+    @Override
+    public List<TopicResponse> getFineList(String plateid, Integer index) throws UnsupportedEncodingException {
+        Base64.Decoder decoder = Base64.getDecoder();
+        index=index*15-15;
+        List<TopicResponse> list=topicMapper.getFineTopicByPlateid(plateid,index);
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setContext(new String(decoder.decode(list.get(i).getContext()),"UTF-8"));
+            list.get(i).setTitle(new String(decoder.decode(list.get(i).getTitle()),"UTF-8"));
+        }
+        return list;
+    }
+
+    @Override
+    public List<TopicResponse> getSearch(String context, Integer index) throws UnsupportedEncodingException {
+        Base64.Encoder encoder = Base64.getEncoder();
+        Base64.Decoder decoder = Base64.getDecoder();
+        index=index*15-15;
+        context=encoder.encodeToString(context.getBytes("UTF-8"));
+        List<TopicResponse> list=topicMapper.getSearchResult(context,index);
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setContext(new String(decoder.decode(list.get(i).getContext()),"UTF-8"));
+            list.get(i).setTitle(new String(decoder.decode(list.get(i).getTitle()),"UTF-8"));
+        }
+        return list;
+    }
 }

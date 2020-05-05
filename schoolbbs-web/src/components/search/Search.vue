@@ -10,7 +10,11 @@
       </el-input>
     </div>
     <div id="button">
-      <el-button type="primary" icon="el-icon-search" size="lager"
+      <el-button
+        type="primary"
+        icon="el-icon-search"
+        size="lager"
+        @click="search"
         >搜索</el-button
       >
     </div>
@@ -24,6 +28,15 @@ export default {
     return {
       input: ""
     };
+  },
+  methods: {
+    search() {
+      if (this.input != "") {
+        this.$router.push({ path: "/SearchResult/" + this.input });
+      } else {
+        this.$message.error("请输入搜索内容");
+      }
+    }
   }
 };
 </script>

@@ -33,4 +33,10 @@ public interface TopicMapper extends BaseMapper<TopicEntity> {
     List<TopicResponse> getTop(@Param("localDateTime") LocalDateTime localDateTime);
 
     List<TopicResponse> getCollectTopic(@Param("userId")String userId, @Param("index")Integer index);
+
+    List<TopicResponse>  getTopTopicByPlateid(@Param("plateid") String plateid);
+
+    List<TopicResponse> getFineTopicByPlateid(@Param("plateid") String plateid,@Param("index")Integer index);
+
+    List<TopicResponse> getSearchResult(@Param("context") String context, @Param("index") Integer index);
 }

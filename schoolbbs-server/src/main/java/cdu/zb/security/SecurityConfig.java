@@ -75,7 +75,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/user/register/**","/api/checkcode/**",
                         "/api/topic/getTopicFlow","/api/topic/getFirstCount","/api/topic/getTop","/api/schoolregister/**",
-                        "/api/graduateRegister/**").permitAll()
+                        "/api/graduateRegister/**","/api/user/changepassword").permitAll()
                 .antMatchers("/api/topic/deleteTopicbyadmin","api/ban/addBan","/api/plate/updateplate")
                 .hasRole("MANAGER")
                 .antMatchers("/api/ban/getBanList","/api/ban/getcount","/api/ban/deleteBan",

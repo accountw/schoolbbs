@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cdu.zb.mapper.CricleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cdu.zb.entity.CricleEntity">
+        <id column="id" property="id" />
+        <result column="context" property="context" />
+        <result column="picture" property="picture" />
+        <result column="logic_delete_flag" property="logicDeleteFlag" />
+        <result column="likenum" property="likenum" />
+        <result column="create_time" property="createTime" />
+        <result column="user_id" property="userId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, context, picture, logic_delete_flag, likenum, create_time, user_id
+    </sql>
+
+    <select id="getCriclrbyUserid" resultType="cdu.zb.response.CricleResponse">
+        select c.id as id,c.context as context,c.picture as picture,c.likenum as likenum,
+        c.create_time as createTime,c.user_id as userId,u.username as username,u.head as head,c.replynum as replynum
+        from cricle as c,user as u
+        where c.user_id=u.id and c.user_id=#{userid}
+        order by c.create_time desc limit #{index},10
+    </select>
+
+    <select id="getCricle" resultType="cdu.zb.response.CricleResponse">
+        select c.id as id,c.context as context,c.picture as picture,c.likenum as likenum,
+        c.create_time as createTime,c.user_id as userId,u.username as username,u.head as head,c.replynum as replynum
+        from cricle as c,user as u
+        where c.user_id=u.id and c.user_id in (select focus_user_id from focus where user_id=#{userid})
+        order by c.create_time desc limit #{index},10
+    </select>
+    <select id="getFocusCricleCount" resultType="Integer">
+        select count(*) from cricle
+        where user_id in  (select focus_user_id from focus where user_id=#{userid})
+    </select>
+
+</mapper>

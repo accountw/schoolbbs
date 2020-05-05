@@ -3,18 +3,15 @@ package cdu.zb.controller;
 
 import cdu.zb.constants.GlobalConstants;
 import cdu.zb.dto.FavoriteDto;
-import cdu.zb.entity.FavoriteEntity;
-import cdu.zb.entity.MessageEntity;
-import cdu.zb.entity.ReplyEntity;
-import cdu.zb.entity.TopicEntity;
+import cdu.zb.entity.*;
 import cdu.zb.jsonresult.BaseApiController;
 import cdu.zb.jsonresult.JsonResult;
-import cdu.zb.service.FavoriteService;
-import cdu.zb.service.MessageService;
-import cdu.zb.service.ReplyService;
-import cdu.zb.service.TopicService;
+import cdu.zb.security.MyUserDetails;
+import cdu.zb.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -42,6 +39,9 @@ public class FavoriteController extends BaseApiController {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private CricleService cricleService;
 
     @PostMapping(value = "/addFavorite",name = "点赞")
     public JsonResult<Boolean> addFavorite(@RequestBody FavoriteDto favoriteDto){
@@ -143,5 +143,50 @@ public class FavoriteController extends BaseApiController {
     public JsonResult<Integer> getTopicFavariteNum(String topicId){
         return jr(GlobalConstants.SUCCESS,"获取成功",favoriteService.count(new QueryWrapper<FavoriteEntity>()
                 .eq("topic_id",topicId)));
+    }
+
+    @GetMapping(value = "likeCricle",name = "给圈子点赞")
+    public JsonResult<String> likeCricle(String cricleId){
+       Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails userDetails= (MyUserDetails) authentication.getPrincipal();
+        CricleEntity cricleEntity=cricleService.getById(cricleId);
+       if( favoriteService.count(new QueryWrapper<FavoriteEntity>().eq("user_id",userDetails.getId())
+               .eq("cricle_id",cricleId))!=0){
+           return jr(GlobalConstants.ERROR,"已经点过赞了");
+       }
+       FavoriteEntity favoriteEntity=new FavoriteEntity();
+       favoriteEntity.setLikeTime(LocalDateTime.now());
+       favoriteEntity.setUserId(userDetails.getId());
+       favoriteEntity.setCricleId(cricleId);
+       favoriteService.save(favoriteEntity);
+       cricleEntity.setLikenum(cricleEntity.getLikenum()+1);
+       cricleService.updateById(cricleEntity);
+        return jr(GlobalConstants.SUCCESS,"点赞成功");
+    }
+
+    @GetMapping(value = "removeLikeCricle",name = "取消给圈子点赞")
+    public JsonResult<String> removeLikeCricle(String cricleId){
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails userDetails= (MyUserDetails) authentication.getPrincipal();
+        CricleEntity cricleEntity=cricleService.getById(cricleId);
+        FavoriteEntity favoriteEntity=favoriteService.getOne(new QueryWrapper<FavoriteEntity>().eq("user_id",userDetails.getId()) .eq("cricle_id",cricleId));
+        if(favoriteEntity==null){
+            return jr(GlobalConstants.ERROR,"已经点过赞了");
+        }
+        favoriteService.removeById(favoriteEntity.getId());
+        cricleEntity.setLikenum(cricleEntity.getLikenum()-1);
+        cricleService.updateById(cricleEntity);
+        return jr(GlobalConstants.SUCCESS,"取消成功");
+    }
+
+    @GetMapping(value = "selectLikeCricle",name = "查询是否给圈子点赞")
+    public JsonResult<String> selectLikeCricle(String cricleId){
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails userDetails= (MyUserDetails) authentication.getPrincipal();
+        FavoriteEntity favoriteEntity=favoriteService.getOne(new QueryWrapper<FavoriteEntity>().eq("user_id",userDetails.getId()) .eq("cricle_id",cricleId));
+        if(favoriteEntity==null){
+            return jr(GlobalConstants.ERROR,"没有点赞");
+        }
+        return jr(GlobalConstants.SUCCESS,"已经点赞");
     }
 }

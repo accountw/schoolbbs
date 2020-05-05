@@ -8,9 +8,6 @@
       <el-tab-pane label="在校学生注册" name="second">
         <StudentRegister></StudentRegister
       ></el-tab-pane>
-      <el-tab-pane label="毕业校友注册" name="third"
-        ><GraduateRegister></GraduateRegister
-      ></el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -18,13 +15,11 @@
 <script>
 import Userregister from "../register/Userregister";
 import StudentRegister from "../register/StudentRegister";
-import GraduateRegister from "../register/GraduateRegister";
 export default {
   name: "Registernavbar",
   components: {
     Userregister,
-    StudentRegister,
-    GraduateRegister
+    StudentRegister
   },
   data() {
     return {

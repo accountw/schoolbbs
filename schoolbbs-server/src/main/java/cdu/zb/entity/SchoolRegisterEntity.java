@@ -1,9 +1,11 @@
 package cdu.zb.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.io.Serializable;
 
 /**
  * <p>
@@ -81,6 +83,7 @@ public class SchoolRegisterEntity implements Serializable {
     /**
      * 申请时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm",timezone = "GMT+8")
     private LocalDateTime askTime;
 
     /**

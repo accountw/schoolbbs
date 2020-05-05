@@ -46,6 +46,7 @@ public class ReplyEntity implements Serializable {
      */
     private String picture;
 
+
     /**
      * 回复时间
      */

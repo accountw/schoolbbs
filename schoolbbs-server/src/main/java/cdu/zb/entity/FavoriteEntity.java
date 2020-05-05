@@ -36,8 +36,18 @@ public class FavoriteEntity implements Serializable {
     /**
      * 用户_id
      */
+
     private String userId;
 
+    public String getCricleId() {
+        return cricleId;
+    }
+
+    public void setCricleId(String cricleId) {
+        this.cricleId = cricleId;
+    }
+
+    private String cricleId;
     /**
      * 点赞时间
      */

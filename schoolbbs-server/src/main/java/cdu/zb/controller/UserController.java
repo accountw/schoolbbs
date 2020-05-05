@@ -8,6 +8,7 @@ import cdu.zb.entity.UserEntity;
 import cdu.zb.jsonresult.BaseApiController;
 import cdu.zb.jsonresult.JsonResult;
 import cdu.zb.response.UserResponse;
+import cdu.zb.security.MyUserDetails;
 import cdu.zb.service.CheckCodeService;
 import cdu.zb.service.UserService;
 import cdu.zb.util.IdUtil;
@@ -189,7 +190,8 @@ public class UserController extends BaseApiController {
     @PostMapping(value = "/updateUser",name = "更新")
     public  JsonResult<Integer> updateUser(@RequestBody UserDto userDto) throws UnsupportedEncodingException {
         Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
-        if(authentication.getPrincipal().equals(userDto.getUsername())) {
+        MyUserDetails userDetails= (MyUserDetails) authentication.getPrincipal();
+        if(userDetails.getUsername().equals(userDto.getUsername())) {
             return jr(GlobalConstants.SUCCESS, "更新成功", userService.updateUser(userDto));
         }else {
             return jr(GlobalConstants.ERROR, "更新失败");
@@ -220,4 +222,15 @@ public class UserController extends BaseApiController {
         return jr(GlobalConstants.SUCCESS,"获取成功",userService.getFansList(userId));
     }
 
+    @GetMapping(value = "/changepassword",name = "修改密码")
+    public JsonResult<Integer> changepassword(String newpassword,String username,String mail){
+        UserEntity userEntity=userService.getOne(new QueryWrapper<UserEntity>().eq("username",username));
+        if(userEntity.getMail().equals(mail)){
+            userEntity.setPassword(bCryptPasswordEncoder.encode(newpassword));
+            userService.updateById(userEntity);
+            checkCodeService.remove(new QueryWrapper<CheckCodeEntity>().eq("user_mail",userEntity.getMail()));
+            return jr(GlobalConstants.SUCCESS,"更新成功");
+        }
+        return jr(GlobalConstants.ERROR,"更新失败");
+    }
 }

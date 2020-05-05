@@ -47,7 +47,9 @@ public class ReplyServiceImpl extends ServiceImpl<ReplyMapper, ReplyEntity> impl
         List<ReplyResponse> list=replyMapper.getReplybyTopicid(topicid,index);
         for (int i = 0; i < list.size(); i++) {
             list.get(i).setContext(new String(decoder.decode(list.get(i).getContext()),"UTF-8"));
-            list.get(i).setSign(new String(decoder.decode(list.get(i).getSign()),"UTF-8"));
+            if(list.get(i).getSign()!=null){
+                list.get(i).setSign(new String(decoder.decode(list.get(i).getSign()),"UTF-8"));
+            }
         }
         return list;
     }
@@ -87,5 +89,18 @@ public class ReplyServiceImpl extends ServiceImpl<ReplyMapper, ReplyEntity> impl
             messageMapper.delete(new QueryWrapper<MessageEntity>().eq("reply_id",replyEntity.getId()));
         }
         replyMapper.delete(new QueryWrapper<ReplyEntity>().eq("topic_id",topicId));
+    }
+
+    @Override
+    public List<ReplyResponse> getSearch(String context, Integer index) throws UnsupportedEncodingException {
+        Base64.Encoder encoder = Base64.getEncoder();
+        Base64.Decoder decoder = Base64.getDecoder();
+        index=index*15-15;
+        context=encoder.encodeToString(context.getBytes("UTF-8"));
+        List<ReplyResponse> list=replyMapper.getSearchResult(context,index);
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setContext(new String(decoder.decode(list.get(i).getContext()),"UTF-8"));
+        }
+        return list;
     }
 }

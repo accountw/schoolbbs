@@ -102,7 +102,7 @@
                   @update="getuser"
                 ></UserTopic
               ></el-tab-pane>
-              <el-tab-pane label="圈子" name="second">配置管理</el-tab-pane>
+              <el-tab-pane label="圈子" name="second"><UserCricle></UserCricle></el-tab-pane>
               <el-tab-pane label="关注/粉丝" name="third"
                 ><div>
                   <div style="color: hotpink">关注:</div>
@@ -154,10 +154,11 @@ import { getFansList, getFocusList, getUserByid } from "../../network/User";
 import UserTopic from "./UserTopic";
 import { addBan } from "../../network/ban";
 import { addFocus, deleteFocus, getcount, isFocus } from "../../network/focus";
+import UserCricle from "./UserCricle";
 
 export default {
   components: {
-    UserTopic
+    UserTopic,UserCricle
   },
   name: "UserIndex",
   data() {

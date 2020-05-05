@@ -31,7 +31,7 @@ public class BanServiceImpl extends ServiceImpl<BanMapper, BanEntity> implements
     @Override
     public List<BanResponse> getBanList(Integer index) {
         index=index*15-15;
-        List<BanResponse> list=banMapper.getBanList(index);
+        List<BanResponse> list=banMapper.getBanList(index,LocalDateTime.now());
         for (int i = 0; i < list.size(); i++) {
             if(list.get(i).getFreeTime().compareTo(LocalDateTime.now())==-1){
                 banMapper.deleteById(list.get(i).getId());

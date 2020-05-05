@@ -1,5 +1,5 @@
 <template>
-  <div class="Manager" >
+  <div class="Manager">
     <div v-if="this.$store.state.role != 'ROLE_ADMIN'">
       <el-form :model="form" :rules="rules" ref="form">
         <el-form-item prop="name">
@@ -20,33 +20,29 @@
         <el-button type="primary" @click="login('form')">管理员登录</el-button>
       </el-form>
     </div>
-    <div v-if="this.$store.state.role == 'ROLE_ADMIN'" >
-      <el-tabs style="height: 200px;" type="card">
-        <el-tab-pane label="用户管理"><UserManager></UserManager></el-tab-pane>
-        <el-tab-pane label="版主管理"
-          ><AdminManager></AdminManager
-        ></el-tab-pane>
-        <el-tab-pane label="板块管理"
-          ><PlateManager></PlateManager
-        ></el-tab-pane>
-      </el-tabs>
+    <div v-if="this.$store.state.role == 'ROLE_ADMIN'">
+      <el-menu
+        default-active="/usermanager"
+        class="el-menu-demo"
+        mode="horizontal"
+        :router="true"
+      >
+        <el-menu-item index="/usermanager">用户管理</el-menu-item>
+        <el-menu-item index="/adminmanager">版主管理</el-menu-item>
+        <el-menu-item index="/platemanager">板块管理</el-menu-item>
+      </el-menu>
+      <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
-import UserManager from "../components/manager/UserManager";
 import { mapMutations } from "vuex";
 import qs from "qs";
 import { login } from "../network/login";
-import AdminManager from "../components/manager/AdminManager";
-import PlateManager from "../components/manager/PlateManager";
+
 export default {
-  components: {
-    UserManager,
-    AdminManager,
-    PlateManager
-  },
+  components: {},
   name: "Manager",
   data() {
     return {

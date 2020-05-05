@@ -82,6 +82,33 @@ public class CheckCodeController extends BaseApiController {
         return jr(GlobalConstants.SUCCESS,"验证码发送成功");
     }
 
+
+    @PostMapping(value = "/sendMs", name = "发送短信")
+    public JsonResult<String> sendMs(@RequestBody String mail) {
+        String code = CodeUtil.getCode();
+        LOG.debug(code);
+        String subject = "验证码";
+        String content = "亲爱的用户你好，你正在修改密码，你的验证码为:" + code;
+        CheckCodeEntity checkCodeEntity=new CheckCodeEntity();
+        checkCodeEntity.setCode(code.toUpperCase());
+        checkCodeEntity.setUserMail(mail);
+        checkCodeEntity.setCreateTime(LocalDateTime.now());
+
+        new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        mailService.sendSimpleMailMessge(mail, subject, content);
+                    }
+                }).start();
+
+        if(checkCodeService.count(new QueryWrapper<CheckCodeEntity>().eq("user_mail",mail))==0){
+            checkCodeService.save(checkCodeEntity);
+        }else{
+            checkCodeService.update(checkCodeEntity,new QueryWrapper<CheckCodeEntity>().eq("user_mail",mail));
+        }
+        return jr(GlobalConstants.SUCCESS,"验证码发送成功");
+    }
     /**
      * @description: 查询验证码是否正确
      * @author accountw

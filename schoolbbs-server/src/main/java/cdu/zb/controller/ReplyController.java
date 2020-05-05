@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
 
@@ -57,7 +58,8 @@ public class ReplyController extends BaseApiController {
     public JsonResult<Integer> saveReply(@RequestBody ReplyDto replyDto) throws UnsupportedEncodingException {
         Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
         MyUserDetails myUserDetails= (MyUserDetails) authentication.getPrincipal();
-        BanEntity banEntity=banService.getOne(new QueryWrapper<BanEntity>().eq("uid",myUserDetails.getId()));
+        banService.remove(new QueryWrapper<BanEntity>().eq("uid",myUserDetails.getId()).le("free_time", LocalDateTime.now()));
+        BanEntity banEntity=banService.getOne(new QueryWrapper<BanEntity>().eq("uid",myUserDetails.getId()).ge("free_time", LocalDateTime.now()));
         if(banEntity!=null){
             return  jr(GlobalConstants.NO_UNAUTHORIZED,banEntity.getFreeTime().toString());
         }
@@ -127,5 +129,17 @@ public class ReplyController extends BaseApiController {
     @GetMapping(value = "getcount",name = "得到评论数")
     public  JsonResult<Integer> getcount(String topicid){
         return  jr(GlobalConstants.SUCCESS,"获取成功",replyService.count(new QueryWrapper<ReplyEntity>().eq("topic_id",topicid)));
+    }
+
+
+    @GetMapping(value = "/getSearch",name = "获取搜索结果")
+    public JsonResult<List<ReplyResponse>> getSearch(String context, Integer index) throws UnsupportedEncodingException {
+        return jr(GlobalConstants.SUCCESS,"获取成功",replyService.getSearch(context,index));
+    }
+    @GetMapping(value = "/getSearchCount",name = "获取搜索结果条数")
+    public JsonResult<Integer> getSearch(String context) throws UnsupportedEncodingException {
+        Base64.Encoder encoder = Base64.getEncoder();
+        context=encoder.encodeToString(context.getBytes("UTF-8"));
+        return jr(GlobalConstants.SUCCESS,"获取成功",replyService.count(new QueryWrapper<ReplyEntity>().like("context",context)));
     }
 }

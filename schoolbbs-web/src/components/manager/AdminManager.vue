@@ -1,32 +1,43 @@
 <template>
   <div class="AdminManager">
-    <el-tabs :tab-position="tabPosition" >
-      <el-tab-pane label="版主管理">
-        <el-table :data="plateAdmin" style="width: 540px">
-          <el-table-column prop="username" label="用户名" width="180">
-          </el-table-column>
-          <el-table-column prop="name" label="板块名" width="180">
-          </el-table-column>
-          <el-table-column label="操作" width="180">
-            <template slot-scope="scope">
-              <el-button size="mini" @click="handleDelete(scope.row.id)"
-                >解除版主</el-button
-              >
-            </template>
-          </el-table-column>
-        </el-table>
-        <el-pagination
-          small
-          layout="prev, pager, next"
-          :total="count"
-          hide-on-single-page
-          @current-change="handleCurrentChange"
-          @prev-click="prevclick"
-          @next-click="nextclick"
+    <el-container>
+      <el-aside width="150px">
+        <el-menu
+          default-active="/index"
+          class="el-menu-demo"
+          style="width: 150px"
         >
-        </el-pagination>
-      </el-tab-pane>
-    </el-tabs>
+          <el-menu-item index="/index">版主管理</el-menu-item>
+        </el-menu>
+      </el-aside>
+      <el-main>
+        <el-card>
+          <el-table :data="plateAdmin" style="width: 540px">
+            <el-table-column prop="username" label="用户名" width="180">
+            </el-table-column>
+            <el-table-column prop="name" label="板块名" width="180">
+            </el-table-column>
+            <el-table-column label="操作" width="180">
+              <template slot-scope="scope">
+                <el-button size="mini" @click="handleDelete(scope.row.id)"
+                  >解除版主</el-button
+                >
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-pagination
+            small
+            layout="prev, pager, next"
+            :total="count"
+            hide-on-single-page
+            @current-change="handleCurrentChange"
+            @prev-click="prevclick"
+            @next-click="nextclick"
+          >
+          </el-pagination>
+        </el-card>
+      </el-main>
+    </el-container>
   </div>
 </template>
 

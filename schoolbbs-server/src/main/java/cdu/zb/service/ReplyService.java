@@ -22,4 +22,6 @@ public interface ReplyService extends IService<ReplyEntity> {
 
     Integer saveReply(ReplyDto replyDto);
     public void removeReplies(String topicId);
+
+    List<ReplyResponse> getSearch(String context, Integer index) throws UnsupportedEncodingException;
 }

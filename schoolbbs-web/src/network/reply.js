@@ -37,3 +37,24 @@ export function deleteReply(data) {
     }
   });
 }
+
+export function getreplysearch(context, index) {
+  return request({
+    url: "reply/getSearch",
+    method: "get",
+    params: {
+      context:context,
+      index:index
+    }
+  });
+}
+
+export function getreplysearchCount(context) {
+  return request({
+    url: "reply/getSearchCount",
+    method: "get",
+    params: {
+      context: context,
+    }
+  });
+}

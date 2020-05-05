@@ -35,4 +35,10 @@ public interface TopicService extends IService<TopicEntity> {
     List<TopicResponse> getTop() throws UnsupportedEncodingException;
 
     List<TopicResponse> getCollectTopic(String userId, Integer index) throws UnsupportedEncodingException;
+
+    List<TopicResponse> getTopTopicByPlateid(String plateid) throws UnsupportedEncodingException;
+
+    List<TopicResponse> getFineList(String plateid, Integer index) throws UnsupportedEncodingException;
+
+    List<TopicResponse> getSearch(String context,Integer index) throws UnsupportedEncodingException;
 }

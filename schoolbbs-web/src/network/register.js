@@ -18,6 +18,13 @@ export function sendMessage(data) {
   });
 }
 
+export function sendMs(data) {
+  return request({
+    url: "/checkcode/sendMs",
+    method: "post",
+    data: data
+  });
+}
 //判断邮箱是否重复
 export function selectMail(data) {
   return request({
@@ -97,5 +104,19 @@ export function dealSchoolRegister(id, status) {
       id: id,
       status: status
     }
+  });
+}
+
+export function getSchoolRegisterCount() {
+  return request({
+    url: "/schoolregister/getcount",
+    method: "get"
+  });
+}
+
+export function getGraduateRegisterCount() {
+  return request({
+    url: "/graduateregister/getcount",
+    method: "get"
   });
 }

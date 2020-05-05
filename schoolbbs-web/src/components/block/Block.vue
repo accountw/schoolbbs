@@ -1,17 +1,19 @@
 <template>
   <div class="Block">
-    <ul id="ul" style="margin-top: 0;">
-      <li v-for="block in blocks" :key="block.id">
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>{{ block.name }}</span>
-          </div>
-          <div>
-            <plate v-bind:block="block.id"></plate>
-          </div>
-        </el-card>
-      </li>
-    </ul>
+    <el-card>
+      <ul id="ul" style="margin-top: 0;">
+        <li v-for="block in blocks" :key="block.id">
+          <el-card class="box-card" shadow="never">
+            <div slot="header" class="clearfix">
+              <span>{{ block.name }}</span>
+            </div>
+            <div>
+              <plate v-bind:block="block.id"></plate>
+            </div>
+          </el-card>
+        </li>
+      </ul>
+    </el-card>
   </div>
 </template>
 

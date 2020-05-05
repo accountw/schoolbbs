@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cdu.zb.mapper.CricleMessageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cdu.zb.entity.CricleMessageEntity">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="reply_user_id" property="replyUserId" />
+        <result column="context" property="context" />
+        <result column="cricle_id" property="cricleId" />
+        <result column="create_time" property="createTime" />
+        <result column="logic_delete_flag" property="logicDeleteFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id, reply_user_id, context, cricle_id, create_time, logic_delete_flag
+    </sql>
+
+    <select id="getMessage" resultType="cdu.zb.response.CricleMessageResponse">
+        select c.id as id,c.user_id as userId,c.reply_user_id as replyUserIs,
+        c.context as context,c.cricle_id as cricleId,c.create_time as createTime,
+        u.username as username ,u.head as head
+        from cricle_message as c,user as u
+        where c.logic_delete_flag=0 and u.logic_delete_flag=0 and c.cricle_id=#{cricleId}
+        and c.user_id=u.id order by c.create_time limit #{index},10
+    </select>
+
+</mapper>

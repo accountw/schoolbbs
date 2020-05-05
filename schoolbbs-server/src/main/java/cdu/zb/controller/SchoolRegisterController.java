@@ -4,11 +4,15 @@ package cdu.zb.controller;
 import cdu.zb.constants.GlobalConstants;
 import cdu.zb.dto.SchoolRegisterDto;
 import cdu.zb.entity.SchoolRegisterEntity;
+import cdu.zb.entity.UserEntity;
 import cdu.zb.jsonresult.BaseApiController;
 import cdu.zb.jsonresult.JsonResult;
 import cdu.zb.service.SchoolRegisterService;
+import cdu.zb.service.UserService;
+import cdu.zb.service.impl.MailServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -30,6 +34,13 @@ public class SchoolRegisterController extends BaseApiController {
 
     @Autowired
     private SchoolRegisterService schoolRegisterService;
+    @Autowired
+    private MailServiceImpl mailService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
 
     @PostMapping(value = "save",name = "保存注册表单")
@@ -52,11 +63,43 @@ public class SchoolRegisterController extends BaseApiController {
         if(status==1){
             schoolRegisterEntity.setStatus(1);
             schoolRegisterService.updateById(schoolRegisterEntity);
+            String subject="校园论坛";
+            String content="恭喜你注册通过";
+            UserEntity userEntity=new UserEntity();
+            userEntity.setExp(1);
+            userEntity.setRegisterTime(LocalDateTime.now());
+            userEntity.setHead("/head/head.png");
+            userEntity.setPassword(bCryptPasswordEncoder.encode(schoolRegisterEntity.getPassword()));
+            userEntity.setUsername(schoolRegisterEntity.getUsername());
+            userEntity.setBirth(schoolRegisterEntity.getBirth());
+            userEntity.setMail(schoolRegisterEntity.getMail());
+            userEntity.setCount(0);
+            new Thread(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            mailService.sendSimpleMailMessge(schoolRegisterEntity.getMail(), subject, content);
+                        }
+                    }).start();
         }
         if(status==2){
             schoolRegisterEntity.setStatus(2);
             schoolRegisterService.updateById(schoolRegisterEntity);
+            String subject="校园论坛";
+            String content="你的账号注册失败，请重新注册";
+            new Thread(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            mailService.sendSimpleMailMessge(schoolRegisterEntity.getMail(), subject, content);
+                        }
+                    }).start();
         }
         return jr(GlobalConstants.SUCCESS,"处理成功");
+    }
+
+    @GetMapping(value = "getcount",name = "得到数量")
+    public JsonResult<Integer> getcount(){
+        return jr(GlobalConstants.SUCCESS,"获取成功",schoolRegisterService.count());
     }
 }

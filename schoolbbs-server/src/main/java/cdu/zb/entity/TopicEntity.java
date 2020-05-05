@@ -73,6 +73,26 @@ public class TopicEntity implements Serializable {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private LocalDateTime lastTime;
 
+    public Integer getFine() {
+        return fine;
+    }
+
+    public void setFine(Integer fine) {
+        this.fine = fine;
+    }
+
+    public Integer getTop() {
+        return top;
+    }
+
+    public void setTop(Integer top) {
+        this.top = top;
+    }
+
+    private Integer fine;
+
+    private Integer top;
+
     public Integer getCount() {
         return count;
     }

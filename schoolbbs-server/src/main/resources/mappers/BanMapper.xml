@@ -23,7 +23,8 @@
         b.deal_time as dealTime,b.free_time as freeTime,b.reason as reason ,
         u.username as username,user.username as dealUsername
         from ban as b,user as u,user as user
-        where b.uid=u.id and b.dealer=user.id  and  b.logic_delete_flag=0 limit #{index},15
+        where b.uid=u.id and b.dealer=user.id  and  b.logic_delete_flag=0
+        and   b.free_time &lt;#{local} limit #{index},15
     </select>
 
 </mapper>

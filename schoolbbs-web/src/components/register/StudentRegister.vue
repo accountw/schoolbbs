@@ -1,7 +1,7 @@
 <template>
   <div class="StudentRegister">
     <span
-      >此注册方法适用于没有校园邮箱的还未毕业的用户，提交申请后，管理员审核通过会通过邮箱提醒注册成功</span
+      >此注册方法适用于没有校园邮箱用户，提交申请后，管理员审核通过会通过邮箱提醒注册成功。毕业生也可通过此途径注册。</span
     >
     <el-divider></el-divider>
     <el-form
@@ -29,8 +29,8 @@
       </el-form-item>
       <el-form-item label="生日" prop="birth">
         <el-date-picker v-model="form.birth" type="date" placeholder="选择日期">
-        </el-date-picker
-        >  </el-form-item>
+        </el-date-picker>
+      </el-form-item>
       <el-form-item label="性别" prop="gender">
         <el-radio-group v-model="form.gender">
           <el-radio label="0">男</el-radio>
@@ -195,7 +195,7 @@ export default {
       }
     };
     var validateBirth = (rule, value, callback) => {
-      if (value === ""||value === null) {
+      if (value === "" || value === null) {
         callback(new Error("生日不能为空"));
       } else {
         callback();

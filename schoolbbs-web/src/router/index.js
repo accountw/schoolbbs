@@ -13,6 +13,17 @@ import Manager from "../views/Manager";
 import Collect from "../components/collect/Collect";
 import Messages from "../components/message/Messages";
 import Message from "element-ui/packages/message/src/main";
+import UserManager from "../components/manager/UserManager";
+import PlateManager from "../components/manager/PlateManager";
+import AdminManager from "../components/manager/AdminManager";
+import SchoolRegisterManager from "../components/manager/SchoolRegisterManager";
+import Userban from "../components/manager/Userban";
+import AddPlate from "../components/manager/AddPlate";
+import PlateList from "../components/manager/PlateList";
+import TopicManager from "../components/manager/TopicManager";
+import SearchResult from "../components/search/SearchResult";
+import Findpassword from "../components/login/Findpassword";
+import CricleUser from "../components/cricle/CricleUser";
 Vue.use(VueRouter);
 
 const routes = [
@@ -26,6 +37,10 @@ const routes = [
     component: Index,
     children: [
       {
+        path: "/SearchResult/:context",
+        component: SearchResult
+      },
+      {
         path: "/home",
         name: "/home",
         component: Home
@@ -34,6 +49,11 @@ const routes = [
         path: "/block",
         name: "/block",
         component: Block
+      },
+      {
+        path: "/cricle",
+        name: "/cricle",
+        component: CricleUser
       },
       {
         path: "/plate/:plateid/:index",
@@ -69,7 +89,52 @@ const routes = [
   {
     path: "/manager",
     name: "/manager",
-    component: Manager
+    component: Manager,
+    redirect: "/usermanager",
+    children: [
+      {
+        path: "/usermanager",
+        component: UserManager,
+        redirect: "/userban",
+        children: [
+          {
+            path: "/schoolregistermanager",
+            component: SchoolRegisterManager
+          },
+          {
+            path: "/userban",
+            component: Userban
+          }
+        ]
+      },
+      {
+        path: "/adminmanager",
+        component: AdminManager
+      },
+      {
+        path: "/platemanager",
+        component: PlateManager,
+        redirect: "/platelist",
+        children: [
+          {
+            path: "/platelist",
+            component: PlateList
+          },
+          {
+            path: "/addplate",
+            component: AddPlate
+          }
+        ]
+      },
+      {
+        path: "/topicmanager",
+        component: TopicManager
+      }
+    ]
+  },
+  {
+    path: "/findpassword",
+    component: Findpassword
   }
 ];
 
@@ -78,7 +143,12 @@ const router = new VueRouter({
   mode: "history"
 });
 router.beforeEach((to, from, next) => {
-  if (to.path == "/home" || to.path == "/register" || to.path == "/manager") {
+  if (
+    to.path == "/home" ||
+    to.path == "/register" ||
+    to.path == "/manager" ||
+    to.path == "/findpassword"
+  ) {
     next();
   } else {
     if (!store.state.Authorization) {

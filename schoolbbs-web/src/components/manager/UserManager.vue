@@ -1,18 +1,24 @@
 <template>
   <div class="UserManager">
-    <el-tabs :tab-position="tabPosition" >
-      <el-tab-pane label="用户封禁"><Userban></Userban></el-tab-pane>
-      <el-tab-pane label="注册申请">注册申请</el-tab-pane>
-    </el-tabs>
+    <el-container>
+      <el-aside width="150px">
+        <el-menu
+          default-active="/userban"
+          class="el-menu-demo"
+          :router="true"
+          style="width: 150px"
+        >
+          <el-menu-item index="/userban">用户封禁</el-menu-item>
+          <el-menu-item index="/schoolregistermanager">在校生注册</el-menu-item>
+        </el-menu></el-aside
+      >
+      <el-main> <router-view></router-view></el-main>
+    </el-container>
   </div>
 </template>
 
 <script>
-import Userban from "./Userban";
 export default {
-  components: {
-    Userban
-  },
   name: "UserManager",
   data() {
     return {

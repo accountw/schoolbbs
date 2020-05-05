@@ -68,3 +68,31 @@ export function getTopicFavariteNum(topicId) {
     }
   });
 }
+
+export function likeCricle(cricleId) {
+  return request({
+    url: "/favorite/likeCricle",
+    method: "get",
+    params: {
+      cricleId: cricleId
+    }
+  });
+}
+export function selectLikeCricle(cricleId) {
+  return request({
+    url: "/favorite/selectLikeCricle",
+    method: "get",
+    params: {
+      cricleId: cricleId
+    }
+  });
+}
+export function removeLikeCricle(cricleId) {
+  return request({
+    url: "/favorite/removeLikeCricle",
+    method: "get",
+    params: {
+      cricleId: cricleId
+    }
+  });
+}

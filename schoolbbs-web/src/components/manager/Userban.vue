@@ -1,35 +1,37 @@
 <template>
-  <div class="Userban">
-    <el-table :data="ban" style="width: 1080px">
-      <el-table-column prop="username" label="用户名" width="180">
-      </el-table-column>
-      <el-table-column prop="dealUsername" label="处理人" width="180">
-      </el-table-column>
-      <el-table-column prop="dealTime" label="处理时间" width="180">
-      </el-table-column>
-      <el-table-column prop="reason" label="封禁理由" width="180">
-      </el-table-column>
-      <el-table-column prop="freeTime" label="解封时间" width="180">
-      </el-table-column>
-      <el-table-column label="操作" width="180">
-        <template slot-scope="scope">
-          <el-button size="mini" @click="handleDelete(scope.row.id)"
-            >解封</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination
-      small
-      layout="prev, pager, next"
-      :total="count"
-      page-size="15"
-      hide-on-single-page
-      @current-change="handleCurrentChange"
-      @prev-click="prevclick"
-      @next-click="nextclick"
-    >
-    </el-pagination>
+  <div class="Userban" style="width: 90%;">
+    <el-card>
+      <el-table :data="ban">
+        <el-table-column prop="username" label="用户名" width="180">
+        </el-table-column>
+        <el-table-column prop="dealUsername" label="处理人" width="180">
+        </el-table-column>
+        <el-table-column prop="dealTime" label="处理时间" width="180">
+        </el-table-column>
+        <el-table-column prop="reason" label="封禁理由" width="180">
+        </el-table-column>
+        <el-table-column prop="freeTime" label="解封时间" width="180">
+        </el-table-column>
+        <el-table-column label="操作" width="180">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="handleDelete(scope.row.id)"
+              >解封</el-button
+            >
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        small
+        layout="prev, pager, next"
+        :total="count"
+        page-size="15"
+        hide-on-single-page
+        @current-change="handleCurrentChange"
+        @prev-click="prevclick"
+        @next-click="nextclick"
+      >
+      </el-pagination>
+    </el-card>
   </div>
 </template>
 

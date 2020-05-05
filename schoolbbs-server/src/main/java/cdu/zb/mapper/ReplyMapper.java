@@ -22,4 +22,6 @@ public interface ReplyMapper extends BaseMapper<ReplyEntity> {
     List<ReplyResponse> getReplybyTopicid(@Param("topicid")String topicid,@Param("index")Integer index );
 
     Integer getMaxStorey(@Param("topicId") String topicId);
+
+    List<ReplyResponse> getSearchResult(@Param("context") String context, @Param("index")Integer index);
 }

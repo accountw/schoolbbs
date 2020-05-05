@@ -53,7 +53,17 @@ export function changepd(data) {
     }
   });
 }
-
+export function changepassword(newpassword,username,mail) {
+  return request({
+    url: "/user/changepassword",
+    method: "get",
+    params: {
+      newpassword: newpassword,
+      username:username,
+      mail:mail
+    }
+  });
+}
 export function getFocusList(userId) {
   return request({
     url: "/user/getFocusList",

@@ -33,6 +33,17 @@
        order  by r.storey limit #{index},15
     </select>
 
+    <select id="getSearchResult" resultType="cdu.zb.response.ReplyResponse">
+       select r.id as id,r.topic_id as topicId,r.user_id as userId,
+       r.context as context ,r.picture as picture,r.reply_time as replyTime,r.likenum as likenum,
+       r.status as status ,r.storey as storey,u.username as username,r.master as master,u.sign as sign,
+       u.exp as exp,u.head as head ,(select count(*) from comment where comment.reply_id=r.id) as count
+       from user as u,reply as r
+       where u.id=r.user_id
+       and r.logic_delete_flag=0 and u.logic_delete_flag=0 and r.context like CONCAT('%','${context}','%' )
+       order  by  r.reply_time desc limit #{index},15
+    </select>
+
     <select id="getMaxStorey" resultType="Integer">
         select max(storey) from reply where topic_id=#{topicId}
     </select>

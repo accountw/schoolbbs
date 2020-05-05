@@ -10,12 +10,15 @@ import cdu.zb.response.TopicResponse;
 import cdu.zb.security.MyUserDetails;
 import cdu.zb.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -78,7 +81,7 @@ public class TopicController extends BaseApiController {
     public JsonResult<Integer> saveTopic(@RequestBody TopicDto topicDto) throws UnsupportedEncodingException {
         Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
         MyUserDetails myUserDetails= (MyUserDetails) authentication.getPrincipal();
-        BanEntity banEntity=banService.getOne(new QueryWrapper<BanEntity>().eq("uid",myUserDetails.getId()));
+        BanEntity banEntity=banService.getOne(new QueryWrapper<BanEntity>().eq("uid",myUserDetails.getId()).le("free_time", LocalDateTime.now()));
         if(banEntity!=null){
             return  jr(GlobalConstants.NO_UNAUTHORIZED,banEntity.getFreeTime().toString());
         }
@@ -137,4 +140,54 @@ public class TopicController extends BaseApiController {
         return jr(GlobalConstants.SUCCESS,"获取成功",topicService.getTop());
   }
 
+  @GetMapping(value = "/setTop",name="置顶")
+  public  JsonResult<Integer>  setTop(String id,String plateid)  {
+      Integer count=  topicService.count(new QueryWrapper<TopicEntity>().eq("plate_id",plateid).eq("top",1));
+      if(count>4){
+          return jr(GlobalConstants.ERROR,"置顶帖已达上限");
+      }
+      topicService.update(new UpdateWrapper<TopicEntity>().eq("id",id).set("top",1));
+      return jr(GlobalConstants.SUCCESS,"置顶");
+  }
+
+    @GetMapping(value = "/removeTop",name="取消置顶")
+    public  JsonResult<Integer>  removeTopTop(String id) {
+        topicService.update(new UpdateWrapper<TopicEntity>().eq("id",id).set("top",0));
+        return jr(GlobalConstants.SUCCESS,"取消置顶");
+    }
+
+    @GetMapping(value = "getTopList",name="获取置顶帖")
+    public  JsonResult<List<TopicResponse>>  getTopList(String plateid) throws UnsupportedEncodingException {
+        return jr(GlobalConstants.SUCCESS,"获取成功",topicService.getTopTopicByPlateid(plateid));
+    }
+    @GetMapping(value = "/setFine",name="加精")
+    public  JsonResult<Integer>  setFine(String id)  {
+        topicService.update(new UpdateWrapper<TopicEntity>().eq("id",id).set("fine",1));
+        return jr(GlobalConstants.SUCCESS,"置顶");
+    }
+    @GetMapping(value = "/removeFine",name="取消加精")
+    public  JsonResult<Integer>  removeFine(String id) {
+        topicService.update(new UpdateWrapper<TopicEntity>().eq("id",id).set("fine",0));
+        return jr(GlobalConstants.SUCCESS,"取消置顶");
+    }
+    @GetMapping(value = "/getFineList",name="获取置顶帖")
+    public  JsonResult<List<TopicResponse>>  getTopList(String plateid,Integer index) throws UnsupportedEncodingException {
+        return jr(GlobalConstants.SUCCESS,"获取成功",topicService.getFineList(plateid,index));
+    }
+
+    @GetMapping(value = "/getFineCount",name = "获取加精帖数")
+    public JsonResult<Integer> getFineCount(String plateid){
+        return jr(GlobalConstants.SUCCESS,"获取成功",topicService.count(new QueryWrapper<TopicEntity>().eq("plate_id",plateid).eq("fine",1)));
+    }
+
+    @GetMapping(value = "/getSearch",name = "获取搜索结果")
+    public JsonResult<List<TopicResponse>> getSearch(String context,Integer index) throws UnsupportedEncodingException {
+        return jr(GlobalConstants.SUCCESS,"获取成功",topicService.getSearch(context,index));
+    }
+    @GetMapping(value = "/getSearchCount",name = "获取搜索结果")
+    public JsonResult<Integer> getSearchCount(String context) throws UnsupportedEncodingException {
+        Base64.Encoder encoder = Base64.getEncoder();
+        context=encoder.encodeToString(context.getBytes("UTF-8"));
+        return jr(GlobalConstants.SUCCESS,"获取成功",topicService.count(new QueryWrapper<TopicEntity>().like("context",context).or().like("title",context)));
+    }
 }

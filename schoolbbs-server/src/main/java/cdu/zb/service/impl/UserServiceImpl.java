@@ -53,6 +53,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         userDto.setExp(1);
         userDto.setRegisterTime(LocalDateTime.now());
         userDto.setHead("/head/head.png");
+        userDto.setCount(0);
         userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         if(userMapper.insert(userDto)!=0){
             return true;

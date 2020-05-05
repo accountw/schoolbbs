@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ import java.util.List;
 @Repository
 public interface BanMapper extends BaseMapper<BanEntity> {
 
-    List<BanResponse> getBanList(@Param("index") Integer index);
+    List<BanResponse> getBanList(@Param("index") Integer index, @Param("local")LocalDateTime local);
 
 
 }
