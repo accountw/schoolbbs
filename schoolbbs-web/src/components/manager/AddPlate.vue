@@ -56,7 +56,6 @@ export default {
         };
         addplate(plateDto).then(res => {
           if (res.data.code === "SUCCESS") {
-            this.getplate();
             this.blockid = "";
             this.name = "";
             this.$message({

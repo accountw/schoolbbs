@@ -34,8 +34,9 @@ export function request(config) {
           Store.state.isRefreshing = "1";
           Store.state.Authorization = res.data.message;
           localStorage.setItem("Authorization", res.data.message);
-          Store.state.expire = new Date().getTime() + 1800000;
-          localStorage.setItem("expire", Store.state.expire);
+          localStorage.setItem("expire", new Date().getTime() + 1800000);
+          Store.state.expire = localStorage.getItem("expire");
+
           config.headers.Authorization = localStorage.getItem("Authorization");
           resolve(config);
           onRefreshed(res.data.message);
@@ -44,7 +45,6 @@ export function request(config) {
       })
       .catch(err => {
         console.log(err);
-        console.log("用户登录信息过时");
         Message({
           showClose: true,
           message: "用户登录信息过时",
@@ -54,6 +54,7 @@ export function request(config) {
         Store.username = null;
         Store.Authorization = "";
         Store.expire = 0;
+        Store.id = "";
         config.cancelToken = "用户登录信息过时";
         location.reload();
       });
@@ -138,11 +139,6 @@ export function request(config) {
           message: "用户权限不足",
           type: "error"
         });
-        localStorage.clear();
-        Store.username = null;
-        Store.Authorization = "";
-        Store.expire = 0;
-        location.reload();
       }
       if (err.response.status === 500) {
         Message({
@@ -153,7 +149,6 @@ export function request(config) {
         router.push("/");
       }
       if (err.response.status === 403) {
-        console.log("dsadas");
         Message({
           showClose: true,
           message: "用户登录信息过时",

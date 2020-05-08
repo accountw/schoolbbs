@@ -25,9 +25,7 @@
           <a id="a" href="/register" target="_blank">注册</a>
         </el-button>
       </div>
-      <el-button type="text" @click="findpassword"
-        >找回密码</el-button
-      >
+      <el-button type="text" @click="findpassword">找回密码</el-button>
     </div>
   </div>
 </template>

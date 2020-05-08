@@ -1,19 +1,20 @@
 <template>
   <div class="Plate">
-    <ul id="ul">
-      <li v-for="plate in plates" :key="plate.id">
-        <el-link
-          id="a"
-          :href="'/plate/' + plate.id + '/1'"
-          target="_blank"
-          :underline="false"
-          style="font-size: 18px"
-        >
-          {{ plate.name }}</el-link
-        >
-        <span></span>
-      </li>
-    </ul>
+    <span
+      v-for="plate in plates"
+      :key="plate.id"
+      style="width: 33.33%;display:inline-block"
+    >
+      <el-link
+        id="a"
+        :href="'/plate/' + plate.id + '/1'"
+        target="_blank"
+        :underline="false"
+        style="font-size: 18px;"
+      >
+        [{{ plate.name }}]</el-link
+      >
+    </span>
   </div>
 </template>
 

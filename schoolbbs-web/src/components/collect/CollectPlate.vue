@@ -3,12 +3,12 @@
     <div
       v-for="plate in plates"
       :key="plate.id"
-      style="display: inline-block;width: 150px;  margin-bottom: 5px;"
+      style="display: inline-block;width: 25%;  margin-bottom: 5px;"
     >
       <el-button
         type="info"
         plain
-        style="width: 120px"
+        style="width: 160px"
         @click="to(plate.plateId)"
         >{{ plate.platename }}</el-button
       >

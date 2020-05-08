@@ -11,6 +11,8 @@ import cdu.zb.service.SchoolRegisterService;
 import cdu.zb.service.UserService;
 import cdu.zb.service.impl.MailServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,7 @@ import java.util.List;
 @CrossOrigin
 public class SchoolRegisterController extends BaseApiController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SchoolRegisterController.class);
 
     @Autowired
     private SchoolRegisterService schoolRegisterService;
@@ -74,26 +77,29 @@ public class SchoolRegisterController extends BaseApiController {
             userEntity.setBirth(schoolRegisterEntity.getBirth());
             userEntity.setMail(schoolRegisterEntity.getMail());
             userEntity.setCount(0);
-            new Thread(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            mailService.sendSimpleMailMessge(schoolRegisterEntity.getMail(), subject, content);
-                        }
-                    }).start();
+            userService.save(userEntity);
+            LOG.debug("注册成功");
+//            new Thread(
+//                    new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            mailService.sendSimpleMailMessge(schoolRegisterEntity.getMail(), subject, content);
+//                        }
+//                    }).start();
         }
         if(status==2){
             schoolRegisterEntity.setStatus(2);
             schoolRegisterService.updateById(schoolRegisterEntity);
             String subject="校园论坛";
             String content="你的账号注册失败，请重新注册";
-            new Thread(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            mailService.sendSimpleMailMessge(schoolRegisterEntity.getMail(), subject, content);
-                        }
-                    }).start();
+            LOG.debug("注册失败");
+//            new Thread(
+//                    new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            mailService.sendSimpleMailMessge(schoolRegisterEntity.getMail(), subject, content);
+//                        }
+//                    }).start();
         }
         return jr(GlobalConstants.SUCCESS,"处理成功");
     }

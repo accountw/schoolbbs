@@ -237,6 +237,7 @@ export default {
             this.topic = res.data.data;
             this.plateid = res.data.data.plateId;
             this.first = {
+              userId: res.data.data.userId,
               head: res.data.data.head,
               username: res.data.data.username,
               exp: res.data.data.exp,
@@ -244,7 +245,8 @@ export default {
               sign: res.data.data.sign,
               context: res.data.data.context,
               picture: res.data.data.picture,
-              replyTime: res.data.data.firstTime
+              replyTime: res.data.data.firstTime,
+              master: 1
             };
           }
         })

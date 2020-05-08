@@ -76,14 +76,16 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/user/register/**","/api/checkcode/**",
                         "/api/topic/getTopicFlow","/api/topic/getFirstCount","/api/topic/getTop","/api/schoolregister/**",
                         "/api/graduateRegister/**","/api/user/changepassword").permitAll()
-                .antMatchers("/api/topic/deleteTopicbyadmin","api/ban/addBan","/api/plate/updateplate")
+                .antMatchers("/api/topic/deleteTopicbyadmin","api/ban/addBan")
                 .hasRole("MANAGER")
                 .antMatchers("/api/ban/getBanList","/api/ban/getcount","/api/ban/deleteBan",
                         "/api/plateAdmin/deleteAdmin","/api/plateAdmin/addAdmin","/api/plateAdmin/getcount","/api/plateAdmin/listAdmin",
                         "/api/plate/getlist","/api/plateAdmin/setadmin", "/api/plate/addplate",
-                        "/api/plate/deleteplate","/api/plate/updateplate")
+                        "/api/plate/deleteplate")
                 .hasRole("ADMIN")
                 // 除上面外的所有请求全部需要鉴权认证
+                .antMatchers( "/api/plate/addplate")
+                .hasAnyRole("ADMIN","MANAGER")
                 .anyRequest().authenticated();
 
         // 禁用缓存

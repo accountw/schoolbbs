@@ -13,6 +13,7 @@
         <div style="font-size: 12px">支持 jpg格式大小 2M 以内的图片</div>
 
         <el-upload
+          ref="my-upload"
           class="upload-demo"
           action="http://localhost:8081/api/user/saveHead"
           :headers="header"
@@ -22,7 +23,9 @@
           :multiple="false"
           :show-file-list="false"
         >
-          <el-button size="mini" type="primary">点击上传</el-button>
+          <el-button size="mini" type="primary" @click="clear"
+            >点击上传</el-button
+          >
         </el-upload>
       </el-col>
     </el-row>
@@ -105,17 +108,21 @@ export default {
         this.user.head = "/head/" + response.data;
       }
     },
+    clear() {
+      this.$refs["my-upload"].clearFiles();
+    },
     beforeAvatarUpload(file) {
       const isJPG = file.type === "image/jpeg";
+      const isPNG = file.type === "image/png";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
+      if (!isJPG && !isPNG) {
+        this.$message.error("上传头像图片只能是 JPG 或者 PNG 格式!");
       }
       if (!isLt2M) {
         this.$message.error("上传头像图片大小不能超过 2MB!");
       }
-      return isJPG && isLt2M;
+      return (isJPG || isPNG) && isLt2M;
     },
     sumbit() {
       updateUser(this.user).then(res => {

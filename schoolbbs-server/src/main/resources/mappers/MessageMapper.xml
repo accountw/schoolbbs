@@ -31,7 +31,7 @@ from user where user.id=m.user_id) as head
 from message as m LEFT JOIN reply as r on m.reply_id=r.id LEFT JOIN topic as t on t.id=m.topic_id
 where m.logic_delete_flag=0  and (m.uid=#{userid}  or m.people_id=#{userid} or
 m.master_id=#{userid}) and m.user_id <![CDATA[ <> ]]>#{userid}
-ORDER BY m.create_time desc limit #{index},30
+ORDER BY m.create_time desc limit #{index},15
     </select>
 
     <select id="getcount" resultType="Integer">

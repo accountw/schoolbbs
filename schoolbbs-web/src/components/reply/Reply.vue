@@ -7,7 +7,6 @@
             <el-link :href="/user/ + reply.userId" :underline="false">
               <img :src="reply.head" id="image" />
             </el-link>
-
             <div>
               <el-link :href="/user/ + reply.userId" :underline="false"
                 >{{ reply.username }}
@@ -15,6 +14,7 @@
             </div>
             <div style="font-size: 13px;color: deeppink">{{ reply.sign }}</div>
             <div>会员等级:{{ getlevel(reply.exp) }}级</div>
+            <div style="color: crimson;" v-if="reply.master == 1">楼主</div>
           </div></el-aside
         >
         <el-container>
@@ -44,11 +44,11 @@
           </el-header>
           <el-main>
             <div
-              style="white-space: pre-wrap; word-break:break-all;overflow:hidden"
+              style="white-space: pre-line; word-break:break-all;overflow:hidden"
             >
               {{ reply.context }}
             </div>
-            <div>
+            <div style="padding-bottom: 20px">
               <Picture
                 v-if="reply.picture"
                 v-bind:picture="reply.picture"
@@ -274,7 +274,7 @@ export default {
 .el-aside {
   border-right: 1px solid #eeeeee;
   background-color: rgb(248, 248, 248);
-  min-height: 200px;
+  min-height: 220px;
 }
 .el-main {
   position: relative;

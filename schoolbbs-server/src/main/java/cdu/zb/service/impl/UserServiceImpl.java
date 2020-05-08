@@ -64,7 +64,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     @Override
     public Integer updateUser(UserDto userDto) throws UnsupportedEncodingException {
         Base64.Encoder encoder = Base64.getEncoder();
-        userDto.setSign(encoder.encodeToString(userDto.getSign().getBytes("UTF-8")));
+        if(userDto.getSign()!=null){
+            userDto.setSign(encoder.encodeToString(userDto.getSign().getBytes("UTF-8")));
+        }
         return  userMapper.updateById(userDto);
     }
 

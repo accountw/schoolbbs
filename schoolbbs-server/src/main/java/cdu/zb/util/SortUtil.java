@@ -17,7 +17,7 @@ public class SortUtil {
     public static void quickSort(List<TopicResponse> list, int low, int high) {
 
         for(int i=0;i<list.size();i++){
-            list.get(i).setNumber(list.get(i).getReplynum()*70
+            list.get(i).setNumber(list.get(i).getCount()*70
                     +list.get(i).getReplynum()/Duration.between(list.get(i).getFirstTime(), LocalDateTime.now()).toMillis()/7200000*20
             +list.get(i).getLikenum()*10);
         }

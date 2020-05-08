@@ -87,9 +87,6 @@ public class PlateAdminController extends BaseApiController {
         if(userEntity==null){
             return jr(GlobalConstants.ERROR,"该用户不存在");
         }
-        if(plateAdminService.count(new QueryWrapper<PlateAdminEntity>().eq("user_id",userEntity.getId()))!=0){
-            return jr(GlobalConstants.ERROR,"该用户已经是版主了");
-        }
         PlateAdminEntity plateAdminEntity=new PlateAdminEntity();
         plateAdminEntity.setUserId(userEntity.getId());
         plateAdminEntity.setCreateTime(LocalDateTime.now());

@@ -34,6 +34,7 @@ export default new Vuex.Store({
       state.Authorization = "";
       state.expire = 0;
       state.role = "";
+      state.id = "";
     },
     setid(state, id) {
       state.id = id;

@@ -72,6 +72,12 @@ public class ReplyEntity implements Serializable {
     @JsonIgnore
     @TableLogic
     private Integer logicDeleteFlag;
+    private Integer master;
+
+
+
+    private Integer likenum;
+
 
     public Integer getMaster() {
         return master;
@@ -80,11 +86,6 @@ public class ReplyEntity implements Serializable {
     public void setMaster(Integer master) {
         this.master = master;
     }
-
-    private Integer likenum;
-
-    private Integer master;
-
     public Integer getLikenum() {
         return likenum;
     }
@@ -176,6 +177,7 @@ public class ReplyEntity implements Serializable {
                 ", replyTime=" + replyTime +
                 ", status=" + status +
                 ", storey=" + storey +
+                ", master=" + master +
                 ", logicDeleteFlag=" + logicDeleteFlag +
                 "}";
     }

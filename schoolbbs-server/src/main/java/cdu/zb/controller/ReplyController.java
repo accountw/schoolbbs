@@ -56,10 +56,12 @@ public class ReplyController extends BaseApiController {
 
     @PostMapping(value = "/saveReply",name="保存评论")
     public JsonResult<Integer> saveReply(@RequestBody ReplyDto replyDto) throws UnsupportedEncodingException {
+
         Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
         MyUserDetails myUserDetails= (MyUserDetails) authentication.getPrincipal();
         banService.remove(new QueryWrapper<BanEntity>().eq("uid",myUserDetails.getId()).le("free_time", LocalDateTime.now()));
         BanEntity banEntity=banService.getOne(new QueryWrapper<BanEntity>().eq("uid",myUserDetails.getId()).ge("free_time", LocalDateTime.now()));
+
         if(banEntity!=null){
             return  jr(GlobalConstants.NO_UNAUTHORIZED,banEntity.getFreeTime().toString());
         }

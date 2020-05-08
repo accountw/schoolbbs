@@ -32,7 +32,7 @@
         small
         layout="prev, pager, next"
         :total="count"
-        page-size="15"
+        :page-size="15"
         hide-on-single-page
         @current-change="handleCurrentChange"
         @prev-click="prevclick"

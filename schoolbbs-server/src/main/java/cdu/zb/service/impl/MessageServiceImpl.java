@@ -95,7 +95,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, MessageEntity
 
     @Override
     public List<MessageResponse> getMessage(String userid, Integer index) throws UnsupportedEncodingException {
-        index=index*30-30;
+        index=index*15-15;
         Base64.Decoder decoder = Base64.getDecoder();
         List<MessageResponse> list =messageMapper.getMessage(userid,index);
         for(int i=0;i<list.size();i++){

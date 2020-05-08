@@ -63,7 +63,7 @@ public class ReplyServiceImpl extends ServiceImpl<ReplyMapper, ReplyEntity> impl
         UserEntity userEntity=userMapper.selectById(replyDto.getUserId());
         userEntity.setExp(userEntity.getExp()+1);
         Integer storey=replyMapper.getMaxStorey(replyDto.getTopicId());
-        if(topicMapper.selectById(replyDto.getTopicId()).getUserId()==replyDto.getUserId()){
+        if(topicMapper.selectById(replyDto.getTopicId()).getUserId().equals(replyDto.getUserId())){
             replyDto.setMaster(1);
         }else{
             replyDto.setMaster(0);

@@ -1,7 +1,6 @@
 package cdu.zb.response;
 
 import cdu.zb.entity.TopicEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author accountw
@@ -14,7 +13,6 @@ public class TopicResponse extends TopicEntity {
     private String blockname;
     private Integer likenum;
 
-    @JsonIgnore
     private double number;
 
     public double getNumber() {

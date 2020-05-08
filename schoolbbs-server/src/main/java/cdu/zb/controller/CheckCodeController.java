@@ -66,13 +66,13 @@ public class CheckCodeController extends BaseApiController {
         checkCodeEntity.setUserMail(mail);
         checkCodeEntity.setCreateTime(LocalDateTime.now());
 
-        new Thread(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        mailService.sendSimpleMailMessge(mail, subject, content);
-                    }
-                }).start();
+//        new Thread(
+//                new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mailService.sendSimpleMailMessge(mail, subject, content);
+//                    }
+//                }).start();
 
         if(checkCodeService.count(new QueryWrapper<CheckCodeEntity>().eq("user_mail",mail))==0){
             checkCodeService.save(checkCodeEntity);
@@ -94,13 +94,13 @@ public class CheckCodeController extends BaseApiController {
         checkCodeEntity.setUserMail(mail);
         checkCodeEntity.setCreateTime(LocalDateTime.now());
 
-        new Thread(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        mailService.sendSimpleMailMessge(mail, subject, content);
-                    }
-                }).start();
+//        new Thread(
+//                new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mailService.sendSimpleMailMessge(mail, subject, content);
+//                    }
+//                }).start();
 
         if(checkCodeService.count(new QueryWrapper<CheckCodeEntity>().eq("user_mail",mail))==0){
             checkCodeService.save(checkCodeEntity);

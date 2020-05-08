@@ -34,6 +34,6 @@ public class BlockServiceImpl extends ServiceImpl<BlockMapper, BlockEntity> impl
      **/
     @Override
     public List<BlockEntity> getblock() {
-        return blockMapper.selectList(new QueryWrapper<>());
+        return blockMapper.selectList(new QueryWrapper<BlockEntity>().orderByAsc("id"));
     }
 }

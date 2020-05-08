@@ -27,9 +27,9 @@
               {{ message.context }}
               <div>
                 <el-card shadow="never" body-style="padding:15px"
-                  ><div >
+                  ><div>
                     <el-link
-                      :href="'/topic/' + message.TopicId + '/1'"
+                      :href="'/topic/' + message.topicId + '/1'"
                       target="_blank"
                       style="font-size: 14px"
                       :underline="false"
@@ -44,7 +44,7 @@
               {{ message.context }}
               <div>
                 <el-card shadow="never" body-style="padding:15px"
-                  ><div >
+                  ><div>
                     <el-link
                       :href="'/topic/' + message.rTopicId + '/1'"
                       target="_blank"
@@ -66,9 +66,9 @@
               </span>
               <div v-if="message.topicId">
                 <el-card shadow="never" body-style="padding:15px"
-                  ><div >
+                  ><div>
                     <el-link
-                      :href="'/topic/' + message.TopicId + '/1'"
+                      :href="'/topic/' + message.topicId + '/1'"
                       target="_blank"
                       style="font-size: 14px"
                       :underline="false"
@@ -79,7 +79,7 @@
               </div>
               <div v-if="message.replyId">
                 <el-card shadow="never" body-style="padding:15px"
-                  ><div >
+                  ><div>
                     <el-link
                       :href="'/topic/' + message.rTopicId + '/1'"
                       target="_blank"
@@ -101,7 +101,7 @@
       layout="prev, pager, next"
       hide-on-single-page
       :total="count"
-      :page-size="30"
+      :page-size="15"
       @current-change="handleCurrentChange"
       @prev-click="prevclick"
       @next-click="nextclick"

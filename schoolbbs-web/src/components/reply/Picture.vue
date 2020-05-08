@@ -20,7 +20,7 @@ export default {
   props: ["picture"],
   data() {
     return {
-      v: "cover"
+      v: "scale-down"
     };
   },
   computed: {
